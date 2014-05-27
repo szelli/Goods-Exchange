@@ -2,7 +2,7 @@ package com.szpzs.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 
 /**
@@ -13,60 +13,60 @@ import java.math.BigDecimal;
 @Table(name="PRODUCTS")
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
 public class Product implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
-	private BigDecimal area;
+	private BigInteger area;
 
 	@Column(name="CATEGORY_ID")
-	private BigDecimal categoryId;
+	private BigInteger categoryId;
 
 	@Column(name="CITY_ID")
-	private BigDecimal cityId;
+	private BigInteger cityId;
 
 	private String descriptions;
 
 	private String name;
 
 	@Column(name="OWNER_ID")
-	private BigDecimal ownerId;
+	private BigInteger ownerId;
 
-	private BigDecimal status;
+	private BigInteger status;
 
 	public Product() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public BigDecimal getArea() {
+	public BigInteger getArea() {
 		return this.area;
 	}
 
-	public void setArea(BigDecimal area) {
+	public void setArea(BigInteger area) {
 		this.area = area;
 	}
 
-	public BigDecimal getCategoryId() {
+	public BigInteger getCategoryId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(BigDecimal categoryId) {
+	public void setCategoryId(BigInteger categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public BigDecimal getCityId() {
+	public BigInteger getCityId() {
 		return this.cityId;
 	}
 
-	public void setCityId(BigDecimal cityId) {
+	public void setCityId(BigInteger cityId) {
 		this.cityId = cityId;
 	}
 
@@ -86,19 +86,19 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public BigDecimal getOwnerId() {
+	public BigInteger getOwnerId() {
 		return this.ownerId;
 	}
 
-	public void setOwnerId(BigDecimal ownerId) {
+	public void setOwnerId(BigInteger ownerId) {
 		this.ownerId = ownerId;
 	}
 
-	public BigDecimal getStatus() {
+	public BigInteger getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(BigDecimal status) {
+	public void setStatus(BigInteger status) {
 		this.status = status;
 	}
 

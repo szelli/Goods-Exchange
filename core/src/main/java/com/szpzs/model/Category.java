@@ -2,7 +2,7 @@ package com.szpzs.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 
 /**
@@ -13,24 +13,24 @@ import java.math.BigDecimal;
 @Table(name="CATEGORYS")
 @NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
 public class Category implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
 	private String name;
 
 	@Column(name="PARENT_ID")
-	private BigDecimal parentId;
+	private BigInteger parentId;
 
 	public Category() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -42,11 +42,11 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 
-	public BigDecimal getParentId() {
+	public BigInteger getParentId() {
 		return this.parentId;
 	}
 
-	public void setParentId(BigDecimal parentId) {
+	public void setParentId(BigInteger parentId) {
 		this.parentId = parentId;
 	}
 

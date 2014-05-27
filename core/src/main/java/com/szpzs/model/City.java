@@ -12,21 +12,21 @@ import javax.persistence.*;
 @Table(name="CITIES")
 @NamedQuery(name="City.findAll", query="SELECT c FROM City c")
 public class City implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
 	private String city;
 
 	public City() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

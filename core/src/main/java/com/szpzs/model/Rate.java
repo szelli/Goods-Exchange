@@ -2,7 +2,7 @@ package com.szpzs.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 
 /**
@@ -13,64 +13,64 @@ import java.math.BigDecimal;
 @Table(name="RATES")
 @NamedQuery(name="Rate.findAll", query="SELECT r FROM Rate r")
 public class Rate implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
-	private BigDecimal positive;
+	private BigInteger positive;
 
 	@Column(name="PRODUCT_ID")
-	private BigDecimal productId;
+	private BigInteger productId;
 
 	@Column(name="RATED_ID")
-	private BigDecimal ratedId;
+	private BigInteger ratedId;
 
 	@Column(name="RATER_ID")
-	private BigDecimal raterId;
+	private BigInteger raterId;
 
 	private String text;
 
 	public Rate() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public BigDecimal getPositive() {
+	public BigInteger getPositive() {
 		return this.positive;
 	}
 
-	public void setPositive(BigDecimal positive) {
+	public void setPositive(BigInteger positive) {
 		this.positive = positive;
 	}
 
-	public BigDecimal getProductId() {
+	public BigInteger getProductId() {
 		return this.productId;
 	}
 
-	public void setProductId(BigDecimal productId) {
+	public void setProductId(BigInteger productId) {
 		this.productId = productId;
 	}
 
-	public BigDecimal getRatedId() {
+	public BigInteger getRatedId() {
 		return this.ratedId;
 	}
 
-	public void setRatedId(BigDecimal ratedId) {
+	public void setRatedId(BigInteger ratedId) {
 		this.ratedId = ratedId;
 	}
 
-	public BigDecimal getRaterId() {
+	public BigInteger getRaterId() {
 		return this.raterId;
 	}
 
-	public void setRaterId(BigDecimal raterId) {
+	public void setRaterId(BigInteger raterId) {
 		this.raterId = raterId;
 	}
 

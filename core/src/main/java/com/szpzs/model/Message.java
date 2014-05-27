@@ -2,7 +2,7 @@ package com.szpzs.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 
@@ -14,43 +14,43 @@ import java.util.Date;
 @Table(name="MESSAGES")
 @NamedQuery(name="Message.findAll", query="SELECT m FROM Message m")
 public class Message implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
 	@Column(name="\"MESSAGE\"")
 	private String message;
 
 	@Column(name="\"READ\"")
-	private BigDecimal read;
+	private BigInteger read;
 
 	@Column(name="RECEIVER_ID")
-	private BigDecimal receiverId;
+	private BigInteger receiverId;
 
 	@Column(name="RECEIVER_STATUS")
-	private BigDecimal receiverStatus;
+	private BigInteger receiverStatus;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="SEND_DATE")
 	private Date sendDate;
 
 	@Column(name="SENDER_ID")
-	private BigDecimal senderId;
+	private BigInteger senderId;
 
 	@Column(name="SENDER_STATUS")
-	private BigDecimal senderStatus;
+	private BigInteger senderStatus;
 
 	private String subject;
 
 	public Message() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -62,27 +62,27 @@ public class Message implements Serializable {
 		this.message = message;
 	}
 
-	public BigDecimal getRead() {
+	public BigInteger getRead() {
 		return this.read;
 	}
 
-	public void setRead(BigDecimal read) {
+	public void setRead(BigInteger read) {
 		this.read = read;
 	}
 
-	public BigDecimal getReceiverId() {
+	public BigInteger getReceiverId() {
 		return this.receiverId;
 	}
 
-	public void setReceiverId(BigDecimal receiverId) {
+	public void setReceiverId(BigInteger receiverId) {
 		this.receiverId = receiverId;
 	}
 
-	public BigDecimal getReceiverStatus() {
+	public BigInteger getReceiverStatus() {
 		return this.receiverStatus;
 	}
 
-	public void setReceiverStatus(BigDecimal receiverStatus) {
+	public void setReceiverStatus(BigInteger receiverStatus) {
 		this.receiverStatus = receiverStatus;
 	}
 
@@ -94,19 +94,19 @@ public class Message implements Serializable {
 		this.sendDate = sendDate;
 	}
 
-	public BigDecimal getSenderId() {
+	public BigInteger getSenderId() {
 		return this.senderId;
 	}
 
-	public void setSenderId(BigDecimal senderId) {
+	public void setSenderId(BigInteger senderId) {
 		this.senderId = senderId;
 	}
 
-	public BigDecimal getSenderStatus() {
+	public BigInteger getSenderStatus() {
 		return this.senderStatus;
 	}
 
-	public void setSenderStatus(BigDecimal senderStatus) {
+	public void setSenderStatus(BigInteger senderStatus) {
 		this.senderStatus = senderStatus;
 	}
 

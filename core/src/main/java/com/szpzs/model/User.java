@@ -2,7 +2,7 @@ package com.szpzs.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 
 /**
@@ -13,10 +13,10 @@ import java.math.BigDecimal;
 @Table(name="USERS")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
 	private String address;
 
@@ -29,12 +29,12 @@ public class User implements Serializable {
 
 	private String password;
 
-	private BigDecimal postcode;
+	private BigInteger postcode;
 
 	@Column(name="\"ROLE\"")
-	private BigDecimal role;
+	private BigInteger role;
 
-	private BigDecimal status;
+	private BigInteger status;
 
 	@Column(name="USER_NAME")
 	private String userName;
@@ -42,11 +42,11 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -90,27 +90,27 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public BigDecimal getPostcode() {
+	public BigInteger getPostcode() {
 		return this.postcode;
 	}
 
-	public void setPostcode(BigDecimal postcode) {
+	public void setPostcode(BigInteger postcode) {
 		this.postcode = postcode;
 	}
 
-	public BigDecimal getRole() {
+	public BigInteger getRole() {
 		return this.role;
 	}
 
-	public void setRole(BigDecimal role) {
+	public void setRole(BigInteger role) {
 		this.role = role;
 	}
 
-	public BigDecimal getStatus() {
+	public BigInteger getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(BigDecimal status) {
+	public void setStatus(BigInteger status) {
 		this.status = status;
 	}
 

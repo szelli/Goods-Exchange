@@ -2,7 +2,7 @@ package com.szpzs.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 
@@ -13,10 +13,10 @@ import java.util.Date;
 @Entity
 @NamedQuery(name="Reserved.findAll", query="SELECT r FROM Reserved r")
 public class Reserved implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="\"BEGIN\"")
@@ -27,19 +27,19 @@ public class Reserved implements Serializable {
 	private Date end;
 
 	@Column(name="PRODUCT_ID")
-	private BigDecimal productId;
+	private BigInteger productId;
 
 	@Column(name="RESERVER_ID")
-	private BigDecimal reserverId;
+	private BigInteger reserverId;
 
 	public Reserved() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -59,19 +59,19 @@ public class Reserved implements Serializable {
 		this.end = end;
 	}
 
-	public BigDecimal getProductId() {
+	public BigInteger getProductId() {
 		return this.productId;
 	}
 
-	public void setProductId(BigDecimal productId) {
+	public void setProductId(BigInteger productId) {
 		this.productId = productId;
 	}
 
-	public BigDecimal getReserverId() {
+	public BigInteger getReserverId() {
 		return this.reserverId;
 	}
 
-	public void setReserverId(BigDecimal reserverId) {
+	public void setReserverId(BigInteger reserverId) {
 		this.reserverId = reserverId;
 	}
 

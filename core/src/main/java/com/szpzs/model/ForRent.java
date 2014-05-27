@@ -2,7 +2,7 @@ package com.szpzs.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 
@@ -14,10 +14,10 @@ import java.util.Date;
 @Table(name="FOR_RENT")
 @NamedQuery(name="ForRent.findAll", query="SELECT f FROM ForRent f")
 public class ForRent implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private Long id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="\"BEGIN\"")
@@ -28,16 +28,16 @@ public class ForRent implements Serializable {
 	private Date end;
 
 	@Column(name="PRODUCT_ID")
-	private BigDecimal productId;
+	private BigInteger productId;
 
 	public ForRent() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -57,11 +57,11 @@ public class ForRent implements Serializable {
 		this.end = end;
 	}
 
-	public BigDecimal getProductId() {
+	public BigInteger getProductId() {
 		return this.productId;
 	}
 
-	public void setProductId(BigDecimal productId) {
+	public void setProductId(BigInteger productId) {
 		this.productId = productId;
 	}
 
