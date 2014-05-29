@@ -19,4 +19,31 @@
     <mvc:annotation-driven ></mvc:annotation-driven>
     <mvc:resources location="/" mapping="**" />
     
+    <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+	    <property name="url" value="jdbc:oracle:thin:@obiwan:1521:orcl2" />
+	    <property name="username" value="goods_exchange" />
+	    <property name="password" value="goods_exchange" />
+	</bean>
+	  <bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	    <property name="dataSource" ref="myDataSource"/>
+	    <property name="packagesToScan">
+	      <array>
+	        <value>com.szpzs</value>
+	      </array>
+	    </property>
+	    <property name="hibernateProperties">
+	    	<props>
+	    		<prop key="hibernate.hbm2dll.auto">auto</prop>
+	    		<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+	    	</props>
+	    </property>
+	 </bean>
+	 
+	 <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+	   <property name="sessionFactory" ref="mySessionFactory"/>
+	 </bean>
+	 <tx:annotation-driven transaction-manager="transactionManager"/>
+  <context:component-scan base-package="com.szpzs" />	
+    
 </beans>
