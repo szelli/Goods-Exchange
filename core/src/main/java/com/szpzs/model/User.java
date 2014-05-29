@@ -14,8 +14,9 @@ import java.math.BigInteger;
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final Long serialVersionUID = 1L;
-
-	@Id
+	
+	@SequenceGenerator(name="User", sequenceName="USERS_SEQ1")
+	@Id @GeneratedValue(generator="User")
 	private Long id;
 
 	private String address;
