@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.szpzs.model.Role;
 import com.szpzs.model.User;
 import com.szpzs.repository.UserDAO;
 
@@ -23,7 +24,8 @@ public class UserServiceImpl implements UserService{
 				user.setStatus(BigInteger.valueOf(1));
 			}
 			if(user.getRole() == null){
-				user.setRole(BigInteger.valueOf(1));
+				Role role = userDAO.getRoleByName("user");
+				user.setRole(role);
 			}
 			userDAO.saveUser(user);
 		}else{
@@ -70,4 +72,15 @@ public class UserServiceImpl implements UserService{
 		user.setStatus(BigInteger.valueOf(1));
 	}
 	
+	@Override
+	@Transactional
+	public void updateUserRole(int id, String roleName) {
+		Role role = userDAO.getRoleByName(roleName);
+		if(role != null){
+			User user = userDAO.getUserById((long)id);
+			if(user != null){
+				user.setRole(role);
+			}
+		}
+	}
 }

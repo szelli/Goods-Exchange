@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.szpzs.model.Role;
 import com.szpzs.model.User;
 
 @Repository
@@ -63,5 +64,14 @@ public class UserDAOImpl implements UserDAO{
 	public void updateUser(User newUser){
 		Session session = sessionFactory.getCurrentSession();
 		session.merge(newUser);
+	}
+
+	@Override
+	public Role getRoleByName(String roleName) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("Select r From Role as r Where r.role = :roleName");
+		query.setParameter("roleName", roleName);
+		Role role = (Role) query.uniqueResult();
+		return role;
 	}
 }

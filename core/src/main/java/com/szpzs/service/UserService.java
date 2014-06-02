@@ -12,4 +12,5 @@ public interface UserService {
 	public void updateUser(User newuser);
 	public void inactivateUser(int id);
 	public void activateUser(int id);
+	public void updateUserRole(int id, String role);
 }
