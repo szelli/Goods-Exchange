@@ -16,7 +16,8 @@ import java.util.Date;
 public class Message implements Serializable {
 	private static final Long serialVersionUID = 1L;
 
-	@Id
+	@SequenceGenerator(name="Message", sequenceName="MESSAGES_SEQ")
+	@Id @GeneratedValue(generator="Message")
 	private Long id;
 
 	@Column(name="\"MESSAGE\"")
