@@ -1,4 +1,4 @@
-package com.szpzs.test;
+package com.szpzs.repository;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.szpzs.model.Role;
 import com.szpzs.model.User;
-import com.szpzs.repository.UserDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/test/resources/test-context.xml"})
