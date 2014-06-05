@@ -1,7 +1,9 @@
 package com.szpzs.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigInteger;
 
 
@@ -14,8 +16,9 @@ import java.math.BigInteger;
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final Long serialVersionUID = 1L;
-
-	@Id
+	
+	@SequenceGenerator(name="Prod", sequenceName="PROD_SEQ")
+	@Id @GeneratedValue(generator="Prod")
 	private Long id;
 
 	private BigInteger area;

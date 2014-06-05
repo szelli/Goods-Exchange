@@ -1,7 +1,9 @@
 package com.szpzs.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigInteger;
 
 
@@ -14,8 +16,9 @@ import java.math.BigInteger;
 @NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
 public class Category implements Serializable {
 	private static final Long serialVersionUID = 1L;
-
-	@Id
+	
+	@SequenceGenerator(name="Cat", sequenceName="CATEGORIES_SEQ")
+	@Id @GeneratedValue(generator="Cat")
 	private Long id;
 
 	private String name;
