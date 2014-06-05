@@ -104,7 +104,7 @@ public class ProductDAOImplTest {
 	}
 
 	
-	@Test
+/*	@Test
 	@Transactional
 	public void test3SaveProduct(){
 		Product product = tempData1();
@@ -120,7 +120,7 @@ public class ProductDAOImplTest {
 		assertEquals( product.getDescriptions(), product2.getDescriptions() );
 		assertEquals( product.getOwnerId(), product2.getOwnerId() );
 		assertEquals( product.getStatus(), product2.getStatus() );
-	}
+	}*/
 	
 	@Test
 	@Transactional

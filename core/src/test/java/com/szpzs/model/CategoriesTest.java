@@ -8,13 +8,13 @@ import java.math.BigInteger;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CategoryTest {
+public class CategoriesTest {
 	
-	Category category;
+	Categories category;
 	
 	@Before
 	public void setUp(){
-		category = new Category();
+		category = new Categories();
 	}
 
 	@Test

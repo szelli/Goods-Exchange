@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.szpzs.model.Category;
+import com.szpzs.model.Categories;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO{
@@ -17,28 +17,28 @@ public class AdminDAOImpl implements AdminDAO{
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public List<Category> getCategoryList() {
+	public List<Categories> getCategoryList() {
 		Session session = sessionFactory.getCurrentSession();
-		List categorys = session.createQuery("Select c from Category as c").list();
+		List categorys = session.createQuery("Select c from Categories as c").list();
 		return categorys;
 	}
 
 	@Override
-	public Category getCategoryById(Long id) {
+	public Categories getCategoryById(Long id) {
 		Session session = sessionFactory.getCurrentSession();
-		Category category = (Category) session.get(Category.class, id);
+		Categories category = (Categories) session.get(Categories.class, id);
 		return category;
 	}
 
 	@Override
-	public void saveCategory(Category category) {
+	public void saveCategory(Categories category) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(category);
 		
 	}
 
 	@Override
-	public void updateCategory(Category category) {
+	public void updateCategory(Categories category) {
 		Session session = sessionFactory.getCurrentSession();
 		session.merge(category);
 		
@@ -47,7 +47,7 @@ public class AdminDAOImpl implements AdminDAO{
 	@Override
 	public void removeCategory(Long id) {
 		Session session = sessionFactory.getCurrentSession();
-		Query  query = session.createQuery("Delete from Category as c where c.id = :id");
+		Query  query = session.createQuery("Delete from Categories as c where c.id = :id");
 		query.setParameter("id", id);
 		query.executeUpdate();
 	}

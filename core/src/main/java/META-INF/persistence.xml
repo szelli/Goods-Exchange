@@ -7,7 +7,7 @@
 		<class>com.szpzs.model.Rate</class>
 		<class>com.szpzs.model.Reserved</class>
 		<class>com.szpzs.model.User</class>
-		<class>com.szpzs.model.Category</class>
+		<class>com.szpzs.model.Categories</class>
 		<class>com.szpzs.model.Picture</class>
 		<class>com.szpzs.model.Product</class>
 		<properties>

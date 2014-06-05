@@ -2,17 +2,17 @@ package com.szpzs.repository;
 
 import java.util.List;
 
-import com.szpzs.model.Category;
+import com.szpzs.model.Categories;
 
 public interface AdminDAO {
 	
-	public List<Category> getCategoryList();
+	public List<Categories> getCategoryList();
 	
-	public Category getCategoryById(Long id);
+	public Categories getCategoryById(Long id);
 	
-	public void saveCategory(Category category);
+	public void saveCategory(Categories category);
 	
-	public void updateCategory(Category category);
+	public void updateCategory(Categories category);
 	
 	public void removeCategory(Long id);
 }

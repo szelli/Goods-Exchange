@@ -2,17 +2,17 @@ package com.szpzs.service;
 
 import java.util.List;
 
-import com.szpzs.model.Category;
+import com.szpzs.model.Categories;
 
 public interface AdminService {
 	
-	public List<Category> getCategoryList();
+	public List<Categories> getCategoryList();
 	
-	public Category getCategory(Long id);
+	public Categories getCategory(Long id);
 	
-	public void saveCategory(Category category);
+	public void saveCategory(Categories category);
 	
-	public void updateCategory(Category category);
+	public void updateCategory(Categories category);
 	
 	public void removeCategory(Long id);
 }

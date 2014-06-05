@@ -25,7 +25,7 @@ public class ProductServiceTest {
 	@Autowired
 	private ProductService productService;
 	
-/*	private Product tempData(){
+	private Product tempData(){
 		Product product = new Product();
 		product.setName("Termék");
 		product.setCityId(BigInteger.valueOf(22));
@@ -87,7 +87,7 @@ public class ProductServiceTest {
 		assertEquals( product.getStatus(), product2.getStatus() );
 	}
 	
-	@Test
+	/*	@Test
 	@Transactional
 	public void test2GetProductList(){
 		Product product1 = tempData1();

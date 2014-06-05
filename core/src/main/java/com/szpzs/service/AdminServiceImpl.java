@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.szpzs.model.Category;
+import com.szpzs.model.Categories;
 import com.szpzs.repository.AdminDAO;
 
-@Service("ProductServiceImpl")
+@Service("AdminServiceImpl")
 public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
@@ -17,25 +17,25 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	@Transactional
-	public List<Category> getCategoryList() {
+	public List<Categories> getCategoryList() {
 		return adminDAO.getCategoryList();
 	}
 
 	@Override
 	@Transactional
-	public Category getCategory(Long id) {
+	public Categories getCategory(Long id) {
 		return adminDAO.getCategoryById(id);
 	}
 
 	@Override
 	@Transactional
-	public void saveCategory(Category category) {
+	public void saveCategory(Categories category) {
 		adminDAO.saveCategory(category);
 	}
 
 	@Override
 	@Transactional
-	public void updateCategory(Category category) {
+	public void updateCategory(Categories category) {
 		adminDAO.updateCategory(category);
 		
 	}

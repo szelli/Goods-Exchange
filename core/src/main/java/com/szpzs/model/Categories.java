@@ -12,9 +12,9 @@ import java.math.BigInteger;
  * 
  */
 @Entity
-@Table(name="CATEGORYS")
-@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
-public class Category implements Serializable {
+@Table(name="CATEGORIES")
+@NamedQuery(name="Categories.findAll", query="SELECT c FROM Categories c")
+public class Categories implements Serializable {
 	private static final Long serialVersionUID = 1L;
 	
 	@SequenceGenerator(name="Cat", sequenceName="CATEGORIES_SEQ")
@@ -26,7 +26,7 @@ public class Category implements Serializable {
 	@Column(name="PARENT_ID")
 	private BigInteger parentId;
 
-	public Category() {
+	public Categories() {
 	}
 
 	public Long getId() {
