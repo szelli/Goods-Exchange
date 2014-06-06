@@ -125,9 +125,11 @@ public class UserTest {
 	
 	@Test
 	public void testSetAndGetRole(){
-		BigInteger testRole = BigInteger.valueOf(1);
-		user.setRole(testRole);
-		assertEquals( testRole, user.getRole() );
+		Role role = new Role();
+		role.setId(2);
+		role.setRole("user");
+		user.setRole(role);
+		assertEquals( role.getRole(), user.getRole().getRole() );
 	}
 	
 	@Test

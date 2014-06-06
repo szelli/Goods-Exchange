@@ -8,13 +8,15 @@ import java.math.BigInteger;
 
 
 /**
- * The persistent class for the CATEGORYS database table.
+ * The persistent class for the CATEGORIES database table.
  * 
  */
 @Entity
 @Table(name="CATEGORIES")
+
 @NamedQuery(name="Categories.findAll", query="SELECT c FROM Categories c")
 public class Categories implements Serializable {
+
 	private static final Long serialVersionUID = 1L;
 	
 	@SequenceGenerator(name="Cat", sequenceName="CATEGORIES_SEQ")

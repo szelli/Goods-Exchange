@@ -10,6 +10,7 @@
 		<class>com.szpzs.model.Categories</class>
 		<class>com.szpzs.model.Picture</class>
 		<class>com.szpzs.model.Product</class>
+		<class>com.szpzs.model.Role</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@obiwan:1521:orcl2"/>
 			<property name="javax.persistence.jdbc.user" value="goods_exchange"/>

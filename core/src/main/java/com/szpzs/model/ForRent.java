@@ -11,7 +11,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="FOR_RENT")
+@Table(name="FORRENT")
 @NamedQuery(name="ForRent.findAll", query="SELECT f FROM ForRent f")
 public class ForRent implements Serializable {
 	private static final Long serialVersionUID = 1L;

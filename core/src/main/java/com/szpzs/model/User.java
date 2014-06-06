@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigInteger;
 
-
 /**
  * The persistent class for the USERS database table.
  * 
@@ -14,8 +13,9 @@ import java.math.BigInteger;
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final Long serialVersionUID = 1L;
-
-	@Id
+	
+	@SequenceGenerator(name="User", sequenceName="USERS_SEQ1")
+	@Id @GeneratedValue(generator="User")
 	private Long id;
 
 	private String address;
@@ -31,9 +31,10 @@ public class User implements Serializable {
 
 	private BigInteger postcode;
 
-	@Column(name="\"ROLE\"")
-	private BigInteger role;
-
+	@ManyToOne
+	@JoinColumn(name="\"ROLE\"")
+	private Role role;
+		
 	private BigInteger status;
 
 	@Column(name="USER_NAME")
@@ -98,11 +99,11 @@ public class User implements Serializable {
 		this.postcode = postcode;
 	}
 
-	public BigInteger getRole() {
+	public Role getRole() {
 		return this.role;
 	}
 
-	public void setRole(BigInteger role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 
