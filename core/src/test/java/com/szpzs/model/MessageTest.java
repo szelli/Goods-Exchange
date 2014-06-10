@@ -21,6 +21,7 @@ public class MessageTest {
 	@Test
 	public void testEmptyid(){
 		assertNull(message.getId() );
+		System.out.println(message.getId());
 	}
 	
 	@Test
