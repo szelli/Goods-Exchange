@@ -25,12 +25,12 @@ public class ReservedTest {
 	
 	@Test
 	public void testEmptyName(){
-		assertNull( reserved.getBegin() );
+		assertNull( reserved.getFromDate() );
 	}
 	
 	@Test
 	public void testEmptyArea(){
-		assertNull( reserved.getEnd());
+		assertNull( reserved.getToDate());
 	}
 	
 	@Test
@@ -51,17 +51,17 @@ public class ReservedTest {
 	}
 	
 	@Test
-	public void testSetAndGetBegin(){
+	public void testSetAndGetFromDate(){
 		Date testBegin = new Date();
-		reserved.setBegin(testBegin);
-		assertEquals( testBegin, reserved.getBegin() );
+		reserved.setFromDate(testBegin);
+		assertEquals( testBegin, reserved.getFromDate() );
 	}
 	
 	@Test
-	public void testSetAndGetEnd(){
+	public void testSetAndGetToDate(){
 		Date testEnd = new Date();
-		reserved.setEnd(testEnd);
-		assertEquals( testEnd, reserved.getEnd() );
+		reserved.setToDate(testEnd);
+		assertEquals( testEnd, reserved.getToDate() );
 	}
 	
 	@Test

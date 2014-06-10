@@ -1,6 +1,7 @@
 package com.szpzs.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.math.BigInteger;
@@ -18,19 +19,19 @@ public class ForRentTest {
 		forRent = new ForRent();
 	}
 
+	/*@Test
+	public void testEmptyId(){
+		assertNull( forRent.getId());
+	}*/
+	
 	@Test
-	public void testEmptyid(){
-		assertNull( forRent.getId() );
+	public void testEmptyFromDate(){
+		assertNull( forRent.getFromDate() );
 	}
 	
 	@Test
-	public void testEmptyName(){
-		assertNull( forRent.getBegin() );
-	}
-	
-	@Test
-	public void testEmptyArea(){
-		assertNull( forRent.getEnd());
+	public void testEmptyToDate(){
+		assertNull( forRent.getToDate());
 	}
 	
 	@Test
@@ -42,21 +43,21 @@ public class ForRentTest {
 	public void testSetAndGetId(){
 		Long testId =  (long) 1;
 		forRent.setId(testId);
-		assertEquals( testId, forRent.getId() );
+		assertEquals((long) testId, forRent.getId() );
 	}
 	
 	@Test
-	public void testSetAndGetBegin(){
+	public void testSetAndGetFromDate(){
 		Date testBegin = new Date();
-		forRent.setBegin(testBegin);
-		assertEquals( testBegin, forRent.getBegin() );
+		forRent.setFromDate(testBegin);
+		assertEquals( testBegin, forRent.getFromDate() );
 	}
 	
 	@Test
-	public void testSetAndGetEnd(){
+	public void testSetAndGetToDate(){
 		Date testEnd = new Date();
-		forRent.setEnd(testEnd);
-		assertEquals( testEnd, forRent.getEnd() );
+		forRent.setToDate(testEnd);
+		assertEquals( testEnd, forRent.getToDate() );
 	}
 	
 	@Test
@@ -64,6 +65,5 @@ public class ForRentTest {
 		BigInteger testProductId = BigInteger.valueOf(1);
 		forRent.setProductId(testProductId);
 		assertEquals( testProductId, forRent.getProductId() );
-	}
-	
+	}	
 }
