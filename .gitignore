@@ -1,3 +1,10 @@
 ﻿.settings/
-web/.settings/
 .settings
+.project
+bin/
+web/.settings/
+web/bin/
+web/.project
+core/.classpath
+core/bin/
+core/.project
