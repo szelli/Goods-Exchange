@@ -1,0 +1,60 @@
+<header class="row">
+    <div class="col-md-2 thumbnail">
+        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="Logó">
+    </div>
+    <div class="search col-md-7">
+        <input type="text" class="form-control" placeholder="Keresés">
+        <button class="btn btn-default">
+            Részletes keresés
+        </button>
+    </div>
+    <div class="auth_box col-md-3">
+        <!-- Bejelentkezés -->
+        <button class="btn btn-default" data-toggle="modal" data-target="#loginModal">
+            Bejelentkezés
+        </button>
+        <!-- Bejelentkezés Modal -->
+        <div class="modal fade" ng-controller="loginCtrl" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Bejelentkezés</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="loginform" novalidate class="css-form">
+                            <div class="form-group" ng-class="{'has-error' : loginform.username.$invalid && (!loginform.username.$pristine || error_offpristine)}">
+                                <input type="text" class="form-control" name="username" ng-model="username" placeholder="Felhasználó név" maxlength="21" required>
+                                <span ng-show="loginform.username.$error.required && (!loginform.username.$pristine || error_offpristine)">
+                                    Kérlek add meg a felhasználó neved!<br>
+                                </span>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error' : loginform.password.$invalid && (!loginform.password.$pristine || error_offpristine)}">
+                                <input type="text" class="form-control" name="password" ng-model="password" placeholder="Jelszó" maxlength="150" required>
+                                <span ng-show="loginform.password.$error.required && (!loginform.password.$pristine || error_offpristine)">
+                                    Kérlek add meg a jelszavad!
+                                </span>
+                            </div>
+                        </form>
+                        <a href="#">Elfelejtettem a jelszavam</a></br>
+                        <span id="login_error" class="error" ng-show="login_error" >{{login_error_message}}</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="login(loginform)" class="btn btn-primary">
+                            Bejelentkezés
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Mégse
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Regisztráció modal -->
+        <button class="btn btn-default" data-toggle="modal" data-target="#registrationModal">
+            Regisztráció
+        </button>
+        <div ng-include="regModal"></div>
+        <!-- Regisztráció modal - vége -->
+    </div>    
+</header>

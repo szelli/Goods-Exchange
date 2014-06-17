@@ -1,0 +1,140 @@
+<div class="modal fade" ng-controller="registrationCtrl" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="registrationModalLabel">Regisztráció</h4>
+            </div>
+            <div class="modal-body">
+                <form name="regform" novalidate class="css-form">
+                    <div class="form-group" ng-class="{'has-error' : regform.username.$invalid && (!regform.username.$pristine || error_offpristine)}">
+                        <input type="text" class="form-control" name="username" ng-model="newUser.username" placeholder="Felhasználó név" maxlength="21" required ng-minlength="4" ng-maxlength="20" ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9]*$/">
+                        <span ng-show="regform.username.$error.required && (!regform.username.$pristine || error_offpristine)">
+                            Kérlek add meg a felhasználó neved!<br>
+                        </span>
+                        <span ng-show="regform.username.$error.minlength && !regform.username.$pristine">
+                            Túl rövid felhasználó név! (min 4 karakter)<br>
+                        </span>
+                        <span ng-show="regform.username.$error.maxlength && !regform.username.$pristine">
+                            Túl hosszú felhasználó név! (max 20 karakter)<br>
+                        </span>
+                        <span ng-show="regform.username.$error.pattern && !regform.username.$pristine">
+                            Nem megengedett karakter a felhasználó nevedben!<br>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error' : regform.fullname.$invalid && (!regform.fullname.$pristine || error_offpristine)}">
+                        <input type="text" class="form-control" name="fullname" ng-model="newUser.fullname" placeholder="Teljes név" maxlength="31" required ng-minlength="5" ng-maxlength="30" ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű ]*$/">
+                        <span ng-show="regform.fullname.$error.required && (!regform.fullname.$pristine || error_offpristine)">
+                            Kérlek add meg a neved!<br>
+                        </span>
+                        <span ng-show="regform.fullname.$error.minlength && !regform.fullname.$pristine">
+                            Túl rövid név! (min 5 karakter)<br>
+                        </span>
+                        <span ng-show="regform.fullname.$error.maxlength && !regform.fullname.$pristine">
+                            Túl hosszú név! (max 30 karakter)<br>
+                        </span>
+                        <span ng-show="regform.fullname.$error.pattern && !regform.fullname.$pristine">
+                            Nem megengedett karakter a nevedben!<br>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error' : regform.email.$invalid && (!regform.email.$pristine || error_offpristine)}">
+                        <input type="email" class="form-control" name="email" ng-model="newUser.email" placeholder="E-mail cím" email required maxlength="100">
+                        <span ng-show="regform.email.$error.email">
+                            Hibás email-cím!<br>
+                        </span>
+                        <span ng-show="regform.email.$error.required && (!regform.email.$pristine || error_offpristine)">
+                            Hiányzó email-cím!<br>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error' : regform.password.$invalid && (!regform.password.$pristine || error_offpristine)}">
+                        <input type="password" class="form-control" name="password" ng-model="newUser.password" placeholder="Jelszó" required ng-minlength="8" ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]))/" maxlength="150">
+                        <span ng-show="regform.password.$error.required && (!regform.password.$pristine || error_offpristine)">
+                            Kérlek add meg a jelszavad!<br>
+                        </span>
+                        <span ng-show="regform.password.$error.minlength && !regform.password.$pristine">
+                            Túl rövid jelszó! (min 8 karakter)<br>
+                        </span>
+                        <span ng-show="regform.password.$error.pattern && !regform.password.$pristine">
+                            A jelszónak kis-, nagybetűt és számot is tartalmaznia kell.<br>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error' : regform.password2.$invalid && (!regform.password2.$pristine || error_offpristine)}">
+                        <input type="password" class="form-control" name="password2" ng-model="password2" placeholder="Jelszó" equalpasswds maxlength="150">
+                        <span ng-show="regform.password2.$error.equalpasswds && (!regform.password2.$pristine || error_offpristine)">
+                            A két jelszónak meg kell egyezni!<br>
+                        </span>
+                    </div>
+                    <div class="modalBodyDiff1">
+                        <div ng-class="{'has-error' : regform.postcode.$invalid && (!regform.postcode.$pristine || error_offpristine)}">
+                            <input type="text" class="form-control" placeholder="Irszám" name="postcode" ng-model="newUser.postcode" required ng-minlength="4" ng-maxlength="4" ng-pattern="/^[0-9]*$/" maxlength="5">
+                        </div>
+                        <div id="country" class="select-dropdown" tabindex="1" ng-class="{active : country_active}">
+                            <span tabindex="1" ng-click="toggleCountryActive()" ng-class="{'select-error' : error_country}">{{newUser.country}}</span>
+                            <ul class="uldropdown" ng-click="toggleCountryActive()">
+                                <li ng-click="setCountry('Baranya')">Baranya</li>
+                                <li ng-click="setCountry('Pest')">Pest</li>
+                                <li ng-click="setCountry('Zala')">Zala</li>
+                            </ul>
+                        </div>
+                        <div id="city" class="select-dropdown" tabindex="2" ng-class="{active : city_active}">
+                            <span tabindex="1" ng-click="toggleCityActive()" ng-class="{'select-error' : error_city}">{{newUser.city}}</span>
+                            <ul class="uldropdown" ng-click="toggleCityActive()">
+                                <li ng-click="setCity('Pécs')">Pécs</li>
+                                <li ng-click="setCity('Sopron')">Sopron</li>
+                                <li ng-click="setCity('Budapest')">Budapest</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <span class="error" ng-show="regform.postcode.$error.required && (!regform.postcode.$pristine || error_offpristine)">Kérlek add meg az irányítószámod!<br></span>
+                    <span class="error" ng-show="(regform.postcode.$error.minlength || regform.postcode.$error.minlength || regform.postcode.$error.pattern) && !regform.postcode.$pristine" >
+                        Az irányítószám 4 jegyű szám!<br>
+                    </span>
+                    <span class="error" ng-show="error_country">
+                        Kérlek add meg a megyét!<br>
+                    </span>
+                    <span class="error" ng-show="error_city">
+                        Kérlek add meg a várost!<br>
+                    </span>
+                    <div class="form-group" ng-class="{'has-error' : regform.street.$invalid && (!regform.street.$pristine || error_offpristine)}">
+                        <input type="text" class="form-control" name="street" ng-model="newUser.street" placeholder="Utca" required ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9]*$/" maxlength="100">
+                        <span ng-show="regform.street.$error.required && (!regform.street.$pristine || error_offpristine)">
+                            Kérlek add meg az utcád!<br>
+                        </span>
+                        <span ng-show="regform.street.$error.pattern && !regform.street.$pristine">
+                            Nem megengedett karakter az utcanévben!<br>
+                        </span>
+                    </div>
+                    <div class="modalBodyDiff2">
+                        <div class="form-group" ng-class="{'has-error' : regform.housenumber.$invalid && (!regform.housenumber.$pristine || error_offpristine)}">
+                            <input type="text" class="form-control" name="housenumber" ng-model="newUser.houseNumber" placeholder="Házszám" required ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9/]*$/" maxlength="50">
+                        </div>
+                        <div class="form-group" ng-class="{'has-error' : regform.floordoor.$invalid && (!regform.floordoor.$pristine || error_offpristine)}">
+                            <input type="text" class="form-control" name="floordoor" ng-model="newUser.floorAndDoor" placeholder="Emelet/Ajtó" required ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9/]*$/" maxlength="50">
+                        </div>
+                        <span class="error" ng-show="regform.housenumber.$error.required && (!regform.housenumber.$pristine || error_offpristine)">
+                            Kérlek add meg a házszámod!<br>
+                        </span>
+                            <span class="error" ng-show="regform.housenumber.$error.pattern && !regform.housenumber.$pristine">
+                                Nem megengedett karakter a házszámban!<br>
+                        </span>
+                        <span class="error" ng-show="regform.floordoor.$error.required && (!regform.floordoor.$pristine || error_offpristine)">
+                            Kérlek add meg az emeletet és az ajtót!<br>
+                        </span>
+                        <span class="error" ng-show="regform.floordoor.$error.pattern && !regform.floordoor.$pristine">
+                            Nem megengedett karakter az emelet/ajtóban!
+                        </span>
+                    </div>
+                </form>
+                <span id="reg_error" class="error" ng-show="reg_error" >{{reg_error_message}}</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="registration(regform)">
+                    Regisztráció
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Mégse
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
