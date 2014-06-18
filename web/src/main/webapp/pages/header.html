@@ -30,7 +30,7 @@
                                 </span>
                             </div>
                             <div class="form-group" ng-class="{'has-error' : loginform.password.$invalid && (!loginform.password.$pristine || error_offpristine)}">
-                                <input type="text" class="form-control" name="password" ng-model="password" placeholder="Jelszó" maxlength="150" required>
+                                <input type="password" class="form-control" name="password" ng-model="password" placeholder="Jelszó" maxlength="150" required>
                                 <span ng-show="loginform.password.$error.required && (!loginform.password.$pristine || error_offpristine)">
                                     Kérlek add meg a jelszavad!
                                 </span>

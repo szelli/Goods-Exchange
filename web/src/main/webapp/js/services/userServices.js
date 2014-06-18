@@ -5,7 +5,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 
 	user.getUser = function(username, password) {
 		return $http({
-			url : 'loginRequest',
+			url : 'api/loginRequest',
 			data : {
 				"userName" : username,
 				"password" : password
@@ -17,7 +17,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 
 	user.saveUser = function(user) {
 		return $http({
-			url : 'registrationRequest',
+			url : 'api/registrationRequest',
 			data : {
 				"userName" : user.username,
                 "fullName" : user.fullname,
