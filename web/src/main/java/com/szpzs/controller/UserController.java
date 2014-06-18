@@ -43,7 +43,6 @@ public class UserController {
 		ObjectMapper mapper = new ObjectMapper();
 		User user = mapper.readValue(userdatas, User.class);
 		result = userService.saveUser(user);
-		System.out.println(result);
 		return result;
 	}
 	
@@ -52,7 +51,6 @@ public class UserController {
 		ObjectMapper mapper = new ObjectMapper();
 		User user = mapper.readValue(userdatas, User.class);
 		user = userService.getUser(user.getUserName(), user.getPassword());
-		System.out.println(user.getFullName());
 		return user;
 	}
 /*		

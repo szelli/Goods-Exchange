@@ -1,6 +1,7 @@
 package com.szpzs.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.PersistentObjectException;
@@ -17,12 +18,16 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	@Transactional
-	public User getUser(String userName, String password) {
-		User user = (User) entityManager.createQuery("Select u From User as u Where u.userName = :userName and u.password = :password")
-		.setParameter("userName",userName)
-		.setParameter("password", password)
-		.getSingleResult();
-		return user;
+	public User getUser(String userName, String password){
+		try{
+			User user = (User) entityManager.createQuery("Select u From User as u Where u.userName = :userName and u.password = :password")
+			.setParameter("userName",userName)
+			.setParameter("password", password)
+			.getSingleResult();
+			return user;
+		} catch(NoResultException e) {
+	        return null;
+	    }
 	}
 
 	@Override
