@@ -7,6 +7,8 @@ public interface UserService {
 	
 	public boolean existsUser(String userName);
 	
+	public String convertPasswordToMd5(String pass);
+	
 	public Role addRole();
 	
 	public User getUser(String userName,String password);

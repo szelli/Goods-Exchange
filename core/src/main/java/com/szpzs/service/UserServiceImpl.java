@@ -1,6 +1,7 @@
 package com.szpzs.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.szpzs.model.Role;
@@ -15,6 +16,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUser(String userName, String password) {
+		password = convertPasswordToMd5(password);
 		return userDAO.getUser(userName, password);
 	}
 
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
 	public String saveUser(User user) {
 		if (!existsUser(user.getUserName())){
 			user.setRole(addRole());
+			user.setPassword(convertPasswordToMd5(user.getPassword()));
 			userDAO.saveUser(user);
 			if (existsUser(user.getUserName())){
 				return "ok";
@@ -48,6 +51,11 @@ public class UserServiceImpl implements UserService {
 		role.setId(2);
 		role.setRole("user");
 		return role;
+	}
+
+	@Override
+	public String convertPasswordToMd5(String pass) {
+		return new Md5PasswordEncoder().encodePassword( pass, null );
 	}
 
 }
