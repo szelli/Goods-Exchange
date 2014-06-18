@@ -7,7 +7,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 		return $http({
 			url : 'loginRequest',
 			data : {
-				"username" : username,
+				"userName" : username,
 				"password" : password
 			},
 			method : "POST",
@@ -26,8 +26,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 				"city" : user.city,
                 "address" : user.address,
                 "postcode" : user.postcode,
-                "status" : 1,
-                "role" : "user"
+                "status" : 1
             },
 			method : "POST",
 			contentType : "application/json"
