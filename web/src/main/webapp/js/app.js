@@ -22,8 +22,12 @@ goods_exchange.config(['$routeProvider', '$locationProvider', '$httpProvider','l
         }); 
   }]);
 
-goods_exchange.run(function ($rootScope) {
+goods_exchange.run(function ($rootScope, localStorageService) {
     $rootScope.header = 'pages/header.html';
     $rootScope.regModal = 'pages/regModal.html';
     $rootScope.footer = 'pages/footer.html';
+    
+    if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {
+		$rootScope.loggedUser = localStorageService.get("loggedUser");
+	}
 });

@@ -8,13 +8,19 @@
             Részletes keresés
         </button>
     </div>
-    <div class="auth_box col-md-3">
+    <div ng-show="$root.loggedUser" ng-controller="loginCtrl" class="auth_box col-md-3">
+        <button class="btn btn-default" ng-click="logout()">
+            Kijelentkezés
+        </button>
+    </div>
+    
+    <div ng-show="!$root.loggedUser" ng-controller="loginCtrl" class="auth_box col-md-3">
         <!-- Bejelentkezés -->
         <button class="btn btn-default" data-toggle="modal" data-target="#loginModal">
             Bejelentkezés
         </button>
         <!-- Bejelentkezés Modal -->
-        <div class="modal fade" ng-controller="loginCtrl" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade"  id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
