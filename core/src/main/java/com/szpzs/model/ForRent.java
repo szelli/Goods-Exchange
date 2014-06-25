@@ -16,16 +16,17 @@ import java.util.Date;
 public class ForRent implements Serializable {
 	private static final Long serialVersionUID = 1L;
 
-	@Id
+	@SequenceGenerator(name="ForRent", sequenceName="FORRENT_SEQ1")
+	@Id @GeneratedValue(generator="ForRent")
 	private Long id;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="\"BEGIN\"")
-	private Date begin;
+	@Column(name="fromDate")
+	private Date fromDate;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="\"END\"")
-	private Date end;
+	@Column(name="toDate")
+	private Date toDate;
 
 	@Column(name="PRODUCT_ID")
 	private BigInteger productId;
@@ -41,20 +42,20 @@ public class ForRent implements Serializable {
 		this.id = id;
 	}
 
-	public Date getBegin() {
-		return this.begin;
+	public Date getFromDate() {
+		return this.fromDate;
 	}
 
-	public void setBegin(Date begin) {
-		this.begin = begin;
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
 	}
 
-	public Date getEnd() {
-		return this.end;
+	public Date getToDate() {
+		return this.toDate;
 	}
 
-	public void setEnd(Date end) {
-		this.end = end;
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
 	}
 
 	public BigInteger getProductId() {
