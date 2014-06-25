@@ -1,0 +1,86 @@
+<div class="panel-group col-md-2" id="accordion">
+    <h3>Kategóriák</h3>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> Szülő 1 </a></h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        Gyerek1
+                    </li>
+                    <li>
+                        Gyerek2
+                    </li>
+                    <li>
+                        Gyerek3
+                    </li>
+                    <li>
+                        Gyerek4
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> Szülő 2 </a></h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        Gyerek1
+                    </li>
+                    <li>
+                        Gyerek2
+                    </li>
+                    <li>
+                        Gyerek3
+                    </li>
+                    <li>
+                        Gyerek4
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> Szülő 3 </a></h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        Gyerek1
+                    </li>
+                    <li>
+                        Gyerek2
+                    </li>
+                    <li>
+                        Gyerek3
+                    </li>
+                    <li>
+                        Gyerek4
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container col-md-10" ng-controller="forRentCtrl">
+    <div class="pull-left" dropdown="true">
+        <div class="selectdaterange" daterangepicker>
+            <i class="glyphicon glyphicon-calendar"></i>
+            <span ng-show="dateRange">{{dateRange}}</span>
+            <span ng-show="!dateRange">Kérlek add meg mettől, meddig foglalható le a terméked!</span>
+        </div>
+        <button class="btn-primary btn" style='clear:both; float:left;' ng-click="saveForRent()" >Lefoglalhatóvá teszem</button>
+    </div>
+    <div class="pull-right" dropdown="false">
+        <div id="calendar"></div>
+    </div>
+</div>
+    

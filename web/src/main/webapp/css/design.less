@@ -24,7 +24,7 @@ body{
 	border-radius: 3px;
 }
 
-button:active, .btn:active, .btn.active{
+button:active, button:focus, .btn:active, .btn:focus, .btn.active, .btn-default, .btn-default:hover, .btn-default:active, .btn-dafault:focus, .btn-small:focus, .btn-small:active, .btn-small:hover, .btn-success:hover, .btn-success:focus, .btn-success:active{
     outline: none;
 }
 
@@ -908,4 +908,135 @@ span.error{
 
 .select-dropdown .select-error:after{
     border-color: @error_color transparent;
+}
+
+.pull-right .selectdaterange:after{
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: 5px;
+    margin-top: 7px;
+    float: right;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: black transparent;
+}
+
+.pull-left .selectdaterange:before{
+    content: "";
+    width: 0;
+    height: 0;
+    margin-right: 5px;
+    margin-top: 7px;
+    float: left;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: black transparent;
+}
+
+.dropdown_false.daterangepicker, .dropdown_false.dropdown-menu{
+    display:block;
+}
+
+.selectdaterange {
+    background: #ffffff;
+    float:left;
+	color: #333333;
+	padding: 8px;
+	line-height: 18px;
+	cursor: pointer;
+    i{
+        float: left;
+        display: inline;
+    }
+    span {
+        padding-left: 3px;
+        float:left;
+        display: inline;
+    }
+}
+
+.daterangepicker{
+    top: 25px;
+    margin-right: 12px;
+    margin-top: 5px;
+    margin-left: 12px;
+    &:first{
+        display: block;
+    }
+    .ranges{
+        width: 220px;
+        li{
+            color: @base_color;
+        }        
+        li.active, li:hover{
+            background-color: @highlight_color;
+            border-color: @highlight_color;
+            border: 1px solid;
+            color: #fff;
+        }
+        .input-mini{
+            width: 92px;
+        }
+        .range_inputs{
+            .daterangepicker_start_input {
+                float: left;
+                margin-left: 10px;
+            }
+
+            .daterangepicker_end_input {
+                float: right; 
+                padding-left: 11px;
+                margin-right: 10px;
+            }
+            >button{
+                margin: 15px 4px;
+                width: 100px;
+                &.btn-success{
+                    background-color: @base_color;
+                    border: none;
+                    &:active, &:focus, &:hover{
+                        background-color: @highlight_color;
+                    }
+                }
+                &.btn-default{
+                    float: right;
+                }
+                &:active, &:focus, &:hover{
+                    outline: none;
+                }
+            }
+        }
+    }
+    & td.active, & td.active:hover, & td.showactive{
+        background-color: @base_color;
+        border-color: @highlight_color;
+        color: #fff;
+        opacity: 1;
+    }
+    & td.available.in-range{
+        background-color: @base_color;
+        opacity: 0.5;
+    }
+}
+
+.pull-left, .pull-right{
+    >button, button:focus{
+        float: left;
+        background-color : @base_color;
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+    >button:active, button:hover{
+        background-color: @highlight_color;
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+#calendar{
+    float:right; 
+    display:none;
 }

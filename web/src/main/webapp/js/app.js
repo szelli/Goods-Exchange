@@ -3,6 +3,7 @@ var goods_exchange = angular.module('goods_exchange', [
     'LocalStorageModule',
     'registrationCtrl',
     'loginCtrl',
+    'forRentCtrl',
     'formDirectives',
     'services'
 ]);
@@ -16,6 +17,9 @@ goods_exchange.config(['$routeProvider', '$locationProvider', '$httpProvider','l
     $routeProvider.
         when('/index', {
             templateUrl: 'pages/index.html',
+        }).
+        when('/forrent', {
+            templateUrl: 'pages/forRent.html',
         }).
         otherwise({
             redirectTo: '/index'
