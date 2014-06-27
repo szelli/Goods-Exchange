@@ -11,6 +11,7 @@
 		<class>com.szpzs.model.Picture</class>
 		<class>com.szpzs.model.Product</class>
 		<class>com.szpzs.model.Role</class>
+		<class>com.szpzs.model.ProductPicture</class>
 	</persistence-unit>
 	
 </persistence>
