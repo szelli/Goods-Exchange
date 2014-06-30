@@ -1,0 +1,106 @@
+<div class="row" ng-controller="privateProfileCtrl">
+	<div class="panel-group col-md-2" id="accordion">
+	   <h3>Menü</h3>
+		<ul class="nav nav-pills nav-stacked">
+			<li><a href="/my_products.html">Termékeim</a></li>
+			<li><a href="/reservation.html">Termék foglalások</a></li>
+			<li><a href="/reservation.html">Kölcsönzött termékek</a></li>
+			<li><a href="/messages">Üzenetek</a></li>
+			<li><a href="/rates">Értékelések</a></li>
+		</ul>
+   </div>
+   <div class="private-profil">
+	   <form name="editform" method="POST">
+		<div class="left-box">
+			<div class="rows">
+			   <label class="label label-info">Felhasználónév</label>
+				<label class="center">{{myData.userName}}</label>
+			</div>
+			<div class="rows">
+			   <label class="label label-info">Teljes név</label>
+			   <label class="center">{{myData.fullName}}</label>
+			</div>
+			<div class="rows">
+			   <label class="label label-info">Megye</label>
+			   <label class="center">Megye</label>
+			</div>
+			<div class="rows">
+			   <label class="label label-info">Irányítószám</label>
+			   <label class="center"  ng-show="!switch">{{myData.postcode}}</label>
+				<label class="center"  ng-show="switch"><input type="text" name="newPostcode" ng-model="editUser.postcode" value="{{myData.postcode}}" class="input-text"></label>
+			</div>
+			<div class="rows">
+			   <label class="label label-info">Város</label>
+			   <label class="center"  ng-show="!switch">{{myData.city}}</label>
+				<label class="center"  ng-show="switch"><input type="text" name="newCity" ng-model="editUser.city" value="{{myData.city}}"></label>
+			</div>
+			<div class="rows">
+				<label class="label label-info">Cím</label>
+				<label class="center"  ng-show="!switch">{{myData.address}}</label>
+				<label class="center"  ng-show="switch"><input type="text" name="newAddress" ng-model="editUser.address" value="{{myData.address}}"></label>
+			</div>
+			<div class="rows">
+				<label class="label label-info">E-mail cím</label>
+				<label class="center" ng-show="!switch">{{myData.email}}</label>
+				<label class="center" ng-show="switch"><input type="text" name="newEmail" ng-model="editUser.email" value="{{myData.email}}"></label>
+			</div>
+			
+<!--			
+			<div class="rows">
+			   <label class="label label-info">Utca</label>
+			   <label class="center">Utca</label>
+			</div>
+			<div class="rows">
+			   <label class="label label-info">Házszám</label>
+			   <label class="center">Házszám</label>
+			</div>
+			<div class="rows">
+			   <label class="label label-info">Emelet/ajtó</label>
+			   <label class="center">Emelet/ajtó</label>
+			</div>
+-->
+			<div class="rows" ng-show="!switch">
+			   <label class="label label-info">Jelszó</label>
+			   <label class="center">{{myData.password}}</label>
+			</div>
+			<div class="rows" ng-show="switch">
+			   <label class="label label-info">Régi jelszó</label>
+			   <label class="center"><input type="text" name="oldPassword" ng-model="editUser.oldPassword" value="{{myData.password}}"></label>
+			</div>
+			<div class="rows" ng-show="switch">
+			   <label class="label label-info">Új jelszó</label>
+			   <label class="center"><input type="text" name="newPassword" ng-model="editUser.newPassword"></label>
+			</div>
+			<div class="rows" ng-show="switch">
+			   <label class="label label-info">Új jelszó megerősítése</label>
+			   <label class="center"><input type="text" name="newPassword2" ng-model="editUser.newPassword2"></label>
+			</div>
+			<div class="rows">
+			   <label class="center"><button type="button" class="btn btn-info" ng-click="switch = !switch" ng-show="!switch" hide="switch">Szerkesztés</button></label>
+			</div>
+			<div class="rows">
+				<label class="center"><button type="button" class="btn btn-info" ng-click="editProfile(); switch = !switch;" ng-show="switch" ng-hide="!switch">Elfogad</button></label>
+			</div>
+			
+<!--
+
+			<div class="rows">
+			   <label class="label label-info">Jelszó megerősítése</label>
+			   <label class="center">Jelszó megerősítése</label>
+			</div>
+
+			<div class="center"><button type="button" class="btn btn-info">Elfogad</button></div>
+-->
+		</div>
+		</form>
+		<div class="right-box">
+			<button type="button" class="btn btn-info">Nyilvános profil</button>
+			<div class="lessor_rate">
+			   <p class="all_rating">Összes: 150</p>
+			   <p class="positive">100</p>
+			   <p class="negative">50</p>
+			   <p class="rate">66%</p>
+			</div>
+		</div>
+	</div>
+</div>

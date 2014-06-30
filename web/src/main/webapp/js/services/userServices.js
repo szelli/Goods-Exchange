@@ -32,5 +32,33 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 			contentType : "application/json"
 		});
 	};
+	
+	user.getUserById = function(userId) {
+		return $http({
+			url : 'api/getUserRequest',
+			data : {
+				"id" : userId
+			},
+			method: "POST",
+			contentType: "application/json"
+		});
+	};
+	
+	user.editProfile = function(user) {
+		console.log(user.id, user.postcode, user.city, user.address, user.email);
+		return $http({
+			url : 'api/editProfileRequest',
+			data : {
+				"id" : user.id,
+				"postcode" : user.postcode,
+				"city" : user.city,
+				"address" : user.address,
+				"email" : user.email
+            },
+			method : "POST",
+			contentType: "application/json"
+		});
+	};
+	
 	return user;
 });

@@ -119,30 +119,37 @@ header{
 
 #accordion {
 	a{
-		color:#fff;
+		background-color: @base_color;
+		color: #fff;
 		width: 100%;
+		margin-bottom: 5px;
 		float: left;
 		&:hover{
 			text-decoration: none;
+			color: @highlight_color; 
 		}
 	}
 	padding: 0px;
     h3{
+	  color: @base_color;
       margin-top: 10px;
     }
 	.panel-collapse{
 		float: left;
 	}
 	.panel-heading{
+		background-color: @base_color;
+		color: #fff;
 		float: left;
 		width: 100%;
-		background-color: @base_color;
+		
 	}
 	/*.panel-default{
 		&:hover{
 			transform: translateX(-25px);
 		}
 	}*/
+
 }
 
 
@@ -358,7 +365,7 @@ h2.product_name, .lessor_name{
     filter: alpha(opacity=0);
     opacity: 0;
     outline: none;
-    background: white;
+    background: #fff;
     cursor: inherit;
     display: block;
 }
@@ -641,6 +648,8 @@ h2.product_name, .lessor_name{
 //Adv. search - end
 
 /***********************************************************************************************/
+
+/* Profile */
 .container .data{
 	float: left;
 	padding: 0px;
@@ -649,7 +658,7 @@ h2.product_name, .lessor_name{
 .data label{
    float: left;
    width: 100%;
-   color: #5bc0de;
+   color: @base_color;
    font-size: 18px;
 }
 .data .user label{
@@ -665,6 +674,8 @@ h2.product_name, .lessor_name{
    width: 50%;
 }
 .data .btn-info{
+   background-color: @base_color;
+   border-color: @base_color;;
    margin-top: 20px;
    width: 85%;
    padding: 5px;
@@ -696,7 +707,7 @@ h2.product_name, .lessor_name{
    padding: 10px;
    display: block;
    font-size: 20px;    
-   background-color: #5bc0de;
+   background-color: @base_color;
 }
 
 .mini-products{
@@ -707,40 +718,87 @@ h2.product_name, .lessor_name{
 	}
 }
 
+/* Profile - end */
+
+/* Private profile */
+
+
 .private-profil .left-box{
    margin-left: 100px;
    width: 50%;
    float: left;
 }
 .private-profil .left-box .rows{
+   color: @base_color;
    float: left;
    width: 100%;
 }
 .private-profil .left-box .center{
    float: right;
-   width: 60%;
+   width: 50%;
    text-align: left;
    
 }
 .private-profil .left-box .center .btn-info{
-   margin-top: 20px;
-   width: 50%;   
+   background-color: @base_color;
+   border-color: @base_color;
+   margin-top: 15px;
+   width: 50%; 
 }
 .private-profil .right-box{
 	width: 20%;
 	float: right;
+	margin-right: 10px;
 	button{
 		margin-left: 20px;
 		margin-bottom: 20px;
 	}
 }
+.private-profil .right-box button {
+margin-left: 20px;
+margin-bottom: 20px;
+}
+.btn-info {
+background-color: @base_color;
+border-color: @base_color;
+color: #fff;
+margin-bottom: 10px;
+	&:hover{
+		text-decoration: none;
+		background-color: @base_color;
+		border-color: @base_color;
+		color: @highlight_color; 
+	}
+}
+
+.private-profil input{
+	float: left;
+	font-size: 20px;
+	line-height: 20px;
+	padding: 0px 0px 0px 0px;
+}
+
 .private-profil label{
    font-size: 20px;
 }
 .private-profil .left-box .label-info{
+   background-color: @base_color;
    float: left;
-   width: 35%;
+   width: 45%;
 }
+
+/*
+.private-profil .right-box text-input{
+	float: right;
+	font-size: 20px;
+	display: inline-block;
+ 	line-height: 25px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+*/
+
+/* Private profile - end */
 
 /* Admin Users */
 
@@ -825,7 +883,7 @@ span.error{
     position: relative;
     float: left;
     text-align: left;
-    background: white;
+    background: #fff;
     border-radius: inherit;
     border: 1px solid rgba(0,0,0,0.17);
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
