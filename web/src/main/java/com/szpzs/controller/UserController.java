@@ -53,6 +53,23 @@ public class UserController {
 		user = userService.getUser(user.getUserName(), user.getPassword());
 		return user;
 	}
+	
+	@ResponseBody @RequestMapping(value = "/getUserRequest", method=RequestMethod.POST, produces = "application/json")
+	public User getUserById(@RequestBody String userdatas) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.readValue(userdatas, User.class);
+		user = userService.getUserById(user.getId());
+		return user;
+	}
+	
+	@ResponseBody @RequestMapping(value = "/editProfileRequest", method=RequestMethod.POST, produces = "application/json")
+	public String editProfile(@RequestBody String userdatas) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.readValue(userdatas, User.class);
+		result = userService.editUser(user);
+		return result;
+	}
+	
 /*		
  * 		ObjectMapper mapper = new ObjectMapper();
 		User user = mapper.readValue(new File("g:\\goods/user.json"), User.class);

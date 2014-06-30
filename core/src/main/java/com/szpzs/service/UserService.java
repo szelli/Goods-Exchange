@@ -1,5 +1,7 @@
 package com.szpzs.service;
 
+import java.math.BigInteger;
+
 import com.szpzs.model.Role;
 import com.szpzs.model.User;
 
@@ -13,6 +15,10 @@ public interface UserService {
 	
 	public User getUser(String userName,String password);
 	
-	public String saveUser(User user); 
+	public User getUserById(Long id);
+	
+	public String saveUser(User user);
+	
+	public String editUser(User user);
 
 }

@@ -1,5 +1,7 @@
 package com.szpzs.service;
 
+import java.math.BigInteger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,12 @@ public class UserServiceImpl implements UserService {
 		password = convertPasswordToMd5(password);
 		return userDAO.getUser(userName, password);
 	}
-
+	
+	@Override
+	public User getUserById(Long id){
+		return userDAO.getUserById(id);
+	}
+	
 	@Override
 	public String saveUser(User user) {
 		if (!existsUser(user.getUserName())){
@@ -36,6 +43,13 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public String editUser(User user){
+		userDAO.editUser(user);
+		return "ok";
+	}
+	
+	
 	@Override
 	public boolean existsUser(String userName) {
 		if (userDAO.existsUser(userName)){

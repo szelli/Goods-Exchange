@@ -1,5 +1,7 @@
 package com.szpzs.repository;
 
+import java.math.BigInteger;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -29,12 +31,37 @@ public class UserDAOImpl implements UserDAO {
 	        return null;
 	    }
 	}
-
+	
+	@Override
+	@Transactional
+	public User getUserById(Long id){
+		try{
+			User user = (User) entityManager.createQuery("Select u From User as u Where u.id = :id")
+				.setParameter("id",id)
+				.getSingleResult();
+				return user;
+		} catch(NoResultException e) {
+	        return null;
+	    }
+	}
+	
 	@Override
 	@Transactional
 	public void saveUser(User user){
 		entityManager.persist(user);
 		entityManager.flush();
+	}
+	
+	@Override
+	@Transactional
+	//még át kell írni a Criretia API használatával
+	public void editUser(User user) {
+		entityManager.createQuery("Update User as u Set u.postcode = :postcode, u.city = :city, u.address = :address, u.email = :email Where u.id = :id")
+		.setParameter("postcode", user.getPostcode())
+		.setParameter("city", user.getCity())
+		.setParameter("address", user.getAddress())
+		.setParameter("email", user.getEmail())
+		.setParameter("id", user.getId()).executeUpdate();
 	}
 
 	@Override
