@@ -386,12 +386,33 @@ h2.product_name, .lessor_name{
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
-	.product_datas input{
+	.uploadform .product_datas input{
 		margin: 10px 0px; 
-		width: @width;
+		width: 100%;
 	}
+    .form-group{
+        float: left;
+        width: 100%;
+    }
+    .primary-datas{
+        float: left;
+        width: @width;
+    }
+    .productUpDropdown{
+        box-sizing: border-box;
+        float: left;
+        width: 100%;
+        text-align: center;
+        height: 34px;
+        margin-bottom: 15px;
+        >div{
+            float:left;
+            width: 32%;
+        }
+        
+        
+    }
 	textarea{
-		width: @width; 
 		min-height:200px; 
 	}
 	.rental_calendar{
@@ -767,6 +788,7 @@ a:hover, .pagination>li>a:hover{
 
 .has-error span{
     color: @error_color;
+    float:left;
 }
 
 span.error{
