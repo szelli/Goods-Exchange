@@ -5,7 +5,6 @@ var goods_exchange = angular.module('goods_exchange', [
     'loginCtrl',
 	'profileCtrl',
 	'privateProfileCtrl',
-	//'editProfileCtrl',
     'formDirectives',
     'services'
 ]);
@@ -29,20 +28,7 @@ goods_exchange.config(['$routeProvider', '$locationProvider', '$httpProvider','l
 		when('/privateProfileEdit', {
             templateUrl: 'pages/private_profile_edit.html',
         }).
-		/*
-		when('/messages', {
-            templateUrl: 'pages/messages.html',
-        }).
-		when('/rates', {
-            templateUrl: 'pages/rates.html',
-        }).
-		when('/myProducts', {
-            templateUrl: 'pages/my_products.html',
-        }).
-		when('/reservation', {
-            templateUrl: 'pages/reservation.html',
-        }).
-		*/
+		
         otherwise({
             redirectTo: '/index'
         }); 
