@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="PRODUCT_PICTURE")
-@NamedQuery(name="ProductPicture.findAll", query="SELECT p FROM ProductPicture c")
+@NamedQuery(name="ProductPicture.findAll", query="SELECT p FROM ProductPicture p")
 public class ProductPicture implements Serializable {
 	private static final Long serialVersionUID = 1L;
 	
