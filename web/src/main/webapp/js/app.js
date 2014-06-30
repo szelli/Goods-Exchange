@@ -13,7 +13,7 @@ var goods_exchange = angular.module('goods_exchange', [
 
 goods_exchange.config(['$routeProvider', '$locationProvider', '$httpProvider','localStorageServiceProvider',
   function($routeProvider, $locationProvider, $httpProvider,localStorageServiceProvider) {
-		localStorageServiceProvider.setStorageType('sessionStorage');
+		localStorageServiceProvider.setStorageType('localStorage');
 		$httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     $routeProvider.
