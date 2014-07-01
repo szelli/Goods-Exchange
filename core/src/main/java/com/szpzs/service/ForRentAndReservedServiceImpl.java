@@ -28,7 +28,7 @@ public class ForRentAndReservedServiceImpl implements ForRentAndReservedService 
 		
 		if(forRents.size()==0){
 			forRentAndReservedDAO.saveForRent(forRent);
-			return "Már van erre az intervallumra lefoglalhatóság.";
+			status = true;
 		}else{
 			Date beforeOneDay = this.subtractDay(forRent.getFromDate());
 		    
@@ -51,7 +51,7 @@ public class ForRentAndReservedServiceImpl implements ForRentAndReservedService 
 					Boolean isEndOverlap = this.isEndOverlap(forRent, forRents.get(i));
 					
 					if(isInInterval){
-						status = true;
+						return "Már van erre az intervallumra lefoglalhatóság.";
 					}else{
 						Date updatedFromDate = forRent.getFromDate();
 						Date updatedToDate = forRent.getToDate();
@@ -161,13 +161,19 @@ public class ForRentAndReservedServiceImpl implements ForRentAndReservedService 
 
 	private Date BOcalculateNewToDate(ForRent insertable, List<ForRent> intervals,int index) {
 		int j = index+1;
-		long DateDiff = ((intervals.get(j).getFromDate().getTime() - insertable.getToDate().getTime()) / 1000L / 60L / 60L / 24L);
-		while((j<intervals.size()-1) && ((!insertable.getToDate().before(intervals.get(j).getFromDate()) || insertable.getToDate().equals(intervals.get(j).getFromDate())) || ((DateDiff<=1) && DateDiff>0))){
-			j++;
-			DateDiff = ((intervals.get(j).getFromDate().getTime() - insertable.getToDate().getTime()) / 1000L / 60L / 60L / 24L);
-		}			
-		if(insertable.getToDate().before(intervals.get(j-1).getToDate())){
-			return intervals.get(j-1).getToDate();
+		if(j<=intervals.size()){
+			if(j<intervals.size()){
+				long DateDiff = ((intervals.get(j).getFromDate().getTime() - insertable.getToDate().getTime()) / 1000L / 60L / 60L / 24L);
+				while((j<intervals.size()-1) && ((!insertable.getToDate().before(intervals.get(j).getFromDate()) || insertable.getToDate().equals(intervals.get(j).getFromDate())) || ((DateDiff<=1) && DateDiff>0))){
+					j++;
+					DateDiff = ((intervals.get(j).getFromDate().getTime() - insertable.getToDate().getTime()) / 1000L / 60L / 60L / 24L);
+				}
+			}
+			if(insertable.getToDate().before(intervals.get(j-1).getToDate())){
+				return intervals.get(j-1).getToDate();
+			}else{
+				return insertable.getToDate();
+			}
 		}else{
 			return insertable.getToDate();
 		}
