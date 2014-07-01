@@ -9,11 +9,14 @@ function($scope, $http, $rootScope, forRentServices) {
     $scope.getForRents = function(){
         var productId = 5; //törlendő
             forRentServices.getForRentsByProduct(productId).success(function(datas){
-                angular.forEach(datas, function(value, key) {
-                    this.push({startDate: Date.parse(value.fromDate), endDate: Date.parse(value.toDate)});
-                },$scope.dateRanges);
-                
-                angular.element("#calendar").daterangepicker({singleDatePicker:true, dateRanges: $scope.dateRanges});
+            	if(datas){
+	            	$scope.dateRanges = [];
+	                angular.forEach(datas, function(value, key) {
+	                    this.push({startDate: Date.parse(value.fromDate), endDate: Date.parse(value.toDate)});
+	                },$scope.dateRanges);
+	                
+	                angular.element("#calendar").daterangepicker({singleDatePicker:true, dateRanges: $scope.dateRanges});
+            	}
             }).error(function(){
                 alert("Hiba történt a termék lefoglalhatóság lekérése közben, kérlek próbálkozz később!");
             });
@@ -28,7 +31,7 @@ function($scope, $http, $rootScope, forRentServices) {
                     alert("A termék lefoglalhatóságát mentettük.");
                     $scope.getForRents();
                 }else{
-                    $scope.forRent_error_message = status_message;
+                    alert(status_message);
                 }
             }).error(function(){
                 alert("Hiba történt a termék lefoglalhatóság mentése közben, kérlek próbálkozz később!");

@@ -32,8 +32,8 @@ app.directive('daterangepicker', function () {
                 moment.lang("hu");
                 $scope.$apply(function () {
                     $scope.dateRange = start.format('YYYY. MMMM D, dddd') + ' - ' + end.format('YYYY. MMMM D, dddd');
-                    $scope.startDate = start;
-                    $scope.endDate = end;
+                    $scope.startDate = start.format('YYYY-MM-DD');
+                    $scope.endDate = end.format('YYYY-MM-DD');
 				});
             };
             
