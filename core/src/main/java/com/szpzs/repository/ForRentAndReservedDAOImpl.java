@@ -34,12 +34,19 @@ public class ForRentAndReservedDAOImpl implements ForRentAndReservedDAO {
 	@Transactional
 	public List<ForRent> getForRentsByProductId(BigInteger productId){
 		try{
-			Query q = entityManager.createQuery("Select fr From ForRent as fr Where fr.productId=:pId")
+			Query q = entityManager.createQuery("Select fr From ForRent as fr Where fr.productId=:pId Order By fr.fromDate")
 					  .setParameter("pId", productId);
 			List<ForRent> forRents = q.getResultList();
 			return forRents;
 		}catch(NoResultException e){
 			return null;
 		}
+	}
+	
+	@Override
+	@Transactional
+	public void deleteForRent(ForRent forRent) {
+		ForRent removable = entityManager.find(ForRent.class,forRent.getId());
+		entityManager.remove(removable);
 	}
 }

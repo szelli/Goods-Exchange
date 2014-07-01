@@ -2,6 +2,9 @@ package com.szpzs.controller;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.codehaus.jackson.JsonParseException;
@@ -25,8 +28,10 @@ public class ForRentAndReservedController {
 	protected ForRentAndReservedService forRentAndReservedService;
 	
 	@ResponseBody @RequestMapping(value = "/saveForRentRequest", method=RequestMethod.POST, produces = "application/json")	
-	public String saveForRent(@RequestBody String forRentDatas) throws JsonParseException, JsonMappingException, IOException{
+	public String saveForRent(@RequestBody String forRentDatas) throws JsonParseException, JsonMappingException, IOException, ParseException{
 		ObjectMapper mapper = new ObjectMapper();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		mapper.setDateFormat(df);
 		ForRent forRent = mapper.readValue(forRentDatas, ForRent.class);
 		String status = forRentAndReservedService.saveForRent(forRent);
 		return status;
