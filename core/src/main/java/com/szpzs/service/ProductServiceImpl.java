@@ -1,29 +1,31 @@
 package com.szpzs.service;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.szpzs.model.Product;
-import com.szpzs.repository.ProductDao;
+import com.szpzs.model.ProductListDatas;
+import com.szpzs.repository.ProductDAO;
 
 @Service("ProductServiceImpl")
 public class ProductServiceImpl implements ProductService{
 
 	@Autowired
-	private ProductDao productDao;
+	private ProductDAO productDAO;
 	
 	@Override
 	public Product getProduct(long id) {
-		Product product = productDao.getProduct(id);
+		Product product = productDAO.getProduct(id);
 		return product;
 	}
 
 	@Override
 	public String saveProduct(Product product) {
 		product.setStatus(BigInteger.valueOf(1));
-		productDao.saveProduct(product);	
+		productDAO.saveProduct(product);	
 		if (existsProduct(product)){
 			return "ok";
 		} else {
@@ -33,11 +35,16 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public boolean existsProduct(Product product) {
-		if (productDao.existsProduct(product)){
+		if (productDAO.existsProduct(product)){
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Product> getProductList(ProductListDatas datas) {
+		return productDAO.getProductsList(datas);
 	}
 
 }
