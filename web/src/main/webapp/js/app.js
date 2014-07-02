@@ -2,7 +2,6 @@ var goods_exchange = angular.module('goods_exchange', [
     'ngRoute',
     'LocalStorageModule',
     'registrationCtrl',
-    'cityCtrl',
     'productUploadCtrl',
     'loginCtrl',
     'formDirectives',
@@ -28,15 +27,17 @@ goods_exchange.config(['$routeProvider', '$locationProvider', '$httpProvider','l
         }); 
   }]);
 
-goods_exchange.run(function ($rootScope, localStorageService, cityServices) {
+goods_exchange.run(function ($rootScope, localStorageService, cityServices, categoryServices) {
     $rootScope.header = 'pages/header.html';
     $rootScope.regModal = 'pages/regModal.html';
     $rootScope.footer = 'pages/footer.html';
+    
     cityServices.getCities().success(function(cities){
     	$rootScope.cities = cities;
-    	 console.log($rootScope.cities);
-    	 console.log($rootScope.cities[0]);
-    	 console.log($rootScope.cities[0].id);
+    });
+    
+    categoryServices.getCategories().success(function(categories){
+    	$rootScope.categories = categories;
     });
    
     if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {

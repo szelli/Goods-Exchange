@@ -385,6 +385,7 @@ h2.product_name, .lessor_name{
 	>.row{
 		margin-top: 20px;
 		margin-bottom: 20px;
+        z-index: 1;
 	}
 	.uploadform .product_datas input{
 		margin: 10px 0px; 
@@ -405,12 +406,15 @@ h2.product_name, .lessor_name{
         text-align: center;
         height: 34px;
         margin-bottom: 15px;
+        position:relative;
+        z-index: 200;
         >div{
             float:left;
             width: 32%;
         }
-        
-        
+        .select-dropdown{
+            margin-left: 12%;  
+        }      
     }
 	textarea{
 		min-height:200px; 
