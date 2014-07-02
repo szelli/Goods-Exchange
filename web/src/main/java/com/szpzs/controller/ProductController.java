@@ -2,6 +2,7 @@ package com.szpzs.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.szpzs.model.City;
 import com.szpzs.model.Product;
+import com.szpzs.model.ProductListDatas;
+import com.szpzs.model.User;
 import com.szpzs.service.CityService;
 import com.szpzs.service.ProductService;
 
@@ -54,5 +57,20 @@ public class ProductController {
 		//City city = null;
 		return cityService.ListAllCity();
 		
+	}
+	
+	@ResponseBody @RequestMapping(value = "/productList", method=RequestMethod.GET, produces = "application/json")
+	public List<Product> getProductList() throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		ProductListDatas datas = mapper.readValue(new File("g:\\goods/datas.json"), ProductListDatas.class);
+		List<Product> products =productService.getProductList(datas); 
+		if (products == null){
+			System.out.println("null");
+		} else {
+			System.out.println(products.get(0).getName());
+			System.out.println(products.size());
+		}
+		
+		return null;
 	}
 }
