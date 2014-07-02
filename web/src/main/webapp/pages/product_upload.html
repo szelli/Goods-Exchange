@@ -19,9 +19,9 @@
 					<div class="datepicker"><div class="datepicker-days" ><table class="table-condensed"><thead><tr><th class="prev">‹</th><th colspan="5" class="switch">May 2014</th><th class="next">›</th></tr><tr><th class="dow">Su</th><th class="dow">Mo</th><th class="dow">Tu</th><th class="dow">We</th><th class="dow">Th</th><th class="dow">Fr</th><th class="dow">Sa</th></tr></thead><tbody><tr><td class="day old">27</td><td class="day old">28</td><td class="day old">29</td><td class="day old">30</td><td class="day">1</td><td class="day">2</td><td class="day">3</td></tr><tr><td class="day">4</td><td class="day">5</td><td class="day">6</td><td class="day">7</td><td class="day">8</td><td class="day">9</td><td class="day">10</td></tr><tr><td class="day">11</td><td class="day">12</td><td class="day">13</td><td class="day">14</td><td class="day active">15</td><td class="day">16</td><td class="day">17</td></tr><tr><td class="day">18</td><td class="day">19</td><td class="day">20</td><td class="day">21</td><td class="day">22</td><td class="day">23</td><td class="day">24</td></tr><tr><td class="day">25</td><td class="day">26</td><td class="day">27</td><td class="day">28</td><td class="day">29</td><td class="day">30</td><td class="day">31</td></tr><tr><td class="day new">1</td><td class="day new">2</td><td class="day new">3</td><td class="day new">4</td><td class="day new">5</td><td class="day new">6</td><td class="day new">7</td></tr></tbody></table></div></div>
 				</div>
 				<div class="primary-datas">
-					<div class="form-group" ng-class="{'has-error' : uploadform.name.$invalid && !uploadform.name.$pristine}">
+					<div class="form-group" ng-class="{'has-error' : uploadform.name.$invalid && (!uploadform.name.$pristine || error_offpristine)}">
 						<input name="name" ng-model="newProduct.name" maxlength="21" required ng-minlength="5" ng-maxlength="20" class="form-control" placeholder="Terméknév">
-						<span ng-show="uploadform.name.$error.required && !uploadform.name.$pristine">
+						<span ng-show="uploadform.name.$error.required && (!uploadform.name.$pristine || error_offpristine)">
 			            	A mező kitöltése kötelező!<br>
 			            </span>
 			            <span ng-show="uploadform.name.$error.minlength && !uploadform.name.$pristine">
@@ -31,24 +31,23 @@
 			            	Legfeljebb 20 karakter hosszú lehet a név!<br>
 			            </span>
 			        </div>
-			        <div class="productUpDropdown" >
-						<div id="category" class="select-dropdown" tabindex="1" ng-class="{active : category_active}">
-		                    <span tabindex="1" ng-click="toggleCategoryActive()" ng-class="{'select-error' : error_category}">{{newProduct.category}}</span>
+			        <div class="productUpDropdown">
+						<div id="category" name="category" class="select-dropdown" tabindex="1" ng-class="{active : category_active}">
+		                    <span tabindex="1" ng-click="toggleCategoryActive()" ng-class="{'select-error' : error_category}">{{newProduct.categoryName}}</span>
 		                    <ul class="uldropdown" ng-click="toggleCategoryActive()">
-		                        <li data-ng-repeat="city in $root.cities" ng-click="setCategory('Első')">{{city.city}}</li>
-		                        
+		                         <li data-ng-repeat="category in $root.categories"> <a ng-click="setSelectedCategory(category)">{{category.name}}</a>     
 		                    </ul>
 		                </div>
-		                <div id="city" class="select-dropdown" tabindex="2" ng-class="{active : city_active}">
-		                    <span tabindex="1" ng-click="toggleCityActive()" ng-class="{'select-error' : error_city}">{{newProduct.city}}</span>
+		                <div id="city" name="city" class="select-dropdown" tabindex="2" ng-class="{active : city_active}">
+		                    <span tabindex="1" ng-click="toggleCityActive()" ng-class="{'select-error' : error_city}">{{newProduct.cityName}}</span>
 		                    <ul class="uldropdown" ng-click="toggleCityActive()">
-		                        <li data-ng-repeat="city in $root.cities"> <a data-ng-click="setSelectedClient()">{{city.city}}<span data-ng-class="newProduct.city.name"></span></a>
+		                        <li data-ng-repeat="city in $root.cities"> <a data-ng-click="setSelectedCity(city)">{{city.city}}</a>
 		                    </ul>
 		                </div>
 					</div>
-					<div class="form-group" ng-class="{'has-error' : uploadform.area.$invalid && !uploadform.area.$pristine}">
+					<div class="form-group" ng-class="{'has-error' : uploadform.area.$invalid && (!uploadform.area.$pristine || error_offpristine)}">
 						<input name="area" ng-model="newProduct.area" class="form-control" placeholder="Körzet km-ben" required ng-pattern="/^[0-9]*$/" ng-minlength="1" maxlength="4" ng-maxlength="3">
-						<span ng-show="uploadform.area.$error.required && !uploadform.area.$pristine">
+						<span ng-show="uploadform.area.$error.required && (!uploadform.area.$pristine || error_offpristine)">
 			            	A mező kitöltése kötelező!<br>
 			            </span>
 			            <span ng-show="uploadform.area.$error.minlength && !uploadform.area.$pristine">
@@ -61,9 +60,9 @@
 			            	Csak számokat tartalmazhat!<br>
 			            </span>
 			        </div>
-			        <div class="form-group" ng-class="{'has-error' : uploadform.description.$invalid && !uploadform.description.$pristine}">
+			        <div class="form-group" ng-class="{'has-error' : uploadform.description.$invalid && (!uploadform.description.$pristine || error_offpristine)}">
 						<textarea class="form-control" name="description" ng-model="newProduct.description" class="product_descr" placeholder="Termékleírás" required maxlength="256" ng-maxlength="255"></textarea>
-						<span ng-show="uploadform.description.$error.required && !uploadform.description.$pristine">
+						<span ng-show="uploadform.description.$error.required && (!uploadform.description.$pristine || error_offpristine)">
 			            	A mező kitöltése kötelező!<br>
 			            </span>
 			             <span ng-show="uploadform.description.$error.maxlength && !uploadform.description.$pristine">
@@ -72,7 +71,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
+		<!-- <span id="productUpErr" class="error" ng-show="productUpErr" >{{productUpErr_message}}</span> -->
 		<div class="row">
 			<div class="input-group">
 				<span class="input-group-btn">
@@ -99,7 +99,6 @@
 						</div>
 					</div>
 				</div>
-		
 				<a class="left carousel-control" href="#images_slide" data-slide="prev">
 					<span class="glyphicon glyphicon-chevron-left"></span>
 				</a>
@@ -108,11 +107,12 @@
 				</a>
 			</div>
 		</div>	
-	</form>
-	<div class="row">
-		<button class="btn btn-primary" ng-click="productUpload(uploadform)">Feltöltés/Szerkesztés</button>
+		<div class="row">
+			<button class="btn btn-primary" ng-click="productUpload(uploadform)">Feltöltés/Szerkesztés</button>
+		</div>
 	</div>
 </div>
+
 <!-- <div ng-controller="cityCtrl"></div> -->
 
 <!--

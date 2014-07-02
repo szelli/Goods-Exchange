@@ -8,9 +8,9 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 			url : 'api/productUpload',
 			data : {
 				"name" : product.name,
-                "categoryId" : 1,
-				"descriptions" : product.descriptions,
-				"cityId" : 1,
+                "categoryId" : product.categoryId,
+				"descriptions" : product.description,
+				"cityId" : product.cityId,
 				"area" : product.area,
                 "ownerId" : product.ownerId
             },

@@ -1,30 +1,22 @@
 var productUploadCtrl = angular.module('productUploadCtrl', []);
 
-productUploadCtrl.controller('productUploadCtrl', ['$scope', '$rootScope', '$http', 'productServices', 'cityServices', 'cityServices',
-function($scope, $rootScope, $http, productServices, cityServices, cityServices) {
+productUploadCtrl.controller('productUploadCtrl', ['$scope', '$rootScope', '$http', 'productServices',
+function($scope, $rootScope, $http, productServices) {
 	
 	$scope.newProduct = {};
-	$scope.newProduct.ownerId = 258;//$rootScope.loggedUser.id;
-	$scope.productUpErr = false;
-	$scope.productUpErr_message = "";
-	$scope.newProduct.category = "Kategória";
-    $scope.newProduct.city = "Város";
+	$scope.newProduct.ownerId = /*256;*/ $rootScope.loggedUser.id;
+	$scope.newProduct.categoryName = "Kategória";
+    $scope.newProduct.cityName = "Város";
+    $scope.newProduct.description = "";
+    $scope.newProduct.area = null;
     $scope.category_active = false;
     $scope.city_active = false;
     $scope.error_category = false;
     $scope.error_city = false;
     $scope.error_offpristine = false;
-    
-    //console.log($scope.cities['id']);
-	
-	$scope.setCategory = function(category){
-        $scope.newProduct.category = category;
-    };
-    
-    $scope.setCity = function(city){
-        $scope.newProduct.city = city;
-    };
-    
+    $scope.productUpErr = false;
+	$scope.productUpErr_message = "";
+
     $scope.toggleCityActive = function(){
         $scope.city_active = !$scope.city_active;
     };
@@ -33,37 +25,46 @@ function($scope, $rootScope, $http, productServices, cityServices, cityServices)
         $scope.category_active = !$scope.category_active;
     };
     
-    cityServices.getCities().success(function(cities){
-		console.log(cities);
-    });
+    $scope.setSelectedCity = function (SelectedCity) {
+    	$scope.newProduct.cityName = SelectedCity.city;
+    	$scope.newProduct.cityId = SelectedCity.id;
+    	$scope.error_city = false;
+    };
     
-    $scope.dropdown = function(form){
+	$scope.setSelectedCategory = function (SelectedCategory) {
+		$scope.newProduct.categoryName = SelectedCategory.name;
+		$scope.newProduct.categoryId = SelectedCategory.id;
+		$scope.error_category = false;
+ 	};
+	
+ 	$scope.productUpload = function(form){
         $scope.productUpErr = false;
-        if($scope.newProduct.category=="Kategória"){
+        if($scope.newProduct.categoryName=="Kategória"){
             $scope.error_category = true;
         }else{
             $scope.error_category = false;
         }
         
-        if($scope.newProduct.city.name=="Város"){
+        if($scope.newProduct.cityName=="Város"){
             $scope.error_city = true;
         }else{
             $scope.error_city = false;
         }
-    };
-	
-	$scope.productUpload = function(form){
-		console.log("kjasdhihsdkihjdlk");
-		 productServices.saveProduct($scope.newProduct).success(function(status_message){
-             if(status_message == "ok"){
-                 alert("A terméket mentettük.");
-             }else{
-                 $scope.productUpErr = true;
-                 $scope.productUpErr_message = status_message;
-             }
-         }).error(function(){
-             $scope.productUpErr = true;
-             $scope.productUpErr_message = "Hiba történt a feltötésben!";
-         });
-	 };
+        if(form.$valid){	
+				$scope.error_offpristine = false;
+				 productServices.saveProduct($scope.newProduct).success(function(status_message){
+				     if(status_message == "ok"){
+				    	 alert("A terméket mentettük.");
+				     }else{
+				         $scope.productUpErr = true;
+				         $scope.productUpErr_message = status_message;
+				     }
+				 }).error(function(){
+				     $scope.productUpErr = true;
+				     $scope.productUpErr_message = "Hiba történt a feltötésben!";
+				 });
+		}else {
+		    $scope.error_offpristine = true;
+		}
+	};
 }]);
