@@ -80,14 +80,18 @@ public class ProductDAOImpl implements ProductDAO{
 		CriteriaQuery<Product> q = cb.createQuery(Product.class);
 		Root<Product> c = q.from(Product.class);
 		ParameterExpression<BigInteger> p = cb.parameter(BigInteger.class);
-		//List<Predicate> predicates = new ArrayList<Predicate>();
-		//predicates.add(cb.equal(c.get("ownerId"),p));
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		if (datas.getId() != null && datas.getId() != BigInteger.valueOf(0)){
+			predicates.add(cb.equal(c.get("ownerId"),p));
+		}
+		
 		try{
-			q.select(c).where(cb.equal(c.get("ownerId"),p));
-			//q.select(c).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
-			//q.select(c).where(cb.or(c.get("name").isNotNull(), cb.equal(c.get("ownerId"),p)));
+			q.select(c).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
 			TypedQuery<Product> query = entityManager.createQuery(q);
-			query.setParameter(p, datas.getId());
+			if (datas.getId() != null && datas.getId() != BigInteger.valueOf(0)){
+				query.setParameter(p, datas.getId());
+			}
 			query.setFirstResult(offset);
 			query.setMaxResults(datas.getLimit());
 			return query.getResultList();
