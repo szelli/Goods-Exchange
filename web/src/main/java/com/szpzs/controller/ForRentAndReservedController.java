@@ -44,4 +44,12 @@ public class ForRentAndReservedController {
 		List<ForRent> forRents= forRentAndReservedService.getForRentsByProduct(BigInteger.valueOf(product.getId()));
 		return forRents;
 	}
+	
+	@ResponseBody @RequestMapping(value = "/deleteForRent", method=RequestMethod.POST, produces = "application/json")
+	public String deleteForRent(@RequestBody String forRentDatas) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		ForRent forRent = mapper.readValue(forRentDatas, ForRent.class);
+		String status= forRentAndReservedService.deleteForRent((long)forRent.getId());
+		return status;
+	}
 }

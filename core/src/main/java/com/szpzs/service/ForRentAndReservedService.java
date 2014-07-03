@@ -13,4 +13,6 @@ public interface ForRentAndReservedService {
 	
 	public List<ForRent> getForRentsByProduct(BigInteger productId);
 	
+	public String deleteForRent(Long forRentId);
+	
 }

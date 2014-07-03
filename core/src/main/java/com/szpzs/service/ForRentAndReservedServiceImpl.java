@@ -3,11 +3,9 @@ package com.szpzs.service;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,12 @@ public class ForRentAndReservedServiceImpl implements ForRentAndReservedService 
 	
 	@Autowired
 	private ForRentAndReservedDAO forRentAndReservedDAO;
+	
+	@Override
+	public String deleteForRent(Long forRentId){
+		forRentAndReservedDAO.deleteForRent(forRentId);
+		return "ok";
+	}
 	
 	@Override
 	public String saveForRent(ForRent forRent) throws ParseException{
@@ -84,7 +88,7 @@ public class ForRentAndReservedServiceImpl implements ForRentAndReservedService 
 					status = false;
 					for(int i = 0; i<forRents.size(); i++){
 						if(this.isInterval(forRents.get(i),newForRent)){
-							forRentAndReservedDAO.deleteForRent(forRents.get(i));
+							forRentAndReservedDAO.deleteForRent(forRents.get(i).getId());
 						}
 					}
 					forRentAndReservedDAO.saveForRent(newForRent);
