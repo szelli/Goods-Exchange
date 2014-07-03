@@ -932,6 +932,8 @@
                 }
                 for (var col = 0; col < 7; col++) {
                     var cname = 'available ';
+                    var dataattrib = "";
+                    var daterangeid = 0;
                     cname += (calendar[row][col].month() == calendar[1][1].month()) ? '' : 'off';
                     if(this.container.hasClass('dropdown_false')){
                         var isinrange_array = [];
@@ -960,6 +962,7 @@
                         for(var r=0; r<isinrangeend_array.length; r++){
                             if(isinrangeend_array[r]){
                                 isinrangeend = true;
+                                daterangeid = this.dateRanges[r].id;
                                 break;
                             }
                         }
@@ -981,7 +984,7 @@
                                 cname += ' in-range ';
                             }
                             if (isinrangestart) { cname += ' showactive start-date '; }
-                            if (isinrangeend) { cname += ' showactive end-date '; }
+                            if (isinrangeend) { cname += ' showactive end-date '; dataattrib = ' data-delete-daterange="'+daterangeid+'"';}
                         }else{
                             if (calendar[row][col] >= this.startDate && calendar[row][col] <= this.endDate) {
                                 cname += ' in-range ';
@@ -992,7 +995,7 @@
                     }
 
                     var title = 'r' + row + 'c' + col;
-                    html += '<td class="' + cname.replace(/\s+/g, ' ').replace(/^\s?(.*?)\s?$/, '$1') + '" data-title="' + title + '">' + calendar[row][col].date() + '</td>';
+                    html += '<td class="' + cname.replace(/\s+/g, ' ').replace(/^\s?(.*?)\s?$/, '$1') + '"' + dataattrib +' data-title="' + title + '">' + calendar[row][col].date() + '</td>';
                 }
                 html += '</tr>';
             }

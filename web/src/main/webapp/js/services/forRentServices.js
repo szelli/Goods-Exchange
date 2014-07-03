@@ -26,5 +26,16 @@ services.factory('forRentServices', function($http) {
 			contentType : "application/json"
 		});
 	};
+    
+    forRent.deleteForRent = function(forRentId) {
+		return $http({
+			url : 'api/deleteForRent',
+			data : {
+				"id" : forRentId
+            },
+			method : "POST",
+			contentType : "application/json"
+		});
+	};
 	return forRent;
 });

@@ -38,6 +38,17 @@ button:active, button:focus, .btn:active, .btn:focus, .btn.active, .btn-default,
     border-color: @highlight_color;
 }
 
+.remove-icon{
+    position: relative;
+    top: 1px;
+    display: block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    content: "\e014";
+}
+
 .form-control:focus{
     border-color: @highlight_color;
 }
@@ -963,6 +974,15 @@ span.error{
     margin-left: 12px;
     &:first{
         display: block;
+    }
+    td.showactive.end-date:hover{
+        padding:2px;
+        &:before{
+            .remove-icon;
+            float:right;
+            top:-3px;
+            color: #000;
+        }
     }
     .ranges{
         width: 220px;
