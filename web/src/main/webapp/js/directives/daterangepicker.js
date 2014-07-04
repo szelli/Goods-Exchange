@@ -41,3 +41,38 @@ app.directive('daterangepicker', function () {
 		}
 	};
 });
+
+app.directive('showdateranges', function (forRentServices) {
+	return {
+        restrict: 'A',
+        require: '?ngModel',
+		link: function ($scope, $element, $attributes) {
+            var productId = 5; //törlendő
+            $scope.getForRents = function(initialise){
+                forRentServices.getForRentsByProduct(productId).success(function(datas){
+                    if(datas){
+                        $scope.dateRanges = [];
+                        angular.forEach(datas, function(value, key) {
+                            this.push({startDate: Date.parse(value.fromDate), endDate: Date.parse(value.toDate), id : value.id});
+                        },$scope.dateRanges);
+
+                        angular.element("#calendar").daterangepicker({singleDatePicker:true, dateRanges: $scope.dateRanges});
+                        if(initialise){
+                            $(".dropdown-false").ready(function(){
+                                $(this).delegate(".single [data-delete-daterange]","click",function(){
+                                    if(confirm("Biztosan törölni akarod a lefoglathatóságot!")){
+                                        $scope.deleteDateRange($(this).attr("data-delete-daterange"));
+                                    }
+                                });
+                            });
+                        }
+                    }
+                }).error(function(){
+                    alert("Hiba történt a termék lefoglalhatóság lekérése közben, kérlek próbálkozz később!");
+                });
+            };
+            $scope.getForRents(true);
+        }
+    }
+});
+           
