@@ -45,8 +45,13 @@ public class ForRentAndReservedDAOImpl implements ForRentAndReservedDAO {
 	
 	@Override
 	@Transactional
-	public void deleteForRent(Long forRentId) {
+	public Boolean deleteForRent(Long forRentId){
 		ForRent removable = entityManager.find(ForRent.class, forRentId);
-		entityManager.remove(removable);
+		if(removable!=null){
+			entityManager.remove(removable);
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

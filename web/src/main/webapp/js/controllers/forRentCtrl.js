@@ -26,6 +26,7 @@ function($scope, $http, $rootScope, forRentServices) {
                 alert("A termék lefoglalhatóságát töröltük.");
                 $scope.getForRents();
             }else{
+            	$scope.getForRents();
                 alert(status_message);
             }  
         }).error(function(){

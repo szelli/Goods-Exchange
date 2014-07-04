@@ -21,8 +21,12 @@ public class ForRentAndReservedServiceImpl implements ForRentAndReservedService 
 	
 	@Override
 	public String deleteForRent(Long forRentId){
-		forRentAndReservedDAO.deleteForRent(forRentId);
-		return "ok";
+		Boolean success = forRentAndReservedDAO.deleteForRent(forRentId);
+		if(success){
+			return "ok";
+		}else{
+			return "Nem letezik a torlendo elem.";
+		}
 	}
 	
 	@Override
