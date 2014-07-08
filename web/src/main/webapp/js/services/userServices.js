@@ -45,7 +45,6 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 	};
 	
 	user.editProfile = function(user) {
-		console.log(user.id, user.postcode, user.city, user.address, user.email);
 		return $http({
 			url : 'api/editProfileRequest',
 			data : {
@@ -59,6 +58,32 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 			contentType: "application/json"
 		});
 	};
+	
+	user.changePassword = function(id, password) {
+		console.log("ezt kapja a changePassword service:",password, id);
+		return $http({
+			url : 'api/changePasswordRequest',
+			data : {
+				"id" : id,
+				"password" : password
+			},
+			method: "POST",
+			contentType: "application/json"
+		});
+	};
+	
+	user.validatePassword = function(id, password) {
+		console.log("ezt kapja a validatePassword service:",password);
+		return $http({
+			url : 'api/validatePasswordRequest',
+			data : {
+				"id" : id,
+				"password" : password
+			},
+			method : "POST",
+			contentType: "application/json"
+		});
+	}
 	
 	return user;
 });

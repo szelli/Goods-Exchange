@@ -1,4 +1,4 @@
-<div class="row" ng-controller="privateProfileCtrl">
+<div class="row" ng-controller="privateProfileCtrl">	
 	<div class="panel-group col-md-2" id="accordion">
 	   <h3>Menü</h3>
 		<ul class="nav nav-pills nav-stacked">
@@ -8,99 +8,146 @@
 			<li><a href="/messages">Üzenetek</a></li>
 			<li><a href="/rates">Értékelések</a></li>
 		</ul>
-   </div>
-   <div class="private-profil">
-	   <form name="editform" method="POST">
-		<div class="left-box">
-			<div class="rows">
-			   <label class="label label-info">Felhasználónév</label>
-				<label class="center">{{myData.userName}}</label>
+   	</div>
+	<div class="left-box col-md-8">
+		<form name="editForm" role="form-horizontal" novalidate>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<span>Felhasználónév:</span>
 			</div>
-			<div class="rows">
-			   <label class="label label-info">Teljes név</label>
-			   <label class="center">{{myData.fullName}}</label>
+			<div class="right-side col-md-7">
+				<span>{{myData.userName}}</span>
 			</div>
-			<div class="rows">
-			   <label class="label label-info">Megye</label>
-			   <label class="center">Megye</label>
-			</div>
-			<div class="rows">
-			   <label class="label label-info">Irányítószám</label>
-			   <label class="center"  ng-show="!switch">{{myData.postcode}}</label>
-				<label class="center"  ng-show="switch"><input type="text" name="newPostcode" ng-model="editUser.postcode" value="{{myData.postcode}}" class="input-text"></label>
-			</div>
-			<div class="rows">
-			   <label class="label label-info">Város</label>
-			   <label class="center"  ng-show="!switch">{{myData.city}}</label>
-				<label class="center"  ng-show="switch"><input type="text" name="newCity" ng-model="editUser.city" value="{{myData.city}}"></label>
-			</div>
-			<div class="rows">
-				<label class="label label-info">Cím</label>
-				<label class="center"  ng-show="!switch">{{myData.address}}</label>
-				<label class="center"  ng-show="switch"><input type="text" name="newAddress" ng-model="editUser.address" value="{{myData.address}}"></label>
-			</div>
-			<div class="rows">
-				<label class="label label-info">E-mail cím</label>
-				<label class="center" ng-show="!switch">{{myData.email}}</label>
-				<label class="center" ng-show="switch"><input type="text" name="newEmail" ng-model="editUser.email" value="{{myData.email}}"></label>
-			</div>
-			
-<!--			
-			<div class="rows">
-			   <label class="label label-info">Utca</label>
-			   <label class="center">Utca</label>
-			</div>
-			<div class="rows">
-			   <label class="label label-info">Házszám</label>
-			   <label class="center">Házszám</label>
-			</div>
-			<div class="rows">
-			   <label class="label label-info">Emelet/ajtó</label>
-			   <label class="center">Emelet/ajtó</label>
-			</div>
--->
-			<div class="rows" ng-show="!switch">
-			   <label class="label label-info">Jelszó</label>
-			   <label class="center">{{myData.password}}</label>
-			</div>
-			<div class="rows" ng-show="switch">
-			   <label class="label label-info">Régi jelszó</label>
-			   <label class="center"><input type="text" name="oldPassword" ng-model="editUser.oldPassword" value="{{myData.password}}"></label>
-			</div>
-			<div class="rows" ng-show="switch">
-			   <label class="label label-info">Új jelszó</label>
-			   <label class="center"><input type="text" name="newPassword" ng-model="editUser.newPassword"></label>
-			</div>
-			<div class="rows" ng-show="switch">
-			   <label class="label label-info">Új jelszó megerősítése</label>
-			   <label class="center"><input type="text" name="newPassword2" ng-model="editUser.newPassword2"></label>
-			</div>
-			<div class="rows">
-			   <label class="center"><button type="button" class="btn btn-info" ng-click="switch = !switch" ng-show="!switch" hide="switch">Szerkesztés</button></label>
-			</div>
-			<div class="rows">
-				<label class="center"><button type="button" class="btn btn-info" ng-click="editProfile(); switch = !switch;" ng-show="switch" ng-hide="!switch">Elfogad</button></label>
-			</div>
-			
-<!--
-
-			<div class="rows">
-			   <label class="label label-info">Jelszó megerősítése</label>
-			   <label class="center">Jelszó megerősítése</label>
-			</div>
-
-			<div class="center"><button type="button" class="btn btn-info">Elfogad</button></div>
--->
 		</div>
-		</form>
-		<div class="right-box">
-			<button type="button" class="btn btn-info">Nyilvános profil</button>
-			<div class="lessor_rate">
-			   <p class="all_rating">Összes: 150</p>
-			   <p class="positive">100</p>
-			   <p class="negative">50</p>
-			   <p class="rate">66%</p>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<span>Teljes név:</span>
 			</div>
+			<div class="right-side col-md-7">
+				<span>{{myData.fullName}}</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<span>Megye:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<span>Megye</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="left-side col-md-5">
+					<span>Irányítószám:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<span  ng-show="!buttonSwitch">{{myData.postcode}}</span>
+				<div class="form-group" ng-show="buttonSwitch" ng-class="{'has-error' : (editForm.newPostcode.$error.required || editForm.newPostcode.$error.pattern) && !editForm.newPostcode.$pristine }">
+					<input type="text" name="newPostcode" ng-model="editUser.postcode" required maxlength="4" ng-pattern="/^[0-9]{4,4}$/" >
+					<span class="error" ng-show="editForm.newPostcode.$error.required && !editForm.newPostcode.$pristine">Kérlek add meg az irányítószámod!<br></span>
+					<span class="error" ng-show="editForm.newPostcode.$error.pattern">Az irányítószám négyjegyű és csak számokat tartalmazhat!</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<span>Város:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<span ng-show="!buttonSwitch">{{myData.city}}</span>
+				<div class="select-dropdown-edit" ng-show="buttonSwitch" tabindex="1" ng-class="{active : city_active}">
+						<span tabindex="1" ng-click="toggleCityActive()">{{editUser.city}}</span>
+						<ul class="uldropdown" ng-click="toggleCityActive()">
+							<li ng-click="setCity('Pécs')">Pécs</li>
+							<li ng-click="setCity('Sopron')">Sopron</li>
+							<li ng-click="setCity('Budapest')">Budapest</li>
+						</ul>
+				 </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="left-side col-md-5">		
+				<span>Lakcím:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<span  ng-show="!buttonSwitch">{{myData.address}}</span>
+				<div class="form-group" ng-show="buttonSwitch" ng-class="{'has-error' : (editForm.newAddress.$error.required || editForm.newAddress.$error.pattern) && !editForm.newAddress.$pristine }">
+					<input type="text" name="newAddress" required ng-model="editUser.address" ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9./]*$/" maxlength="100">
+					<span class="error" ng-show="editForm.newAddress.$error.required && !editForm.newAddress.$pristine">Kérlek add meg a lakcímed!<br></span>
+					<span class="error" ng-show="editForm.newAddress.$error.pattern">Nem megengedett karakter a lakcímben!</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<span>E-mail cím:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<span ng-show="!buttonSwitch">{{myData.email}}</span>
+				<div class="form-group" ng-show="buttonSwitch" ng-class="{'has-error' : (editForm.newEmail.$error.required || editForm.newEmail.$invalid) && !editForm.newEmail.$pristine }">
+					<input type="email" name="newEmail" required ng-model="editUser.email" maxlength="100">
+					<span class="error" ng-show="editForm.newEmail.$error.required && !editForm.newEmail.$pristine">Hiányzó email-cím!</span>
+					<span class="error" ng-show="editForm.newEmail.$invalid && !editForm.newEmail.$error.required">Nem megfelelő e-mail cím!</span>
+				</div>
+			</div>
+		</div>
+		<div class="row" ng-show="buttonSwitch">
+			<div class="left-side col-md-5">
+				<button type="button" class="btn btn-primary" ng-click="setNewPasswordFunction()"  ng-show="buttonSwitch" >Jelszó megváltoztatása</button>
+			</div>
+		</div>
+		<div class="row" ng-if="setNewPassword && buttonSwitch">
+			<div class="left-side col-md-5" >
+				<span>Régi jelszó:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<input type="password" name="oldPassword" ng-model="editUser.oldPassword" ng-minlength="8" ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]))/" required>
+			</div>
+		</div>
+		<div class="row" ng-if="setNewPassword && buttonSwitch">
+			<div class="left-side col-md-5" >
+				<span>Új jelszó:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<div class="form-group" ng-class="{'has-error' : (editForm.newPassword.$error.pattern || editForm.newPassword.$error.minlength) && !editForm.newPassword.$pristine }">
+					<input type="password" name="newPassword" ng-model="editUser.newPassword" ng-minlength="8" ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]))/">
+					<span class="error" ng-show="editForm.newPassword.$error.pattern && !editForm.newPassword.$pristine">
+					   A jelszónak kis-, nagybetűt és számot is tartalmaznia kell!<br>
+					</span>
+					<span class="error" ng-show="editForm.newPassword.$error.minlength && !editForm.newPassword.$pristine && !editForm.newPassword.$error.pattern">
+					   Túl rövid jelszó! (min 8 karakter)
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row" ng-if="setNewPassword && buttonSwitch">
+			<div class="left-side col-md-5" >
+				<span>Új jelszó mégegyszer:</span>
+			</div>
+			<div class="right-side col-md-7">
+				<div class="form-group" ng-class="{'has-error' : editForm.newPassword2.$invalid && !editForm.newPassword2.$pristine }">
+					<input type="password" name="newPassword2" ng-model="editUser.newPassword2" equalpasswds2 maxlength="150">
+					<span class="error" ng-show="editForm.newPassword2.$error.equalpasswds2 && !editForm.newPassword2.$pristine">
+						A két jelszónak meg kell egyezni!
+				   </span>	
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="right-side col-md-7">
+					<button type="submit" class="btn btn-primary btn-box" ng-show="buttonSwitch" ng-click="submitForm(editForm.$valid); buttonSwitchFunction()" ng-show="buttonSwitch" ng-disabled="editForm.$invalid">Elfogad</button>
+					<button type="button" class="btn btn-primary btn-box" ng-show="!buttonSwitch" ng-click="buttonSwitchFunction()" ng-show="!buttonSwitch" >Szerkesztés</button>
+					<button type="button" class="btn btn-default btn-box" ng-show="buttonSwitch" ng-click="buttonSwitchFunction(); "  ng-show="buttonSwitch" >Mégse</button>
+			</div>
+		</div>
+	</form>
+	</div>
+	<div class="right-box col-md-2">
+		<button type="button" class="btn btn-primary">Nyilvános profil</button>
+		<div class="lessor_rate">
+		   <p class="all_rating">Összes: 150</p>
+		   <p class="positive">100</p>
+		   <p class="negative">50</p>
+		   <p class="rate">66%</p>
 		</div>
 	</div>
 </div>

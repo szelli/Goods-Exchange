@@ -1,56 +1,89 @@
 var privateProfileCtrl = angular.module('privateProfileCtrl', []);
 
-
 privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$http', '$location', 'userServices',
 	function($scope, $rootScope, $http, $location, userServices) {
 		$scope.myData = {};
-		
-		$scope.switch = false;
-		
 		$scope.editUser = {};
 		$scope.editUser.id = $rootScope.loggedUser.id;
+		
+		$scope.buttonSwitch = false;
+		$scope.setNewPassword = false;
+		
+		$scope.error_city = false;
+		$scope.city_active = false;
+		$scope.edit_error = false;
+		
+		$scope.toggleCityActive = function(){
+        	$scope.city_active = !$scope.city_active;
+    	};
+		
+		$scope.buttonSwitchFunction = function(){
+				$scope.buttonSwitch = !$scope.buttonSwitch;
+		};
+		
+		$scope.setNewPasswordFunction = function(){
+			$scope.setNewPassword = !$scope.setNewPassword;
+		};
+		
+		$scope.setCity = function(city){
+			$scope.editUser.city = city;
+		};
 		
 		userServices.getUserById($rootScope.loggedUser.id).success(function(result){
 			if(result){
 				$scope.myData = result;
+				angular.copy($scope.myData, $scope.editUser);
 			} else {
 				alert("Hiba történt, kérlek próbálkozz később!");
-				}
-			});
+			}
+		});
 		
-		$scope.editProfile = function(){
+		$scope.submitForm = function(isValid) {
+			if(isValid){
+				if($scope.setNewPassword){
+						userServices.validatePassword($rootScope.loggedUser.id, $scope.editUser.oldPassword).success(function(status_message) {
+							if(status_message == "ok"){
+								$scope.edit_error = false;
+								$scope.editProfileFunction();
+								$scope.changePasswordFunction();
+							} else {
+								$scope.validPassword = false;
+								$scope.edit_error = true;
+								alert("Rossz jelszót adtál meg!");
+								console.log("edit_error when password invalid:", $scope.edit_error);
+							}
+						});
+				} else {
+					$scope.editProfileFunction();
+				}
+			}
+		};
+		
+		$scope.editProfileFunction = function(){
 			userServices.editProfile($scope.editUser).success(function(status_message) {
 				if(status_message == "ok"){
-					$scope.myData.postcode = $scope.editUser.postcode;
-					$scope.myData.city = $scope.editUser.city;
-					$scope.myData.address = $scope.editUser.address;
-					$scope.myData.email = $scope.editUser.email;
+					angular.copy($scope.editUser, $scope.myData);
+					$scope.edit_error = false;
 					alert("Sikeres módosítás!");
 				} else {
 					alert("Hiba történt módosítás közben, kérlek próbálkozz később!");
+					$scope.edit_error = true;
+					$scope.edit_error_message = "Hiba történt módosítás közben, kérlek próbálkozz később!";
 				}
 			});
 		};
+		
+		$scope.changePasswordFunction = function(){
+			userServices.changePassword($rootScope.loggedUser.id, $scope.editUser.newPassword).success(function(status_message) {
+				if(status_message == "ok"){
+					$scope.edit_error = false;
+					alert("Sikeres jelszó módosítás!");
+				} else {
+					alert("Hiba történt módosítás közben, kérlek próbálkozz később!");
+					$scope.edit_error = true;
+					$scope.edit_error_message = "Hiba történt módosítás közben, kérlek próbálkozz később!";
+				}
+			});
+		};
+				
 }]);
-
-/*var editProfileCtrl = angular.module('editProfileCtrl', []);
-
-editProfileCtrl.controller('editProfileCtrl', ['$scope', '$rootScope', '$http', '$location', 'userServices',
-	function($scope, $rootScope, $http, $location, userServices) {
-*/		
-		
-		
-		
-		/*userServices.editProfile($scope.newUser).success(function(status_message){
-			if(status_message == "ok"){
-				alert("A változtatásokat mentettük.");
-				//$("#registrationModal").modal("hide");
-			}else{
-				alert("Valami gallyra ment.");
-				//$scope.reg_error = true;
-				//$scope.reg_error_message = status_message;
-			}
-		}).error(function(){
-			//$scope.reg_error = true;
-			//$scope.reg_error_message = "Hiba történt a regisztrációban, kérlek próbálkozz később!";
-		});*/

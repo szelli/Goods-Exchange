@@ -25,17 +25,38 @@ body{
 }
 
 button:active, .btn:active, .btn.active{
-    outline: none;
+    outline: none !important;
+	background-color: @highlight_color !important;
+	border-color: @highlight_color !important;
+	color: #fff !important;
 }
 
 .btn-primary{
-    background-color : @base_color;
-    border-color: #ddd;
+	outline: none !important;
+    background-color : @base_color !important;
+    border-color: @base_color !important;
+	color: #fff !important;
 }
 
 .btn-primary:hover, .btn-primary:active{
-    background-color: @highlight_color;
-    border-color: @highlight_color;
+	outline: none !important;
+    background-color: @highlight_color !important;
+    border-color: @highlight_color !important;
+	color: #fff !important;
+}
+
+.btn-default{
+	outline: none !important;
+	background-color : #fff !important;
+    border-color: #ddd !important;
+	color: #111 !important;
+}
+
+.btn-default:hover, .btn-default:active{
+	outline: none !important;
+	background-color : #ddd !important;
+    border-color: #ccc !important;
+	color: #111 !important;
 }
 
 .form-control:focus{
@@ -674,8 +695,6 @@ h2.product_name, .lessor_name{
    width: 50%;
 }
 .data .btn-info{
-   background-color: @base_color;
-   border-color: @base_color;;
    margin-top: 20px;
    width: 85%;
    padding: 5px;
@@ -723,80 +742,278 @@ h2.product_name, .lessor_name{
 /* Private profile */
 
 
-.private-profil .left-box{
-   margin-left: 100px;
-   width: 50%;
-   float: left;
-}
-.private-profil .left-box .rows{
-   color: @base_color;
-   float: left;
-   width: 100%;
-}
-.private-profil .left-box .center{
-   float: right;
-   width: 50%;
-   text-align: left;
-   
-}
-.private-profil .left-box .center .btn-info{
-   background-color: @base_color;
-   border-color: @base_color;
-   margin-top: 15px;
-   width: 50%; 
-}
-.private-profil .right-box{
-	width: 20%;
-	float: right;
-	margin-right: 10px;
-	button{
-		margin-left: 20px;
-		margin-bottom: 20px;
-	}
-}
-.private-profil .right-box button {
-margin-left: 20px;
-margin-bottom: 20px;
-}
-.btn-info {
-background-color: @base_color;
-border-color: @base_color;
-color: #fff;
-margin-bottom: 10px;
-	&:hover{
-		text-decoration: none;
-		background-color: @base_color;
-		border-color: @base_color;
-		color: @highlight_color; 
-	}
-}
-
-.private-profil input{
+.left-box{
 	float: left;
-	font-size: 20px;
-	line-height: 20px;
-	padding: 0px 0px 0px 0px;
 }
 
-.private-profil label{
-   font-size: 20px;
-}
-.private-profil .left-box .label-info{
-   background-color: @base_color;
-   float: left;
-   width: 45%;
+.left-box .row{
+	float: left;
+	margin-left: 40px;
+	line-height: 28px;
+	color: @base_color;
+	width: 90%;
+	border-bottom-style: solid;
+	border-width: thin;
+	border-color: #ddd;
 }
 
-/*
-.private-profil .right-box text-input{
+.left-box .left-side{
+	position: relative;
+	float: left;
+	margin: 5px 0px 5px 5px;
+	width: 45%;
+	button{
+		width: 80%;
+		float: left;
+		margin: 0px 0px 0px 0px;
+	}
+}
+
+
+.left-box .right-side{
+	position: relative;
 	float: right;
-	font-size: 20px;
-	display: inline-block;
- 	line-height: 25px;
-	padding-top: 0px;
-	padding-bottom: 0px;
+	margin: 5px 0px 5px 0px;
+	width: 45%;
+	button{
+		margin-top: 50px;
+		margin-bottom: 15px;
+		width: 45%;
+		float: right;
+		&:first-of-type{
+		float: left;
+		}
+		&:last-of-type{
+			float: right;
+		}
+	}
 }
-*/
+
+.left-box span{
+	position: relative;
+	float: left;
+	font-size: 18px;
+	font-weight: bold;
+	color: @base_color;
+	
+}
+
+.left-box input{
+	float: left;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 25px;
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 2px;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	overflow: hidden;
+	position: relative;
+}
+
+.left-box input:focus{
+	float: left;
+	font-size: 18px;
+	line-height: 25px;
+	width: 100%;
+	padding: 0px 0px 0px 2px;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid;
+	border-color: @highlight_color;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	outline: none;
+	position: relative;
+}
+
+.has-error input{
+	color: @error_color;
+	border-color: @error_color;
+	position: relative;
+}
+
+.has-error input:focus{
+	color: @error_color;
+	border-color: @error_color;
+	position: relative;
+}
+
+.has-error span{
+    color: @error_color;
+	font-size: 15px;
+	position: relative;
+}
+
+span.error{
+    color: @error_color;
+	font-size: 15px;
+	position: relative;
+}
+
+.select-dropdown-edit {
+	width: 100%;
+	position: relative;
+	float:left;
+	margin: 0px;
+	margin-left: 0px;
+	background: none;
+	border-radius: 7px;
+	cursor: pointer;
+	outline: none;
+	box-sizing: border-box;
+	padding: 0px;
+}
+
+.select-dropdown-edit>span{
+	width: 100%;
+	float: left;
+	text-align: left;
+	padding: 2px 1px 2px 1px;
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 20px;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	overflow: hidden;
+}
+
+.select-dropdown-edit>span:focus{
+	border: 1px solid @highlight_color;
+	outline: 0;
+	font-size: 18px;
+	font-weight: bold;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+
+.select-dropdown-edit>span:after {
+	content: "";
+	width: 0;
+	height: 0;
+	margin-top: 7px;
+	float: right;
+	border-width: 6px 6px 0 6px;
+	border-style: solid;
+	border-color: @highlight_color transparent;
+}
+
+.select-dropdown-edit .uldropdown {
+	width: 100%;
+	position: relative;
+	float: left;
+	text-align: left;
+	background: #fff;
+	border-radius: inherit;
+	border: 1px solid rgba(0,0,0,0.17);
+	box-shadow: 0 0 5px rgba(0,0,0,0.1);
+	font-weight: bold;
+	transition: all 0.5s ease-in;
+	list-style: none;
+	opacity: 0;
+	pointer-events: none;
+	padding-left: 0px;
+	display: none;
+}
+ 
+.select-dropdown-edit .uldropdown li {
+	width: 100%;
+	display: block;
+	padding: 2px;
+	text-decoration: none;
+	color: @highlight_color;
+	font-size: 18px;
+	border-bottom: 1px solid #e6e8ea;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,1);
+	transition: all 0.3s ease-out;
+}
+ 
+.select-dropdown-edit .uldropdown :first-of-type li{
+    border-radius: 7px 7px 0 0;
+}
+ 
+.select-dropdown-edit .uldropdown :last-of-type li{
+    border-radius: 0 0 7px 7px;
+    border: none;
+}
+ 
+.select-dropdown-edit .uldropdown li:hover{
+    background: #f3f8f8;
+}
+
+.select-dropdown-edit .uldropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 5px;
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: #fff transparent;
+}
+ 
+.select-dropdown-edit .uldropdown:before {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 100%;
+    right: 3px;
+    border-width: 0 8px 8px 8px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.1) transparent;
+}
+
+.select-dropdown-edit.active .uldropdown {
+    opacity: 1;
+    pointer-events: auto;
+    display: block;
+	position: relative;
+	z-index: 9999;
+}
+
+.select-dropdown-edit:focus{
+    outline: none;
+
+}
+
+.select-dropdown-edit .select-error{
+    border-color: @error_color;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+.select-dropdown-edit .select-error:focus{
+    border-color: #843534;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+
+.select-dropdown-edit .select-error:after{
+    border-color: @error_color transparent;
+}
+
+.right-box{
+	float: left;
+	margin: none;
+	padding: none;
+	button{
+		width: 100%;
+		float: right;
+		margin: 5px 0px 10px 0px;
+	}
+	.lessor_rate{
+		width: 100%;
+	}
+}
+
+
 
 /* Private profile - end */
 
