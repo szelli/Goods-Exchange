@@ -14,5 +14,9 @@ public interface UserDAO {
 	
 	public void editUser(User user);
 	
+	public boolean changePassword(Long id, String password);
+	
+	public boolean validatePassword(Long id, String password);
+	
 	public boolean existsUser(String userName);
 }

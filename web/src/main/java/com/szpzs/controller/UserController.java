@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
 //import com.szpzs.model.Product;
 //import com.szpzs.model.Rate;
 import com.szpzs.model.User;
@@ -67,6 +68,23 @@ public class UserController {
 		ObjectMapper mapper = new ObjectMapper();
 		User user = mapper.readValue(userdatas, User.class);
 		result = userService.editUser(user);
+		return result;
+	}
+	
+	@ResponseBody @RequestMapping(value = "/changePasswordRequest", method=RequestMethod.POST, produces = "application/json")
+	public String changePassword(@RequestBody String userdatas) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.readValue(userdatas, User.class);
+		result = userService.changePassword(user.getId(), user.getPassword());
+		return result;
+	}
+	
+	
+	@ResponseBody @RequestMapping(value = "/validatePasswordRequest", method=RequestMethod.POST, produces = "application/json")
+	public String validatePassword(@RequestBody String userdatas) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.readValue(userdatas, User.class);
+		result = userService.validatePassword(user.getId(), user.getPassword());
 		return result;
 	}
 	

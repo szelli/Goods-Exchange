@@ -49,6 +49,24 @@ public class UserServiceImpl implements UserService {
 		return "ok";
 	}
 	
+	@Override
+	public String changePassword(Long id, String password){
+		password = convertPasswordToMd5(password);
+		if(userDAO.changePassword(id, password)){
+			return "ok";
+		} else {
+		return "not ok";
+		}
+	}
+	
+	public String validatePassword(Long id, String password){
+		password = convertPasswordToMd5(password);
+		if(userDAO.validatePassword(id, password)){
+			return "ok";
+		} else {
+			return null;
+		}
+	}
 	
 	@Override
 	public boolean existsUser(String userName) {

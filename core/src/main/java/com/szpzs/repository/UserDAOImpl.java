@@ -54,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	@Transactional
-	//még át kell írni a Criretia API használatával
+	//még esetleg át lehet írni a Criretia API használatával
 	public void editUser(User user) {
 		entityManager.createQuery("Update User as u Set u.postcode = :postcode, u.city = :city, u.address = :address, u.email = :email Where u.id = :id")
 		.setParameter("postcode", user.getPostcode())
@@ -62,6 +62,34 @@ public class UserDAOImpl implements UserDAO {
 		.setParameter("address", user.getAddress())
 		.setParameter("email", user.getEmail())
 		.setParameter("id", user.getId()).executeUpdate();
+	}
+	
+	@Override
+	@Transactional
+	public boolean changePassword(Long id, String password){
+		entityManager.createQuery("Update User as u Set u.password = :password Where u.id = :id")
+		.setParameter("id", id)
+		.setParameter("password", password).executeUpdate();
+		return true;
+	}
+	
+	
+	@Override
+	@Transactional
+	public boolean validatePassword(Long id, String password){
+		try{
+			int size = entityManager.createQuery("Select u From User as u Where u.id = :id and u.password = :password")
+			.setParameter("id",id)
+			.setParameter("password", password)
+			.getResultList().size();
+			if(size == 1){
+				return true;
+			} else {
+				return false;
+			}
+		} catch(NoResultException e) {
+	        return false;
+	    }
 	}
 
 	@Override

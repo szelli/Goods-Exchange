@@ -20,5 +20,8 @@ public interface UserService {
 	public String saveUser(User user);
 	
 	public String editUser(User user);
-
+	
+	public String changePassword(Long id, String password);
+	
+	public String validatePassword(Long id, String password);
 }
