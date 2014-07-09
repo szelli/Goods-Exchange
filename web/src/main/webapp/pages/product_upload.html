@@ -12,7 +12,7 @@
 	</div>
 	<div class="container product_upload col-md-10">
 		<form name="uploadform" novalidate class="css-form">
-			<h2>Termék feltöltés/Szerkesztés</h2>
+			<h2>{{label}}</h2>
 			<div class="row product_datas">
 				<div class="rental_calendar">
 					<p>Válaszd ki mettől meddig szeretnéd bérbe adni</p>
@@ -20,7 +20,7 @@
 				</div>
 				<div class="primary-datas">
 					<div class="form-group" ng-class="{'has-error' : uploadform.name.$invalid && (!uploadform.name.$pristine || error_offpristine)}">
-						<input name="name" ng-model="newProduct.name" maxlength="21" required ng-minlength="5" ng-maxlength="20" class="form-control" placeholder="Terméknév">
+						<input name="name" ng-model="product.name" maxlength="21" required ng-minlength="5" ng-maxlength="20" class="form-control" placeholder="Terméknév">
 						<span ng-show="uploadform.name.$error.required && (!uploadform.name.$pristine || error_offpristine)">
 			            	A mező kitöltése kötelező!<br>
 			            </span>
@@ -33,20 +33,20 @@
 			        </div>
 			        <div class="productUpDropdown">
 						<div id="category" name="category" class="select-dropdown" tabindex="1" ng-class="{active : category_active}">
-		                    <span tabindex="1" ng-click="toggleCategoryActive()" ng-class="{'select-error' : error_category}">{{newProduct.categoryName}}</span>
+		                    <span tabindex="1" ng-click="toggleCategoryActive()" ng-class="{'select-error' : error_category}">{{product.categoryName}}</span>
 		                    <ul class="uldropdown" ng-click="toggleCategoryActive()">
-		                         <li data-ng-repeat="category in $root.categories"> <a ng-click="setSelectedCategory(category)">{{category.name}}</a>     
+		                         <li data-ng-repeat="category in $root.categories" ng-click="setSelectedCategory(category)">{{category.name}}</li>    
 		                    </ul>
 		                </div>
 		                <div id="city" name="city" class="select-dropdown" tabindex="2" ng-class="{active : city_active}">
-		                    <span tabindex="1" ng-click="toggleCityActive()" ng-class="{'select-error' : error_city}">{{newProduct.cityName}}</span>
+		                    <span tabindex="1" ng-click="toggleCityActive()" ng-class="{'select-error' : error_city}">{{product.cityName}}</span>
 		                    <ul class="uldropdown" ng-click="toggleCityActive()">
-		                        <li data-ng-repeat="city in $root.cities"> <a data-ng-click="setSelectedCity(city)">{{city.city}}</a>
+		                        <li data-ng-repeat="city in $root.cities" ng-click="setSelectedCity(city)">{{city.city}}</li>
 		                    </ul>
 		                </div>
 					</div>
 					<div class="form-group" ng-class="{'has-error' : uploadform.area.$invalid && (!uploadform.area.$pristine || error_offpristine)}">
-						<input name="area" ng-model="newProduct.area" class="form-control" placeholder="Körzet km-ben" required ng-pattern="/^[0-9]*$/" ng-minlength="1" maxlength="4" ng-maxlength="3">
+						<input name="area" ng-model="product.area" class="form-control" placeholder="Körzet km-ben" required ng-pattern="/^[0-9]*$/" ng-minlength="1" maxlength="4" ng-maxlength="3">
 						<span ng-show="uploadform.area.$error.required && (!uploadform.area.$pristine || error_offpristine)">
 			            	A mező kitöltése kötelező!<br>
 			            </span>
@@ -61,7 +61,7 @@
 			            </span>
 			        </div>
 			        <div class="form-group" ng-class="{'has-error' : uploadform.description.$invalid && (!uploadform.description.$pristine || error_offpristine)}">
-						<textarea class="form-control" name="description" ng-model="newProduct.description" class="product_descr" placeholder="Termékleírás" required maxlength="256" ng-maxlength="255"></textarea>
+						<textarea class="form-control" name="description" ng-model="product.description" class="product_descr" placeholder="Termékleírás" required maxlength="256" ng-maxlength="255"></textarea>
 						<span ng-show="uploadform.description.$error.required && (!uploadform.description.$pristine || error_offpristine)">
 			            	A mező kitöltése kötelező!<br>
 			            </span>
@@ -72,7 +72,6 @@
 				</div>
 			</div>
 		</form>
-		<!-- <span id="productUpErr" class="error" ng-show="productUpErr" >{{productUpErr_message}}</span> -->
 		<div class="row">
 			<div class="input-group">
 				<span class="input-group-btn">
@@ -108,57 +107,7 @@
 			</div>
 		</div>	
 		<div class="row">
-			<button class="btn btn-primary" ng-click="productUpload(uploadform)">Feltöltés/Szerkesztés</button>
+			<button class="btn btn-primary" ng-click="productUpload(uploadform)">{{btnlabel}}</button>
 		</div>
 	</div>
 </div>
-
-<!-- <div ng-controller="cityCtrl"></div> -->
-
-<!--
-<script>
- 	$(document)
-		.on('change', '.btn-file :file', function() {
-			var input = $(this),
-			numFiles = input.get(0).files ? input.get(0).files.length : 1,
-			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-			input.trigger('fileselect', [numFiles, label]);
-	});
-
-	$(document).ready( function() {
-		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-
-			var input = $(this).parents('.input-group').find(':text'),
-				log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-			if( input.length ) {
-				input.val(log);
-				var images_scroll = $(".carousel-inner");
-				var image_html = '<div class="col-md-4"><a href="#delete" class="delete"><span class="glyphicon glyphicon-remove"></span></a><img src="https://carlossub.files.wordpress.com/2011/08/flabellina-affinis_mg_5928-copia.jpg" alt="Image" class="img-responsive"></div>';
-				
-				var last_item = images_scroll.children().last().find('.row');
-				var place_number = 3-last_item.children().length;
-				if(place_number==0){
-					images_scroll.append('<div class="item"><div class="row"></div></div>');
-					last_item = images_scroll.children().last().find('.row');
-				}
-				last_item.append(image_html);
-				$(".product_upload img").hoverfunction();
-			} else {
-				if( log ) alert(log);
-			}
-		});
-	});
-	
-	$.fn.hoverfunction = function(){
-		$(".product_upload img").hover(function(){
-			var parent = $(this).parent();
-			parent.find(".glyphicon-remove").css({"margin-bottom" : "-30px","display" : "inline-block"});
-		}, function(){
-			var parent = $(this).parent();
-			parent.find(".glyphicon-remove").hide();
-		});
-	};
-	
-	$(document).ready($.fn.hoverfunction());
-</script> -->
