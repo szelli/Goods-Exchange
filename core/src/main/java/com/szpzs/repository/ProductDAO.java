@@ -10,9 +10,9 @@ public interface ProductDAO {
 	
 	public Product getProduct(long id);
 	
-	public void saveProduct(Product product);
-
-	public boolean existsProduct(Product product);
+	public String saveProduct(Product product);
+	
+	public String updateProduct(Product product);
 	
 	public int getProductsCountByOwner(BigInteger id);
 	

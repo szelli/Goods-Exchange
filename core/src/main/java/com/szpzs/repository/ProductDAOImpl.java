@@ -29,31 +29,25 @@ public class ProductDAOImpl implements ProductDAO{
 	
 	@Override
 	public Product getProduct(long id) {
-		Product product = entityManager.find(Product.class, id);
-		return product;
+		try{
+			Product product = entityManager.find(Product.class, id);
+			return product;
+		}catch(NoResultException ex){
+			return null;
+		}
+		
 	}
 
 	@Override
 	@Transactional
-	public void saveProduct(Product product) {
-		entityManager.persist(product);
-		entityManager.flush();
-	}
-
-	@Override
-	public boolean existsProduct(Product product) {
-		int size = entityManager.createQuery("Select p From Product as p Where p.name = :name AND p.ownerId = :ownerId AND p.descriptions = :disc AND p.categoryId = :categoryId")
-		.setParameter("name", product.getName())
-		.setParameter("ownerId", product.getOwnerId())
-		.setParameter("disc", product.getDescriptions())
-		.setParameter("categoryId", product.getCategoryId())
-		.getResultList().size();
-		if (size == 0){
-			return false;
-		} else {
-			return true;
+	public String saveProduct(Product product) {
+		try{
+			entityManager.persist(product);
+			entityManager.flush();
+			return "ok";
+		}catch(Exception ex){
+			return "product not saved";
 		}
-
 	}
 
 	@Override
@@ -112,5 +106,17 @@ public class ProductDAOImpl implements ProductDAO{
 			Query q = entityManager.createQuery("Select count(q.id) as count From Product as q");
 			return ((Long) q.getSingleResult()).intValue();
 	}
+	
+	@Override
+	@Transactional
+	public String updateProduct(Product product) {
+		try{
+			entityManager.merge(product);
+			entityManager.flush();
+			return "ok";
+		}catch(NoResultException ex){
+			return null;
+		}
+	} 
 
 }
