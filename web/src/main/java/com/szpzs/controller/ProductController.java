@@ -47,6 +47,16 @@ public class ProductController {
 		return result;
 	}
 	
+	@ResponseBody @RequestMapping(value = "/updateProduct",  method=RequestMethod.POST, produces = "application/json")
+	public String productSend(@RequestBody String productdatas) throws JsonParseException, JsonMappingException, IOException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Product product = mapper.readValue(productdatas, Product.class);
+		result = productService.updateProduct(product);	
+		
+		return result;
+	}
+	
 	@ResponseBody @RequestMapping(value = "/cityResponse",  method=RequestMethod.GET, produces = "application/json")
 	public List<City> citysend()throws JsonParseException, JsonMappingException, IOException {
 
