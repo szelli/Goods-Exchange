@@ -12,7 +12,7 @@ public interface ProductService {
 	
 	public String saveProduct(Product product);
 	
-	public boolean existsProduct(Product product);
+	public String updateProduct(Product product);
 	
 	public List<Product> getProductList(ProductListDatas datas);
 }

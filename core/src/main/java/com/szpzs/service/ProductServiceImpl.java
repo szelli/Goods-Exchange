@@ -25,26 +25,21 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public String saveProduct(Product product) {
 		product.setStatus(BigInteger.valueOf(1));
-		productDAO.saveProduct(product);	
-		if (existsProduct(product)){
-			return "ok";
-		} else {
-			return "product not saved";
-		}
-	}
-	
-	@Override
-	public boolean existsProduct(Product product) {
-		if (productDAO.existsProduct(product)){
-			return true;
-		} else {
-			return false;
-		}
+		return productDAO.saveProduct(product);		
 	}
 
 	@Override
 	public List<Product> getProductList(ProductListDatas datas) {
 		return productDAO.getProductsList(datas);
 	}
+	
+	@Override
+	public String updateProduct(Product product) {
+		if(productDAO.getProduct(product.getId())!=null){
+			product.setStatus(BigInteger.valueOf(1));
+			return productDAO.updateProduct(product);	
+		}
+		else return "product not updated";
+	} 
 
 }
