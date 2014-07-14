@@ -1,8 +1,12 @@
 package com.szpzs.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigInteger;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -15,15 +19,19 @@ import java.math.BigInteger;
 public class Picture implements Serializable {
 	private static final Long serialVersionUID = 1L;
 
-	@Id
+	@SequenceGenerator(name="Picture", sequenceName="PICTURES_SEQ")
+	@Id @GeneratedValue(generator="Picture")
 	private Long id;
 
 	@Column(name="\"LINK\"")
 	private String link;
+	
+	@Column(name="UPLOAD_TIME")
+	private Date uploadTime;
 
-	@Column(name="PRODUCT_ID")
-	private BigInteger productId;
-
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy="pictures", cascade = CascadeType.ALL)
+	private List<Product> products;
+	
 	public Picture() {
 	}
 
@@ -42,13 +50,12 @@ public class Picture implements Serializable {
 	public void setLink(String link) {
 		this.link = link;
 	}
-
-	public BigInteger getProductId() {
-		return this.productId;
+	
+	public Date getUploadTime() {
+		return this.uploadTime;
 	}
-
-	public void setProductId(BigInteger productId) {
-		this.productId = productId;
+	
+	public void setUploadTime(Date uploadTime) {
+		this.uploadTime = uploadTime;
 	}
-
 }
