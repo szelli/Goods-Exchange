@@ -6,16 +6,34 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 	product.saveProduct = function(product) {
 		return $http({
 			url : 'api/productUpload',
-			data : {
-				"name" : product.name,
-                "categoryId" : product.categoryId,
-				"descriptions" : product.description,
-				"cityId" : product.cityId,
-				"area" : product.area,
-                "ownerId" : product.ownerId
+            headers: {
+                'Content-Type': undefined // --> makes sure the boundary is set in the Content-Type header, see result file
             },
-			method : "POST",
-			contentType : "application/json"
+            method: "POST",
+            data: {
+                product:{
+                    "name" : product.name,
+                    "categoryId" : product.categoryId,
+                    "descriptions" : product.description,
+                    "cityId" : product.cityId,
+                    "area" : product.area,
+                    "ownerId" : product.ownerId
+                },
+                productImages: product.images
+            },
+            transformRequest: function(data) {
+                var fd = new FormData();
+                angular.forEach(data, function(value, key) {
+                    if(key=="productImages" && value){
+                        for (var i = 0; i < value.length; i++) {
+                            fd.append("file" + i, value[i]);
+                        }
+                    }else{
+                        fd.append(key, JSON.stringify(value));
+                    }
+                });
+                return fd;
+            }
 		});
 	};
 	

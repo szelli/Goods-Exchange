@@ -72,42 +72,53 @@
 				</div>
 			</div>
 		</form>
-		<div class="row">
-			<div class="input-group">
-				<span class="input-group-btn">
-					<span class="btn btn-primary btn-file">
-						Browse <input type="file" multiple="">
-					</span>
-				</span>
-				<input type="text" class="form-control" readonly="">
-			</div>
+		<div class="row image_upload" >
+            <div class="col-md-8">
+                <form action="api/fileUpload" method="post" name="imageUpload" enctype="multipart/form-data">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-primary btn-file">
+                                Kép választás <input type="file" ng-model="product.images" selectimages name="productImages[]" multiple>
+                            </span>
+                        </span>
+                        <input type="text" class="form-control" name="imageName" readonly="">
+                    </div>
+                </form>
+                <button class="btn btn-primary" ng-click="imagesUpload()">Feltöltés</button>
+                <span class="error" ng-show="imageUpload.files.$error.selectimages && error_offpristine">
+                    Legalább egy képet ki kell választanod, de maximum 5 képet választhatsz ki!
+                </span>
+                <span class="error" ng-show="!showPreviewImages && !imageUpload.files.$error.selectimages && error_offpristine">
+                    Kérlek töltsd fel a kiválasztott képeket!
+                </span>
+            </div>
 		</div>
+		
+        <div class="row" ng-show="showPreviewImages">
+            <h3>Kép előnézet</h3>
+            <div id="product_slide" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#product_slide" ng-repeat="file in previewImages track by $index" data-slide-to="$index" ng-class="{active : $index==0}"></li>
+                </ol>
+
+                <div class="carousel-inner">
+                    <div class="item" ng-repeat="image in previewImages track by $index" ng-class="{active : $index==0}">
+                        <img ng-src="{{image}}" alt="...">
+                        <div class="carousel-caption">
+                            Kép {{$index + 1}}
+                        </div>
+                    </div>
+                </div>
+                <a class="left carousel-control" href="#/productUpload#product_slide" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#/productUpload#product_slide" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
 		<div class="row">
-			<div id="images_slide" class="carousel slide" data-ride="carousel">
-				<div class="carousel-inner">
-					<div class="item active">
-						<div class="row">
-							<div class="col-md-4">
-								<a href="#delete" class="delete"><span class="glyphicon glyphicon-remove"></span></a>
-								<img src="https://carlossub.files.wordpress.com/2011/08/flabellina-affinis_mg_5928-copia.jpg" alt="Image" class="img-responsive">
-							</div>
-							<div class="col-md-4">
-								<a href="#delete" class="delete"><span class="glyphicon glyphicon-remove"></span></a>
-								<img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="Image" class="img-responsive">
-							</div>
-						</div>
-					</div>
-				</div>
-				<a class="left carousel-control" href="#images_slide" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-				</a>
-				<a class="right carousel-control" href="#images_slide" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right"></span>
-				</a>
-			</div>
-		</div>	
-		<div class="row">
-			<button class="btn btn-primary" ng-click="productUpload(uploadform)">{{btnlabel}}</button>
+			<button class="btn btn-primary" ng-click="productUpload(uploadform,imageUpload)">{{btnlabel}}</button>
 		</div>
 	</div>
 </div>
