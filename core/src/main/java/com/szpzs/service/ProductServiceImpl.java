@@ -29,6 +29,7 @@ public class ProductServiceImpl implements ProductService{
 	public String saveProduct(Product product, List<String> fileNames) {
 		product.setUploadTime(new Date());
 		product.setStatus(BigInteger.valueOf(1));
+
 		List<Picture> pictures = new ArrayList<Picture>();
 		for(String link : fileNames){
 			Picture picture = new Picture();
@@ -37,26 +38,22 @@ public class ProductServiceImpl implements ProductService{
 			pictures.add(picture);
 		}
 		product.setPictures(pictures);
-		productDAO.saveProduct(product);	
-		if (existsProduct(product)){
-			return "ok";
-		} else {
-			return "product not saved";
-		}
-	}
-	
-	@Override
-	public boolean existsProduct(Product product) {
-		if (productDAO.existsProduct(product)){
-			return true;
-		} else {
-			return false;
-		}
+		productDAO.saveProduct(product);
+		return "ok";
 	}
 
 	@Override
 	public List<Product> getProductList(ProductListDatas datas) {
 		return productDAO.getProductsList(datas);
 	}
+	
+	@Override
+	public String updateProduct(Product product) {
+		if(productDAO.getProduct(product.getId())!=null){
+			product.setStatus(BigInteger.valueOf(1));
+			return productDAO.updateProduct(product);	
+		}
+		else return "product not updated";
+	} 
 
 }

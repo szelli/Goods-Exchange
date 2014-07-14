@@ -11,7 +11,7 @@ public interface ProductService {
 	
 	public String saveProduct(Product product, List<String> fileNames);
 	
-	public boolean existsProduct(Product product);
+	public String updateProduct(Product product);
 	
 	public List<Product> getProductList(ProductListDatas datas);
 

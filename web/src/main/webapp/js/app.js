@@ -21,7 +21,12 @@ goods_exchange.config(['$routeProvider', '$locationProvider', '$httpProvider','l
         when('/productUpload', {
             templateUrl: 'pages/product_upload.html',
         }).
-
+        when('/productUpdate', {
+            templateUrl: 'pages/product_upload.html',
+        }).
+        when('/product', {
+            templateUrl: 'pages/product.html',
+        }).
         otherwise({
             redirectTo: '/index'
         }); 
@@ -31,6 +36,8 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
     $rootScope.header = 'pages/header.html';
     $rootScope.regModal = 'pages/regModal.html';
     $rootScope.footer = 'pages/footer.html';
+    $rootScope.updateProduct = false;
+    $rootScope.currentProduct = null;
     
     cityServices.getCities().success(function(cities){
     	$rootScope.cities = cities;

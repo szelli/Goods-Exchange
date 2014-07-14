@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	{{$root.currentProduct.name = "ez a neve"}}
+	{{$root.currentProduct.id = 1000}}
+	{{$root.currentProduct.cityName = "Pécs"}}
+	{{$root.currentProduct.categoryName = "1. Kategória"}}
+	{{$root.currentProduct.area = "10"}}
+	{{$root.currentProduct.cityId = 1}}
+	{{$root.currentProduct.categoryId = 1}}
+	{{$root.currentProduct.description = "leírás"}}
+	{{$root.currentProduct.ownerId = $root.loggedUser.id}}
+	{{$root.updateProduct = true}}
+</body>
+</html>

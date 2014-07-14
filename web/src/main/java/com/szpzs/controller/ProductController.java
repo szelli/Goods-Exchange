@@ -16,6 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -78,6 +79,16 @@ public class ProductController {
 			}
 		}
 		return "Hiba történt a termék mentése közben!";
+	}
+	
+	@ResponseBody @RequestMapping(value = "/updateProduct",  method=RequestMethod.POST, produces = "application/json")
+	public String productSend(@RequestBody String productdatas) throws JsonParseException, JsonMappingException, IOException {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Product product = mapper.readValue(productdatas, Product.class);
+		result = productService.updateProduct(product);	
+		
+		return result;
 	}
 	
 	@ResponseBody @RequestMapping(value = "/cityResponse",  method=RequestMethod.GET, produces = "application/json")
