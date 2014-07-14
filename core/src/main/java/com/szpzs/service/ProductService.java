@@ -1,6 +1,5 @@
 package com.szpzs.service;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import com.szpzs.model.Product;
@@ -10,9 +9,10 @@ public interface ProductService {
 	
 	public Product getProduct(long id);
 	
-	public String saveProduct(Product product);
+	public String saveProduct(Product product, List<String> fileNames);
 	
 	public boolean existsProduct(Product product);
 	
 	public List<Product> getProductList(ProductListDatas datas);
+
 }

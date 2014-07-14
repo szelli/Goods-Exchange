@@ -102,15 +102,14 @@ public class ProductDAOImpl implements ProductDAO{
 
 	@Override
 	public int getProductsCountByOwner(BigInteger id) {
-			Query q = entityManager.createQuery("Select count(q.id) as count From Product as q Where q.ownerId = :ownerId")
-					.setParameter("ownerId",id);
-			return ((Long) q.getSingleResult()).intValue();
+		Query q = entityManager.createQuery("Select count(q.id) as count From Product as q Where q.ownerId = :ownerId")
+				.setParameter("ownerId",id);
+		return ((Long) q.getSingleResult()).intValue();
 	}
 
 	@Override
 	public int getProductsCount() {
-			Query q = entityManager.createQuery("Select count(q.id) as count From Product as q");
-			return ((Long) q.getSingleResult()).intValue();
+		Query q = entityManager.createQuery("Select count(q.id) as count From Product as q");
+		return ((Long) q.getSingleResult()).intValue();
 	}
-
 }

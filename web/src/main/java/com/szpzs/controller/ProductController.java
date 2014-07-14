@@ -2,17 +2,25 @@ package com.szpzs.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.szpzs.model.Categories;
 import com.szpzs.model.City;
@@ -34,17 +42,42 @@ public class ProductController {
 	
 	private String result;
 	
-	@ResponseBody @RequestMapping(value = "/productUpload",  method=RequestMethod.POST, produces = "application/json")
-	public String productUpload(@RequestBody String productdatas) throws JsonParseException, JsonMappingException, IOException {
-		
+	@Autowired
+	ServletContext servletContext;
+
+	@ResponseBody @RequestMapping(value = "/productUpload", method=RequestMethod.POST)
+	public String productUpload(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		Product product = mapper.readValue(productdatas, Product.class);
-		result = productService.saveProduct(product);
-		System.out.println(productService.getProduct(2));
-		System.out.println(result);
+		Product product = (Product) mapper.readValue(request.getParameter("product"), Product.class);
 		
-		
-		return result;
+		if (request instanceof MultipartHttpServletRequest){
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+			MultiValueMap<String, MultipartFile> map = multipartRequest.getMultiFileMap();
+			
+			if(map != null) {
+				String webappDatasRoot = servletContext.getRealPath("../GoodsExchangePublic/images");
+				List<String> fileNames = new ArrayList<String>();
+				Iterator iter = map.keySet().iterator();
+				while(iter.hasNext()) {
+					String str = (String) iter.next();
+
+					List<MultipartFile> fileList =  map.get(str);
+					for(MultipartFile file : fileList) {
+							String filePath = webappDatasRoot + "/" + file.getOriginalFilename();
+					    File dest = new File(filePath);
+					    if(!dest.exists()){
+					    	dest.mkdirs();
+						}
+					    file.transferTo(dest);
+					    fileNames.add(file.getOriginalFilename());
+					}
+				}
+				result = productService.saveProduct(product, fileNames);
+				
+				return result;
+			}
+		}
+		return "Hiba történt a termék mentése közben!";
 	}
 	
 	@ResponseBody @RequestMapping(value = "/cityResponse",  method=RequestMethod.GET, produces = "application/json")
