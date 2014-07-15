@@ -78,17 +78,17 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Kép választás <input type="file" ng-model="product.images" selectimages name="productImages[]" multiple>
+                                Kép választás <input type="file" ng-model="product.images" selectimages name="productImages" multiple>
                             </span>
                         </span>
                         <input type="text" class="form-control" name="imageName" readonly="">
                     </div>
                 </form>
                 <button class="btn btn-primary" ng-click="imagesUpload()">Feltöltés</button>
-                <span class="error" ng-show="imageUpload.files.$error.selectimages && error_offpristine">
+                <span class="error" ng-show="imageUpload.productImages.$error.selectimages && error_offpristine">
                     Legalább egy képet ki kell választanod, de maximum 5 képet választhatsz ki!
                 </span>
-                <span class="error" ng-show="!showPreviewImages && !imageUpload.files.$error.selectimages && error_offpristine">
+                <span class="error" ng-show="!showPreviewImages && !imageUpload.productImages.$error.selectimages && error_offpristine">
                     Kérlek töltsd fel a kiválasztott képeket!
                 </span>
             </div>

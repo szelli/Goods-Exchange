@@ -382,11 +382,30 @@ h2.product_name, .lessor_name{
 }
 
 .product_upload{
+	.crausel{
+        width: 100%;
+    }
 	>.row{
 		margin-top: 20px;
 		margin-bottom: 20px;
-        z-index: 1;
+        text-align: center;
+        >div{
+            padding: 0px;
+        }
 	}
+    .image_upload {
+        .input-group{
+            float: left;
+            width: 75%;
+        }
+        button{
+            width: 20%;
+            float: right;
+        }
+        >div>span{
+            float: left;
+        }
+    }
 	.uploadform .product_datas input{
 		margin: 10px 0px; 
 		width: 100%;
@@ -417,7 +436,9 @@ h2.product_name, .lessor_name{
         }      
     }
 	textarea{
-		min-height:200px; 
+		min-height:200px;
+        width: 100%;
+        max-width: 100%;
 	}
 	.rental_calendar{
 		width:25%; 
@@ -429,12 +450,6 @@ h2.product_name, .lessor_name{
 			width: 100%;
 			text-align: center;
 		}
-	}
-	button{
-		width: 20%;
-		display: block;
-		margin: 0 auto;
-		margin-top: 20px;
 	}
 }
 

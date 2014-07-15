@@ -31,7 +31,7 @@ app.directive('selectimages', function () {
         }
         
         el.on('change', function () {
-            
+        	scope.showPreviewImages = false;
             if(this.files.length>0 && this.files.length<=5){
                 ngModel.$setViewValue(this.files);
                 scope.convertImages(this);

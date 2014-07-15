@@ -10,7 +10,7 @@ function($scope, $rootScope, $http, productServices) {
 		
 		$scope.product = {};
 		$scope.product.id = null;
-		$scope.product.ownerId =/* 256;*/ $rootScope.loggedUser.id;
+		$scope.product.ownerId = $rootScope.loggedUser.id;
 		$scope.product.categoryName = "Kategória";
 	    $scope.product.cityName = "Város";
 	    $scope.product.description = "";
@@ -19,7 +19,7 @@ function($scope, $rootScope, $http, productServices) {
         $scope.previewImages = [];
         $scope.showPreviewImages = false;
 	    $scope.label = "Termék feltöltés";
-	    $scope.btnlabel = "Feltöltés";
+	    $scope.btnlabel = "Termék feltöltés";
 	    $scope.category_active = false;
 	    $scope.city_active = false;
 	    $scope.error_category = false;
