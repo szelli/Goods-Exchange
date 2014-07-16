@@ -1,10 +1,12 @@
 var goods_exchange = angular.module('goods_exchange', [
-    'ngRoute',
+    'ui.router',
     'LocalStorageModule',
     'registrationCtrl',
     'productCtrl',
     'loginCtrl',
+    'productListingCtrl',
     'formDirectives',
+    'paginatorFilters',
     'services'
 ]);
 
@@ -30,18 +32,36 @@ window.routes =
 };
 
 
-goods_exchange.config(['$routeProvider', '$locationProvider', '$httpProvider','localStorageServiceProvider',
-  function($routeProvider, $locationProvider, $httpProvider,localStorageServiceProvider) {
+goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','localStorageServiceProvider',
+  function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider,localStorageServiceProvider) {
 		localStorageServiceProvider.setStorageType('sessionStorage');
 		$httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     
-    for(var path in window.routes) {
-        $routeProvider.when(path, window.routes[path]);
-    }
-    $routeProvider.otherwise({
-    	redirectTo: '/index'
-    }); 
+    $urlRouterProvider.otherwise("/index");
+    
+    $stateProvider
+        .state('public', {
+            url: "",
+            abstract: true,
+            template: "<div ui-view></div>"
+        })
+        
+        .state('public.index', {
+            url: '/index',
+            templateUrl: 'pages/index.html'
+        })
+    
+        .state('private', {
+            url: "",
+            abstract: true,
+            template: "<div ui-view></div>"
+        })
+        
+        .state('private.productUpload', {
+            url: '/productUpload',
+            templateUrl: 'pages/product_upload.html'
+        });
   }]);
 
 goods_exchange.run(function ($rootScope, localStorageService, cityServices, categoryServices, $location) {
@@ -67,6 +87,7 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
     
     cityServices.getCities().success(function(cities){
     	$rootScope.cities = cities;
+        $rootScope.$broadcast('productListingCtrl');
     });
     
     categoryServices.getCategories().success(function(categories){
