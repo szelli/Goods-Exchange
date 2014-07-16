@@ -1,6 +1,5 @@
 package com.szpzs.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -87,38 +86,29 @@ public class ProductController {
 		ObjectMapper mapper = new ObjectMapper();
 		Product product = mapper.readValue(productdatas, Product.class);
 		result = productService.updateProduct(product);	
-		
 		return result;
+	}
+	
+	@ResponseBody @RequestMapping(value = "/productsCount", method=RequestMethod.POST, produces = "application/json")
+	public int getProductsCount() throws JsonParseException, JsonMappingException, IOException {
+		return productService.getProductCount();
 	}
 	
 	@ResponseBody @RequestMapping(value = "/cityResponse",  method=RequestMethod.GET, produces = "application/json")
 	public List<City> citysend()throws JsonParseException, JsonMappingException, IOException {
-
-		System.out.println(cityService.ListAllCity());
-
 		return cityService.ListAllCity();
 	}
 	
 	@ResponseBody @RequestMapping(value = "/categoryResponse",  method=RequestMethod.GET, produces = "application/json")
 	public List<Categories> categorySend()throws JsonParseException, JsonMappingException, IOException {
-
-		System.out.println(cityService.ListAllCity());
-
 		return categoryService.ListAllCategory();
 	}
 	
-	@ResponseBody @RequestMapping(value = "/productList", method=RequestMethod.GET, produces = "application/json")
-	public List<Product> getProductList() throws JsonParseException, JsonMappingException, IOException {
+	@ResponseBody @RequestMapping(value = "/productList", method=RequestMethod.POST, produces = "application/json")
+	public List<Product> getProductList(@RequestBody String searchingDatas) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		ProductListDatas datas = mapper.readValue(new File("g:\\goods/datas.json"), ProductListDatas.class);
-		List<Product> products =productService.getProductList(datas); 
-		if (products == null){
-			System.out.println("null");
-		} else {
-			System.out.println(products.get(0).getName());
-			System.out.println(products.size());
-		}
-		
-		return null;
+		ProductListDatas datas = mapper.readValue(searchingDatas, ProductListDatas.class);
+		List<Product> products = productService.getProductList(datas);
+		return products;
 	}
-}
+}		
