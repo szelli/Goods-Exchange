@@ -31,7 +31,7 @@ public class Picture implements Serializable {
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy="pictures", cascade = CascadeType.ALL)
 	private List<Product> products;
-	
+
 	public Picture() {
 	}
 
