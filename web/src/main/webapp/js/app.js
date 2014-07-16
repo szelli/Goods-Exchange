@@ -15,13 +15,11 @@ window.routes =
         requireLogin: false
     },
     "/productUpload": {
-    	templateUrl: 'pages/product_upload.html', 
-        controller: 'productUploadCtrl', 
+    	templateUrl: 'pages/product_upload.html',
         requireLogin: true,
     },
     "/productUpdate": {
-    	templateUrl: 'pages/product_upload.html', 
-        controller: 'productUpdateCtrl', 
+    	templateUrl: 'pages/product_upload.html',
         requireLogin: true,
         requireProduct: true,
     },
