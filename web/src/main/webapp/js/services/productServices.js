@@ -2,7 +2,7 @@ var services = angular.module('services');
 
 services.factory('productServices', function($http/*, localStorageService*/) {
 	var product = {};
-	
+    
 	product.saveProduct = function(product) {
 		return $http({
 			url : 'api/productUpload',
@@ -52,7 +52,33 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 			method : "POST",
 			contentType : "application/json"
 		});
-	}; 
-	
+	};
+    
+    product.loadProducts = function(datas) {
+		return $http({
+			url : 'api/productList',
+			data : {
+                "sort": datas.sort,
+                "limit": datas.limit,
+                "currentPage": datas.currentPage,
+                "pageCount": datas.pageCount,
+                "productsCount": datas.productsCount,
+                "offset": datas.offset,
+                "tab": datas.tab
+                
+            },
+			method : "POST",
+			contentType : "application/json"
+		});
+	};
+
+    product.GetProductsCount = function(datas) {
+        return $http({
+			url : 'api/productsCount',
+			method : "POST",
+			contentType : "application/json"
+		});
+	};
+
 	return product;
 });
