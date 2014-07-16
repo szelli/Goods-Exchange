@@ -56,4 +56,9 @@ public class ProductServiceImpl implements ProductService{
 		else return "product not updated";
 	} 
 
+	@Override
+	public int getProductCount() {
+		return productDAO.getProductsCount();
+	}
+
 }
