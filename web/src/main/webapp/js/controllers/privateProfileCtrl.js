@@ -4,21 +4,21 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 	function($scope, $rootScope, $http, $location, userServices) {
 		$scope.myData = {};
 		$scope.editUser = {};
+		$scope.cities = [];
+		$scope.cities.length = 0; 
 		$scope.editUser.id = $rootScope.loggedUser.id;
 		
 		$scope.buttonSwitch = false;
 		$scope.setNewPassword = false;
 		
 		$scope.error_city = false;
-		$scope.city_active = false;
 		$scope.edit_error = false;
 		
-		$scope.toggleCityActive = function(){
-        	$scope.city_active = !$scope.city_active;
-    	};
-		
 		$scope.buttonSwitchFunction = function(){
-				$scope.buttonSwitch = !$scope.buttonSwitch;
+			$scope.buttonSwitch = !$scope.buttonSwitch;
+			if($scope.setNewPassword){
+				$scope.setNewPassword = !$scope.setNewPassword;
+			}
 		};
 		
 		$scope.setNewPasswordFunction = function(){
@@ -28,6 +28,10 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 		$scope.setCity = function(city){
 			$scope.editUser.city = city;
 		};
+		
+		$scope.toPublicView = function(){
+			$location.path("/profile");
+		}
 		
 		userServices.getUserById($rootScope.loggedUser.id).success(function(result){
 			if(result){
@@ -82,6 +86,17 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 					alert("Hiba történt módosítás közben, kérlek próbálkozz később!");
 					$scope.edit_error = true;
 					$scope.edit_error_message = "Hiba történt módosítás közben, kérlek próbálkozz később!";
+				}
+			});
+		};
+		
+		
+		$scope.getCities = function(){
+			userServices.getCities().success(function(result){
+				if(result){
+					$scope.cities.push.apply($scope.cities, result);
+				} else {
+					alert("Probléma adódott!");
 				}
 			});
 		};

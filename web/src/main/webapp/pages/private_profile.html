@@ -48,20 +48,18 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row"  id="dropdown-city" >
 			<div class="left-side col-md-5">
 				<span>Város:</span>
 			</div>
 			<div class="right-side col-md-7">
 				<span ng-show="!buttonSwitch">{{myData.city}}</span>
-				<div class="select-dropdown-edit" ng-show="buttonSwitch" tabindex="1" ng-class="{active : city_active}">
-						<span tabindex="1" ng-click="toggleCityActive()">{{editUser.city}}</span>
-						<ul class="uldropdown" ng-click="toggleCityActive()">
-							<li ng-click="setCity('Pécs')">Pécs</li>
-							<li ng-click="setCity('Sopron')">Sopron</li>
-							<li ng-click="setCity('Budapest')">Budapest</li>
-						</ul>
-				 </div>
+				<div class="dropdown select-dropdown-edit" ng-show="buttonSwitch">
+					<span id="city" role="button" data-toggle="dropdown" ng-class="{'select-error' : error_city}">{{editUser.city}}</span>
+					<ul class="dropdown-menu uldropdown" role="menu" aria-labelledby="city" >
+						<li ng-repeat="city in cities" ng-click="setCity(city.city)">{{city.city}}</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -92,7 +90,8 @@
 		</div>
 		<div class="row" ng-show="buttonSwitch">
 			<div class="left-side col-md-5">
-				<button type="button" class="btn btn-primary" ng-click="setNewPasswordFunction()"  ng-show="buttonSwitch" >Jelszó megváltoztatása</button>
+				<button type="button" class="btn btn-primary" ng-click="setNewPasswordFunction()"  ng-show="buttonSwitch && !setNewPassword" >Jelszó megváltoztatása</button>
+				<button type="button" class="btn btn-primary" ng-click="setNewPasswordFunction()"  ng-show="buttonSwitch && setNewPassword" >Még sem akarom megváltoztatni</button>
 			</div>
 		</div>
 		<div class="row" ng-if="setNewPassword && buttonSwitch">
@@ -135,14 +134,14 @@
 		<div class="row">
 			<div class="right-side col-md-7">
 					<button type="submit" class="btn btn-primary btn-box" ng-show="buttonSwitch" ng-click="submitForm(editForm.$valid); buttonSwitchFunction()" ng-show="buttonSwitch" ng-disabled="editForm.$invalid">Elfogad</button>
-					<button type="button" class="btn btn-primary btn-box" ng-show="!buttonSwitch" ng-click="buttonSwitchFunction()" ng-show="!buttonSwitch" >Szerkesztés</button>
-					<button type="button" class="btn btn-default btn-box" ng-show="buttonSwitch" ng-click="buttonSwitchFunction(); "  ng-show="buttonSwitch" >Mégse</button>
+					<button type="button" class="btn btn-primary btn-box" ng-show="!buttonSwitch" ng-click="buttonSwitchFunction(); getCities();" ng-show="!buttonSwitch" >Szerkesztés</button>
+					<button type="button" class="btn btn-default btn-box" ng-show="buttonSwitch" ng-click="buttonSwitchFunction();"  ng-show="buttonSwitch" >Mégse</button>
 			</div>
 		</div>
 	</form>
 	</div>
 	<div class="right-box col-md-2">
-		<button type="button" class="btn btn-primary">Nyilvános profil</button>
+		<button type="button" class="btn btn-primary" ng-click="toPublicView()">Nyilvános profil</button>
 		<div class="lessor_rate">
 		   <p class="all_rating">Összes: 150</p>
 		   <p class="positive">100</p>
