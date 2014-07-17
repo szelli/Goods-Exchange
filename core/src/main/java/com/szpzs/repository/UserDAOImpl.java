@@ -1,6 +1,7 @@
 package com.szpzs.repository;
 
 import java.math.BigInteger;
+import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -10,6 +11,7 @@ import org.hibernate.PersistentObjectException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.szpzs.model.City;
 import com.szpzs.model.User;
 
 @Repository
@@ -103,5 +105,10 @@ public class UserDAOImpl implements UserDAO {
 			return true;
 		}
 	}
-
+	
+	public Collection<City> getCities() {
+		Collection<City> cities = entityManager.createQuery("SELECT c FROM City c").getResultList();
+	    return cities;
+	  }
+	
 }

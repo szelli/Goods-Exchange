@@ -1,11 +1,13 @@
 package com.szpzs.service;
 
 import java.math.BigInteger;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.szpzs.model.City;
 import com.szpzs.model.Role;
 import com.szpzs.model.User;
 import com.szpzs.repository.UserDAO;
@@ -89,5 +91,10 @@ public class UserServiceImpl implements UserService {
 	public String convertPasswordToMd5(String pass) {
 		return new Md5PasswordEncoder().encodePassword( pass, null );
 	}
-
+	
+	@Override
+	public Collection<City> getCities(){
+		return userDAO.getCities();
+	}
+	
 }

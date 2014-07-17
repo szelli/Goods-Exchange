@@ -1,7 +1,9 @@
 package com.szpzs.service;
 
 import java.math.BigInteger;
+import java.util.Collection;
 
+import com.szpzs.model.City;
 import com.szpzs.model.Role;
 import com.szpzs.model.User;
 
@@ -24,4 +26,7 @@ public interface UserService {
 	public String changePassword(Long id, String password);
 	
 	public String validatePassword(Long id, String password);
+
+	public Collection<City> getCities();
+	
 }

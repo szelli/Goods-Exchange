@@ -1,7 +1,9 @@
 package com.szpzs.repository;
 
 import java.math.BigInteger;
+import java.util.Collection;
 
+import com.szpzs.model.City;
 import com.szpzs.model.User;
 
 public interface UserDAO {
@@ -19,4 +21,6 @@ public interface UserDAO {
 	public boolean validatePassword(Long id, String password);
 	
 	public boolean existsUser(String userName);
+
+	public Collection<City> getCities();
 }

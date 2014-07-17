@@ -3,12 +3,14 @@ package com.szpzs.controller;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
+
 //import com.szpzs.model.Product;
 //import com.szpzs.model.Rate;
 import com.szpzs.model.User;
+import com.szpzs.model.City;
 //import com.szpzs.service.*;
 import com.szpzs.service.UserService;
 
@@ -79,13 +84,18 @@ public class UserController {
 		return result;
 	}
 	
-	
 	@ResponseBody @RequestMapping(value = "/validatePasswordRequest", method=RequestMethod.POST, produces = "application/json")
 	public String validatePassword(@RequestBody String userdatas) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		User user = mapper.readValue(userdatas, User.class);
 		result = userService.validatePassword(user.getId(), user.getPassword());
 		return result;
+	}
+	
+	@ResponseBody @RequestMapping(value = "/getCitiesRequest", method=RequestMethod.POST, produces = "application/json")
+	public List getCities() throws JsonParseException, JsonMappingException, IOException {
+		Collection<City> cities = userService.getCities();
+		return (List) cities;
 	}
 	
 /*		
