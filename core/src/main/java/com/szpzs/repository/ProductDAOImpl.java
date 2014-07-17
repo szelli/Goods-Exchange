@@ -51,25 +51,7 @@ public class ProductDAOImpl implements ProductDAO{
 	}
 
 	@Override
-	public List<Product> getProductsList(ProductListDatas datas) {
-		int product_count;
-		
-		if (datas.getId() == null){
-			product_count = this.getProductsCount();
-		} else {
-			product_count = this.getProductsCountByOwner(datas.getId());
-		}
-		
-		if (product_count == 0){
-			return null;
-		}
-		
-		int page_num = (int) Math.ceil((double)product_count/(double)datas.getLimit());
-		if(datas.getPage()>page_num || datas.getPage() == 0){
-			datas.setPage(page_num);
-		}
-		int offset = (datas.getPage()-1)*datas.getLimit();
-		
+	public List<Product> getProductsList(ProductListDatas datas) {	
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Product> q = cb.createQuery(Product.class);
 		Root<Product> c = q.from(Product.class);
@@ -82,11 +64,17 @@ public class ProductDAOImpl implements ProductDAO{
 		
 		try{
 			q.select(c).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+			if (datas.getSort().equals("DESC")){
+				q.orderBy(cb.desc(c.get(datas.getTab())));
+			} else {
+				q.orderBy(cb.asc(c.get(datas.getTab())));
+			}
+				
 			TypedQuery<Product> query = entityManager.createQuery(q);
 			if (datas.getId() != null && datas.getId() != BigInteger.valueOf(0)){
 				query.setParameter(p, datas.getId());
 			}
-			query.setFirstResult(offset);
+			query.setFirstResult(datas.getOffset());
 			query.setMaxResults(datas.getLimit());
 			return query.getResultList();
 		} catch(NoResultException e) {

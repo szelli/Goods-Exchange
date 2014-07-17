@@ -7,6 +7,8 @@ import com.szpzs.model.ProductListDatas;
 
 public interface ProductService {
 	
+	public int getProductCount();
+	
 	public Product getProduct(long id);
 	
 	public String saveProduct(Product product, List<String> fileNames);

@@ -8,7 +8,6 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the PRODUCTS database table.
  * 
@@ -132,5 +131,4 @@ public class Product implements Serializable {
 	public List<Picture> getPictures() {
 		return this.pictures;
 	}
-
 }

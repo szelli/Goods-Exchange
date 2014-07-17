@@ -10,7 +10,15 @@ public class ProductListDatas {
 	
 	private int limit;
 	
-	private int page;
+	private int currentPage;
+	
+	private int pageCount;
+	
+	private int productsCount;
+	
+	private int offset;
+	
+	private String tab;
 	
 	public BigInteger getId(){
 		return this.id;
@@ -36,11 +44,43 @@ public class ProductListDatas {
 		this.limit = limit;
 	}
 	
-	public int getPage(){
-		return this.page;
+	public int getCurentPage(){
+		return this.currentPage;
 	}
 	
-	public void setPage(int page){
-		this.page = page;
+	public void setCurrentPage(int currentPage){
+		this.currentPage = currentPage;
+	}
+	
+	public int getPageCount(){
+		return this.pageCount;
+	}
+	
+	public void setPageCount(int pageCount){
+		this.pageCount=pageCount;
+	}
+	
+	public int getProductsCount(){
+		return this.productsCount;
+	}
+	
+	public void setProductsCount(int productsCount){
+		this.productsCount = productsCount;
+	}
+	
+	public int getOffset(){
+		return this.offset;
+	}
+	
+	public void setOffset(int offset){
+		this.offset = offset;
+	}
+	
+	public String getTab(){
+		return this.tab;
+	}
+	
+	public void setTab(String tab){
+		this.tab = tab;
 	}
 }
