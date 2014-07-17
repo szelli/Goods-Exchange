@@ -54,34 +54,34 @@ public class ProductController {
 		if (request instanceof MultipartHttpServletRequest){
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			MultiValueMap<String, MultipartFile> map = multipartRequest.getMultiFileMap();
-			
 			if(map != null) {
 				String webappDatasRoot = servletContext.getRealPath("../GoodsExchangePublic/images");
 				List<String> fileNames = new ArrayList<String>();
 				Iterator iter = map.keySet().iterator();
+				
 				while(iter.hasNext()) {
 					String str = (String) iter.next();
-
 					List<MultipartFile> fileList =  map.get(str);
+					
 					for(MultipartFile file : fileList) {
-							String filePath = webappDatasRoot + "/" + file.getOriginalFilename();
+						String newFileName = product.getUploadTime().getTime() + "_" + product.getOwnerId() + "_" + file.getOriginalFilename();
+						String filePath = webappDatasRoot + "/" + newFileName;
 					    File dest = new File(filePath);
 					    if(!dest.exists()){
 					    	dest.mkdirs();
 						}
 					    file.transferTo(dest);
-					    fileNames.add(file.getOriginalFilename());
+					    fileNames.add(newFileName);
 					}
 				}
 				result = productService.saveProduct(product, fileNames);
-				
 				return result;
 			}
 		}
 		return "Hiba történt a termék mentése közben!";
 	}
 	
-	@ResponseBody @RequestMapping(value = "/updateProduct",  method=RequestMethod.POST, produces = "application/json")
+	/*@ResponseBody @RequestMapping(value = "/updateProduct",  method=RequestMethod.POST, produces = "application/json")
 	public String productSend(@RequestBody String productdatas) throws JsonParseException, JsonMappingException, IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -89,7 +89,7 @@ public class ProductController {
 		result = productService.updateProduct(product);	
 		
 		return result;
-	}
+	}*/
 	
 	@ResponseBody @RequestMapping(value = "/cityResponse",  method=RequestMethod.GET, produces = "application/json")
 	public List<City> citysend()throws JsonParseException, JsonMappingException, IOException {

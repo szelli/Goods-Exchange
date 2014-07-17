@@ -17,7 +17,8 @@ services.factory('productServices', function($http/*, localStorageService*/) {
                     "descriptions" : product.description,
                     "cityId" : product.cityId,
                     "area" : product.area,
-                    "ownerId" : product.ownerId
+                    "ownerId" : product.ownerId,
+                    "uploadTime" : new Date()
                 },
                 productImages: product.images
             },
@@ -37,7 +38,7 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 		});
 	};
 	
-	product.updateProduct = function(product) {
+	/*product.updateProduct = function(product) {
 		return $http({
 			url : 'api/updateProduct',
 			data : {
@@ -52,7 +53,7 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 			method : "POST",
 			contentType : "application/json"
 		});
-	}; 
+	};*/ 
 	
 	return product;
 });

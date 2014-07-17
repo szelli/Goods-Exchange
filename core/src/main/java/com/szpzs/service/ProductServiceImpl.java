@@ -27,7 +27,6 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public String saveProduct(Product product, List<String> fileNames) {
-		product.setUploadTime(new Date());
 		product.setStatus(BigInteger.valueOf(1));
 
 		List<Picture> pictures = new ArrayList<Picture>();
@@ -47,13 +46,12 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.getProductsList(datas);
 	}
 	
-	@Override
+	/*@Override
 	public String updateProduct(Product product) {
 		if(productDAO.getProduct(product.getId())!=null){
 			product.setStatus(BigInteger.valueOf(1));
 			return productDAO.updateProduct(product);	
 		}
 		else return "product not updated";
-	} 
-
+	}*/
 }
