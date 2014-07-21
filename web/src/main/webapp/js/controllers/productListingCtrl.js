@@ -139,13 +139,13 @@ function($scope, $rootScope, $http, productServices,$location) {
 
         $scope.previousPage = function(){
             $scope.status=false;
-            $scope.datas.currentPage = $scope.datas.currentPage -1;
+            $scope.datas.currentPage = 1;
             $scope.refreshProducts();
         };
 
         $scope.nextPage = function(){
             $scope.status=false;
-            $scope.datas.currentPage = $scope.datas.currentPage +1;
+            $scope.datas.currentPage = $scope.datas.pageCount;
             $scope.refreshProducts();
         };
 
