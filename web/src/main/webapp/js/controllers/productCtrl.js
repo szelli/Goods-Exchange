@@ -1,4 +1,4 @@
-var productCtrl = angular.module('productCtrl', []);
+var productCtrl = angular.module('productCtrl', ['ui.bootstrap']);
 
 productCtrl.controller('productUploadCtrl', ['$scope', '$rootScope', '$http', 'productServices', '$location',
 function($scope, $rootScope, $http, productServices, $location) {
@@ -7,7 +7,7 @@ function($scope, $rootScope, $http, productServices, $location) {
 	$scope.product.ownerId = $rootScope.loggedUser.id;
 	$scope.product.categoryName = "Kategória";
 	$scope.product.cityName = "Város";
-	$scope.product.images = null;
+	$scope.product.images = [];
     $scope.previewImages = [];
     $scope.showPreviewImages = false;
 	$scope.category_active = false;
@@ -38,22 +38,44 @@ function($scope, $rootScope, $http, productServices, $location) {
 	};
 	
 	$scope.imagesUpload = function(){
-        if($scope.previewImages.length){
-            $scope.showPreviewImages = true;
-        };
+        if($scope.images){
+            for(var i = 0; i<$scope.images.length; i++){
+                $scope.product.images.push($scope.images[i]);
+            }
+
+            if($scope.previewImages.length){
+                $scope.showPreviewImages = true;
+                $scope.imageUploadLabel = "";
+            };
+        }
     };
 	
-	$scope.convertImages = function (input){
-        if (input.files && input.files[0]) {
-            $scope.previewImages = [];
-            for(var i=0; i<input.files.length; i++){
+	$scope.convertImages = function (images){
+        if (images && images[0]) {
+            for(var i=0; i<images.length; i++){
                 var reader = new FileReader();
 
                 reader.onload = function (e) { 
                     $scope.previewImages.push( e.target.result );
                 };
-                reader.readAsDataURL(input.files[i]);
+                reader.readAsDataURL(images[i]);
             }
+        }
+    };
+    
+    $scope.removeImage = function(index, reverse){
+        var itemIndex;
+        if(reverse){
+            itemIndex = $scope.previewImages.length-1-index;
+        }else{
+            itemIndex = index;
+        }
+        $scope.product.images.splice(itemIndex, 1);
+        $scope.previewImages.splice(itemIndex, 1);
+        
+        if(!$scope.previewImages.length){
+            $scope.showPreviewImages = false;
+            $scope.imageUpload.productImages.$setValidity('selectimages', false);
         }
     };
 	

@@ -7,6 +7,7 @@ var goods_exchange = angular.module('goods_exchange', [
     'productListingCtrl',
     'formDirectives',
     'paginatorFilters',
+    'generalFilters',
     'services'
 ]);
 
