@@ -71,44 +71,37 @@
                    <div class="input-group">
                        <span class="input-group-btn">
                            <span class="btn btn-primary btn-file">
-                               Kép választás <input type="file" ng-model="product.images" selectimages name="productImages" multiple>
+                               Kép választás <input type="file" ng-model="images" selectimages name="productImages" multiple>
                            </span>
                        </span>
-                       <input type="text" class="form-control" name="imageName" readonly="">
+                       <input type="text" class="form-control" ng-model="imageUploadLabel" name="imageName" readonly="">
                    </div>
                </form>
                <button class="btn btn-primary" ng-click="imagesUpload()">Feltöltés</button>
-               <span class="error" ng-show="imageUpload.productImages.$error.selectimages && error_offpristine">
+               <span class="error" ng-show="imageUpload.productImages.$error.selectimages">
                    Legalább egy képet ki kell választanod, de maximum 5 képet választhatsz ki!
                </span>
-               <span class="error" ng-show="!showPreviewImages && !imageUpload.productImages.$error.selectimages && error_offpristine">
-                   Kérlek töltsd fel a kiválasztott képeket!
+               <span class="error" ng-show="!showPreviewImages && !imageUpload.productImages.$invalid && error_offpristine">
+                   Kérlek töltsd fel képeket!
                </span>
            </div>
 	</div>
 	
     <div class="row" ng-if="showPreviewImages">
 		<h3>Kép előnézet</h3>
-		<div id="product_slide" class="carousel slide" data-ride="carousel">
-	        <ol class="carousel-indicators">
-	            <li data-target="#product_slide" ng-repeat="file in previewImages track by $index" data-slide-to="$index" ng-class="{active : $index==0}"></li>
-	        </ol>
-	
-	        <div class="carousel-inner">
-	            <div class="item" ng-repeat="image in previewImages track by $index" ng-class="{active : $index==0}">
-	                <img ng-src="{{image}}" alt="...">
-	                <div class="carousel-caption">
-	                    Kép {{$index + 1}}
-	                </div>
-	            </div>
-	        </div>
-	        <a class="left carousel-control" href="#/productUpload#product_slide" data-slide="prev">
-	            <span class="glyphicon glyphicon-chevron-left"></span>
-	        </a>
-	        <a class="right carousel-control" href="#/productUpload#product_slide" data-slide="next">
-	            <span class="glyphicon glyphicon-chevron-right"></span>
-	        </a>
-	    </div>
+        <div id="product_slide">
+            <carousel interval="5000">
+                <slide ng-repeat="image in previewImages | reverse track by $index" active="slide.active">
+                    <div ng-click="removeImage($index, true)" class="remove">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                    <img ng-src="{{image}}">
+                    <div class="carousel-caption">
+                        <p>Kép {{$index + 1}}</p>
+                    </div>
+                </slide>
+            </carousel>
+        </div>
 	</div>
 	<div class="row">
 		<button class="btn btn-primary" ng-click="productUpload(uploadform,imageUpload)">{{btnlabel}}</button>
