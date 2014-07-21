@@ -5,6 +5,8 @@ function($scope, $rootScope, $http, productServices,$location) {
     $scope.$on('productListingCtrl', function(e) {
         var j, find;
         var id = [];
+        var url = $location.url().split('%');
+        var page = [];
         $scope.datas = {};
         $scope.datas.limit= 12;
         $scope.datas.sort= "DESC";
@@ -22,9 +24,17 @@ function($scope, $rootScope, $http, productServices,$location) {
                 title: 'Név szerint',
                 url: '#/index#name'
         }];
-
+        
 //URL setting
-        switch($location.url()){
+        if (url.length == 2){
+            page = url[1].split('=');
+        } else {
+            page[1] = 1;
+        };
+        
+        $scope.datas.currentPage=page[1];
+        
+        switch(url[0]){
             case '/index#name':
                 $scope.currentTab = '#/index#name';
                 $scope.datas.tab = 'name';
@@ -43,12 +53,27 @@ function($scope, $rootScope, $http, productServices,$location) {
                     $scope.datas.offset=Math.ceil((parseInt($scope.datas.currentPage)-1) * parseInt($scope.datas.limit));
                     productServices.loadProducts($scope.datas).success(function(productsList){
                         $scope.products = productsList;
+                        //$scope.getIndexPictures();
                         $scope.getCitys();
                         $scope.status=true;
                     });
                 };
             });
-        }
+        };
+        
+        $scope.getIndexPictures = function(){
+            for (var i=0; i<$scope.products.length; i++){
+                var j=0;
+                find=false;
+                while(!find){
+                    if ($scope.products[i].pictures[j].isMainPicture == 1){
+                        $scope.products[i].indexPicture = '../GoodsExchangePublic/images/'+$scope.products[i].pictures[j].link;
+                        find = true;
+                    }
+                    j++;
+                };
+            };
+        };
 
         $scope.getCitys = function(){
             for (var i=0; i<$scope.products.length; i++){
@@ -60,9 +85,9 @@ function($scope, $rootScope, $http, productServices,$location) {
                         find = true;
                     }
                     j++;
-                }
-            }
-        }
+                };
+            };
+        };
 
 //Tabbing 
         $scope.orderChange = function(){
@@ -80,24 +105,25 @@ function($scope, $rootScope, $http, productServices,$location) {
         };
 
         $scope.onClickTab = function (tab) {
+            $scope.status=false;
             $scope.currentTab = tab.url;
             switch(tab.title){
                 case 'Legújabb':
                     if ($scope.datas.tab!='uploadTime'){
                         $scope.datas.tab='uploadTime';
                         $scope.datas.sort= 'DESC';
+                        $scope.datas.currentPage = 1;
                     } else {
                         $scope.orderChange();
-                        $scope.datas.currentPage = 1;
                     };
                     break;
                 case 'Név szerint':
                     if ($scope.datas.tab!='name'){
                         $scope.datas.tab='name';
                         $scope.datas.sort= 'DESC';
+                        $scope.datas.currentPage = 1;
                     } else {
                         $scope.orderChange();
-                        $scope.datas.currentPage = 1;
                     };
                     break;
             };
@@ -106,22 +132,25 @@ function($scope, $rootScope, $http, productServices,$location) {
 
 //Paging
         $scope.currentPage = function (page){
+            $scope.status=false;
             $scope.datas.currentPage = page;
             $scope.refreshProducts();
         };
 
         $scope.previousPage = function(){
-            if ($scope.datas.currentPage != 1){
-                $scope.datas.currentPage = $scope.datas.currentPage -1;
-                $scope.refreshProducts();
-            }
+            $scope.status=false;
+            $scope.datas.currentPage = $scope.datas.currentPage -1;
+            $scope.refreshProducts();
         };
 
         $scope.nextPage = function(){
-            if ($scope.datas.currentPage != $scope.datas.pageCount){
-                $scope.datas.currentPage = $scope.datas.currentPage +1;
-                $scope.refreshProducts();
-            }
+            $scope.status=false;
+            $scope.datas.currentPage = $scope.datas.currentPage +1;
+            $scope.refreshProducts();
+        };
+
+        $scope.isActivePage = function(page) {
+            return page == $scope.datas.currentPage;
         };
 
 //Refresh page
