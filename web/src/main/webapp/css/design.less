@@ -151,6 +151,10 @@ header{
 }
 
 .pagination{
+    .active{
+        background-color: #87b580;
+        color: #ffffff;
+    }
 	margin: 0 auto; 
 	width: 30%; 
 	display: block;
@@ -951,4 +955,13 @@ span.error{
 
 .select-dropdown .select-error:after{
     border-color: @error_color transparent;
+}
+
+.loading{
+    margin-left: 225px;
+    margin-top: 98px;
+    &.items{
+        margin-left: 225px;
+        margin-top: 59px;
+    }
 }
