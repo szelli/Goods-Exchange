@@ -28,6 +28,9 @@ public class Picture implements Serializable {
 	
 	@Column(name="UPLOAD_TIME")
 	private Date uploadTime;
+	
+	@Column(name="MAIN")
+	private BigInteger isMainPicture;
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy="pictures", cascade = CascadeType.ALL)
 	private List<Product> products;
@@ -57,5 +60,13 @@ public class Picture implements Serializable {
 	
 	public void setUploadTime(Date uploadTime) {
 		this.uploadTime = uploadTime;
+	}
+	
+	public BigInteger getIsMainPicture (){
+		return this.isMainPicture;
+	}
+	
+	public void setIsMainPicture (BigInteger isMainPicture){
+		this.isMainPicture = isMainPicture;
 	}
 }
