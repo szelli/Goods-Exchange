@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.szpzs.model.Categories;
+import com.szpzs.model.Category;
 
 @Repository
 public class CategoryDAOImpl implements CategoryDAO {
@@ -17,14 +17,14 @@ public class CategoryDAOImpl implements CategoryDAO {
     private EntityManager entityManager;
 	
 	@Override
-	public List<Categories> ListAllCategory() {
-		List<Categories> categories = entityManager.createQuery("SELECT c FROM Categories c").getResultList();
+	public List<Category> ListAllCategory() {
+		List<Category> categories = entityManager.createQuery("SELECT c FROM Category c").getResultList();
 		return categories;
 	}
 
 	@Override
 	@Transactional
-	public String SaveCategory(Categories category) {
+	public String SaveCategory(Category category) {
 		entityManager.persist(category);
 		entityManager.flush();
 		return "OK";

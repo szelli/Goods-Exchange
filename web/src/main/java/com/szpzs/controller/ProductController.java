@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.szpzs.model.Categories;
+import com.szpzs.model.Category;
 import com.szpzs.model.City;
 import com.szpzs.model.Product;
 import com.szpzs.model.ProductListDatas;
@@ -100,7 +100,7 @@ public class ProductController {
 	}
 
 	@ResponseBody @RequestMapping(value = "/categoryResponse",  method=RequestMethod.GET, produces = "application/json")
-	public List<Categories> categorySend()throws JsonParseException, JsonMappingException, IOException {
+	public List<Category> categorySend()throws JsonParseException, JsonMappingException, IOException {
 		return categoryService.ListAllCategory();
 	}
 
