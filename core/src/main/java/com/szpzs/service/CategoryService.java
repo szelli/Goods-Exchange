@@ -2,10 +2,10 @@ package com.szpzs.service;
 
 import java.util.List;
 
-import com.szpzs.model.Categories;
+import com.szpzs.model.Category;
 
 public interface CategoryService {
 
-	public List<Categories> ListAllCategory();
-	public String SaveCategory(Categories category);
+	public List<Category> ListAllCategory();
+	public String SaveCategory(Category category);
 }
