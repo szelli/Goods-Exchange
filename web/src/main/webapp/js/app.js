@@ -13,7 +13,7 @@ var goods_exchange = angular.module('goods_exchange', [
     'services'
 ]);
 
-window.routes =
+/*window.routes =
 {
     "/index": {
     	templateUrl: 'pages/index.html',
@@ -32,7 +32,7 @@ window.routes =
 	    templateUrl: 'pages/product.html', 
 	    requireLogin: false,
     }
-};
+};*/
 
 goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','localStorageServiceProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider,localStorageServiceProvider) {
@@ -57,22 +57,17 @@ goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvide
         .state('public.profile', {
             url: '/profile',
             templateUrl: 'pages/profile.html'
-        })    
-        
+        })
+
         .state('private', {
             url: "",
             abstract: true,
             template: "<div ui-view></div>"
         })
-        
-        .state('private.privateProfile', {
-            url: "privateProfile",
-            template: 'pages/private_profile.html'
-        })
 
-        .state('private.privateProfileEdit', {
-            url: "privateProfileEdit",
-            template: 'pages/private_profile_edit.html'
+        .state('private.privateProfile', {
+            url: '/privateProfile',
+            templateUrl: 'pages/private_profile.html'
         })
         
         .state('private.productUpload', {
@@ -88,7 +83,7 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
     $rootScope.currentProduct = null;
     
     
-    $rootScope.$on("$locationChangeStart", function(event, next, current) {
+/*    $rootScope.$on("$locationChangeStart", function(event, next, current) {
         for(var i in window.routes) {
             if(next.indexOf(i) != -1) {
                 if(window.routes[i].requireLogin && !$rootScope.loggedUser) {
@@ -101,17 +96,19 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
             }
         }
     });
-    
+*/    
     cityServices.getCities().success(function(cities){
     	$rootScope.cities = cities;
         $rootScope.$broadcast('productListingCtrl');
     });
     
-    categoryServices.getCategories().success(function(categories){
-    	$rootScope.categories = categories;
+    $rootScope.$on('productListingCtrl', function(e) {
+        categoryServices.getCategories().success(function(categories){
+            $rootScope.categories = categories;
+        });
+
+        if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {
+            $rootScope.loggedUser = localStorageService.get("loggedUser");
+        }
     });
-   
-    if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {
-		$rootScope.loggedUser = localStorageService.get("loggedUser");
-	}
 });
