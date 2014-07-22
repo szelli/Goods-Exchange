@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Zse (generated)" id="1405691127748-1">
+        <createSequence sequenceName="CATEGORIES_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-2">
+        <createSequence sequenceName="CITY_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-3">
+        <createSequence sequenceName="FORRENT_SEQ1"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-4">
+        <createSequence sequenceName="MESSAGES_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-5">
+        <createSequence sequenceName="PICTURES_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-6">
+        <createSequence sequenceName="PRODUCT_PICTURE_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-7">
+        <createSequence sequenceName="PROD_PIC_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-8">
+        <createSequence sequenceName="PROD_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-9">
+        <createSequence sequenceName="RATES_SEQ1"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-10">
+        <createSequence sequenceName="RESERVED_SEQ1"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-11">
+        <createSequence sequenceName="ROLES_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-12">
+        <createSequence sequenceName="TABLE1_SEQ"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-13">
+        <createSequence sequenceName="USERS_SEQ1"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-14">
+        <createTable tableName="CATEGORIES">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PARENT_ID" type="NUMBER(38, 0)"/>
+            <column name="NAME" type="VARCHAR2(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-15">
+        <createTable tableName="CITIES">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CITY" type="VARCHAR2(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-16">
+        <createTable tableName="FORRENT">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FROMDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TODATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-17">
+        <createTable tableName="MESSAGES">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MESSAGE" type="VARCHAR2(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SUBJECT" type="VARCHAR2(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEND_DATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RECEIVER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SENDER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RECEIVER_STATUS" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SENDER_STATUS" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="READ" type="NUMBER(1, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-18">
+        <createTable tableName="PICTURES">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LINK" type="VARCHAR2(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPLOAD_TIME" type="TIMESTAMP"/>
+            <column name="MAIN" type="NUMBER(38, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-19">
+        <createTable tableName="PRODUCTS">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTIONS" type="VARCHAR2(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OWNER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CATEGORY_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CITY_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AREA" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="STATUS" type="NUMBER(38, 0)"/>
+            <column name="UPLOAD_TIME" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-20">
+        <createTable tableName="PRODUCT_PICTURE">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PICTURE_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-21">
+        <createTable tableName="RATES">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEXT" type="VARCHAR2(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="POSITIVE" type="NUMBER(1, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RATED_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RATER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-22">
+        <createTable tableName="RESERVED">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FROMDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TODATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESERVER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-23">
+        <createTable tableName="ROLES">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE" type="VARCHAR2(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-24">
+        <createTable tableName="USERS">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_NAME" type="VARCHAR2(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FULL_NAME" type="VARCHAR2(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR2(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR2(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CITY" type="VARCHAR2(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ADDRESS" type="VARCHAR2(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="POSTCODE" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="STATUS" type="NUMBER(1, 0)"/>
+            <column defaultValueNumeric="1" name="ROLE" type="NUMBER(1, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-25">
+        <addPrimaryKey columnNames="ID" constraintName="CATEGORIES_PK" tableName="CATEGORIES"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-26">
+        <addPrimaryKey columnNames="ID" constraintName="CITY_PK" tableName="CITIES"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-27">
+        <addPrimaryKey columnNames="ID" constraintName="PICTURES_PK" tableName="PICTURES"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-28">
+        <addPrimaryKey columnNames="ID" constraintName="PROUDCT_PICTURE_PK" tableName="PRODUCT_PICTURE"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-29">
+        <addPrimaryKey columnNames="ID" constraintName="RATES_PK" tableName="RATES"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-30">
+        <addPrimaryKey columnNames="ID" constraintName="RESERVED_PK" tableName="RESERVED"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-31">
+        <addPrimaryKey columnNames="ID" constraintName="ROLES_PK" tableName="ROLES"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-32">
+        <addPrimaryKey columnNames="ID" constraintName="TABLE1_PK" tableName="FORRENT"/>
+    </changeSet>
+    <changeSet author="Zse (generated)" id="1405691127748-33">
+        <addPrimaryKey columnNames="ID" constraintName="USERS_PK" tableName="USERS"/>
+    </changeSet>
+</databaseChangeLog>
