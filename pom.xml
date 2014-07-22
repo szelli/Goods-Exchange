@@ -13,6 +13,7 @@
 		<org.springframework-secutiry.version>3.1.4.RELEASE</org.springframework-secutiry.version>
 		<jackson.version>1.9.10</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>

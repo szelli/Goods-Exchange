@@ -63,6 +63,17 @@ button:active, .btn:active, .btn.active{
     border-color: @highlight_color;
 }
 
+.remove-icon{
+    position: relative;
+    top: 1px;
+    display: block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    content: "\e014";
+}
+
 .thumbnail{
 	.caption {
 		display: inline-block;
@@ -179,6 +190,10 @@ header{
 }
 
 .pagination{
+    .active{
+        background-color: #87b580;
+        color: #ffffff;
+    }
 	margin: 0 auto; 
 	width: 30%; 
 	display: block;
@@ -252,6 +267,12 @@ footer{
 		margin-bottom: 25px;
 	}
 }
+#product_slide{
+    height: 350px;
+    .carousel, .carousel-inner, .carousel-inner>div{
+        height: 100%;
+    }
+}
 
 #product_slide, #product_slide_mini, #images_slide{
 	background: @base_color;
@@ -259,7 +280,7 @@ footer{
 
 #product_slide .carousel-inner .item img{
 	width: 100%;
-	height:333px;
+	height: 100%;
 }
 
 #product_slide_mini,  #images_slide{
@@ -410,17 +431,77 @@ h2.product_name, .lessor_name{
 }
 
 .product_upload{
+	padding: 0 30px;
+    
+	.carousel{
+        width: 100%;
+        
+        .item .remove{
+            .link_normalize;
+            span.glyphicon-remove{
+                position: absolute;
+                right:0;
+                z-index:200;
+                font-size:16px;
+                margin: 8px;
+                color: @base_color;
+            }
+        }
+    }
 	>.row{
 		margin-top: 20px;
 		margin-bottom: 20px;
+        text-align: center;
+        >div{
+            padding: 0px;
+        }
 	}
-	.product_datas input{
+    .image_upload {
+        .input-group{
+            float: left;
+            width: 75%;
+        }
+        button{
+            width: 20%;
+            float: right;
+        }
+        >div>span{
+            float: left;
+        }
+    }
+	.uploadform .product_datas input{
 		margin: 10px 0px; 
-		width: @width;
+		width: 100%;
 	}
+    .form-group{
+        float: left;
+        width: 100%;
+    }
+    .primary-datas{
+        float: left;
+        width: @width;
+    }
+    .productUpDropdown{
+        box-sizing: border-box;
+        float: left;
+        width: 100%;
+        text-align: center;
+        height: 34px;
+        margin-bottom: 15px;
+        position:relative;
+        z-index: 200;
+        >div{
+            float:left;
+            width: 32%;
+        }
+        .select-dropdown{
+            margin-left: 12%;  
+        }      
+    }
 	textarea{
-		width: @width; 
-		min-height:200px; 
+		min-height:200px;
+        width: 100%;
+        max-width: 100%;
 	}
 	.rental_calendar{
 		width:25%; 
@@ -432,12 +513,6 @@ h2.product_name, .lessor_name{
 			width: 100%;
 			text-align: center;
 		}
-	}
-	button{
-		width: 20%;
-		display: block;
-		margin: 0 auto;
-		margin-top: 20px;
 	}
 }
 
@@ -1065,6 +1140,7 @@ a:active, .pagination>li>a:active {
 
 .has-error span {
     color: @error_color;
+    float:left;
 }
 
 span.error {
@@ -1206,4 +1282,13 @@ span.error {
 
 .select-dropdown .select-error:after {
     border-color: @error_color transparent;
+}
+
+.loading{
+    margin-left: 225px;
+    margin-top: 98px;
+    &.items{
+        margin-left: 225px;
+        margin-top: 59px;
+    }
 }

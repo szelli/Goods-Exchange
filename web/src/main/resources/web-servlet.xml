@@ -52,6 +52,11 @@
 		<property name="entityManagerFactory" ref="myEmf" />
 	</bean>
 	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000"/>
+		<property name="defaultEncoding" value="utf-8"/>
+	</bean>
+	
 	<bean id="persistenceExceptionTranslationPostProcessor" 
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	

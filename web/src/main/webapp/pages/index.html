@@ -70,179 +70,41 @@
         </div>
     </div>
 </div>
-
-<div class="container col-md-10">
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="#new" data-toggle="tab">Legújabb</a>
-        </li>
-        <li>
-            <a href="#rental" data-toggle="tab">Legtöbbet bérelt</a>
-        </li>
-        <li>
-            <a href="#price" data-toggle="tab">Ár szerint</a>
-        </li>
-    </ul>
-
-    <div class="tab-content">
-        <div class="tab-pane active" id="new">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
+<div  ng-controller="productListingCtrl" class="container col-md-10">
+    <form ng-submit="loadProducts()" class="form-horizontal">
+        <ul class="nav nav-tabs">
+            <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)"><a href="{{tab.url}}" data-toggle="tab">{{tab.title}}</a></li>
+        </ul>
+        
+        <img ng-src="img/load.gif" class="loading items" ng-if="!status">
+        
+        <div class="tab-content" ng-show="status">
+            <div class="tab-pane active">
+                <div class="row">
+                    <div class="col-md-3" ng-repeat="product in products">
+                        <div class="thumbnail">
+                            <h5>{{product.name}}</h5>
+                            <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg">
+                            <div class="caption">
+                                <span class="label label-info">{{product.id}}</span>
+                                <span class="label label-info">{{product.city}}</span>
+                            </div>
                         </div>
                     </div>
+                         
+                </div>                
+                <div class="row" ng-show="status">
+                    <ul class="pagination">
+                         <li ng-click="previousPage()" ng-hide="datas.currentPage==1"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#171 </a></li>
+                    </ul>
+                    <ul class="pagination" ng-repeat="i in [] | forLoop: datas.pageCount: datas.currentPage">
+                        <li ng-click="currentPage(i)" ><a href="{{currentTab}}?page={{i}}" ng-class="{active:isActivePage(i)}"> {{i}} </a></li>
+                    </ul>
+                    <ul class="pagination">
+                        <li ng-click="nextPage()" ng-hide="datas.currentPage==datas.pageCount"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#187 </a></li>
+                    </ul>
                 </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <h5>Termék név</h5>
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
-                        <div class="caption">
-                            <span class="label label-info">Termékár</span>
-                            <span class="label label-info">Hely</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <ul class="pagination">
-                    <li>
-                        <a href="#">&laquo;</a>
-                    </li>
-                    <li>
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li>
-                        <a href="#">&raquo;</a>
-                    </li>
-                </ul>
             </div>
         </div>
-        <div class="tab-pane" id="rental">
-
-        </div>
-        <div class="tab-pane" id="price">
-
-        </div>
-    </div>
+    </form>
 </div>

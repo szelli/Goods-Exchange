@@ -5,7 +5,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import java.math.BigInteger;
-
+import java.util.Date;
+import java.util.List;
 
 /**
  * The persistent class for the PRODUCTS database table.
@@ -37,7 +38,17 @@ public class Product implements Serializable {
 	private BigInteger ownerId;
 
 	private BigInteger status;
-
+	
+	@Column(name="UPLOAD_TIME")
+	private Date uploadTime;
+	
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Picture.class, cascade = CascadeType.ALL)
+	@JoinTable(
+	      name="PRODUCT_PICTURE",
+	      joinColumns={@JoinColumn(name="product_id", referencedColumnName="ID")},
+	      inverseJoinColumns={@JoinColumn(name="picture_id", referencedColumnName="ID")})
+	private List<Picture> pictures;
+	
 	public Product() {
 	}
 
@@ -104,5 +115,20 @@ public class Product implements Serializable {
 	public void setStatus(BigInteger status) {
 		this.status = status;
 	}
+	
+	public Date getUploadTime() {
+		return this.uploadTime;
+	}
 
+	public void setUploadTime(Date uploadTime) {
+		this.uploadTime = uploadTime;
+	}
+	
+	public void setPictures(List<Picture> pictures) {
+		this.pictures = pictures;
+	}
+	
+	public List<Picture> getPictures() {
+		return this.pictures;
+	}
 }
