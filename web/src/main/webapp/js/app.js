@@ -8,6 +8,7 @@ var goods_exchange = angular.module('goods_exchange', [
 	'privateProfileCtrl',
     'productListingCtrl',
     'formDirectives',
+    'itemDirectives',
     'paginatorFilters',
     'generalFilters',
     'services'
@@ -96,7 +97,15 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
     });
     
     cityServices.getCities().success(function(cities){
-    	$rootScope.cities = cities;
+    	$rootScope.cities = [];
+    	
+        for(var i=0; i<cities.length; i++){
+            var city = {};
+            city.name = cities[i].city;
+            city.id = cities[i].id;
+            $rootScope.cities.push(city);
+        }
+        $rootScope.$broadcast('productListingCtrl');
     });
     
     //$rootScope.$on('productListingCtrl', function(e) {

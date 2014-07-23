@@ -637,8 +637,11 @@ h2.product_name, .lessor_name{
 	margin-top: 6px;
     height: 34px;
     >div{
-        float:left;
-        width: 32%;
+        width: 48%;
+        float: left;
+        &.select-dropdown{
+            float: right;
+        }
     }
 	input{
         margin-top: 0px;
@@ -1084,7 +1087,6 @@ span.error{
 	label {
 		display: table-row;
 		color: @highlight_color;
-		//text-align: center;
 	}
 	button {
 		width: 17%;
@@ -1096,18 +1098,30 @@ span.error{
 	}
 }
 
+.admin .subcategory {
+	padding-left: 30px;
+}
+
 .form-button{
 	margin: 10px 0px 10px 0px;
 }
 
 .admin .table>tbody>tr {
-	text-align: center;
+	text-align: left;
 }
 
 .admin .table-details {
 	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.admin .table-head {
+	margin-bottom: 0px;
+	width: 100%;
+	>tbody>tr>td {
+		padding-right: 0px;
+	}
 }
 
 .admin .table-details>tbody>tr {
@@ -1137,7 +1151,6 @@ a:active, .pagination>li>a:active {
 
 
 /* Admin Users - end */
-
 .has-error span {
     color: @error_color;
     float:left;
@@ -1155,7 +1168,7 @@ span.error {
     border-radius: 7px;
     cursor: pointer;
     outline: none;
-    width: 95px;
+    width: 100%;
     box-sizing: border-box;
     padding: 0px;
 }

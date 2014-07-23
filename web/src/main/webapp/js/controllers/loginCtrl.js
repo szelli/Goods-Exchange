@@ -8,13 +8,6 @@ function($scope, $http, userServices, localStorageService, $rootScope) {
     $scope.login_error = false;
     $scope.login_error_message = "";
     
-    $scope.setCountry = function(country){
-        $scope.newUser.country = country;
-    };
-     $scope.setCity = function(city){
-        $scope.newUser.city = city;
-    };
-    
     $scope.logout = function(){
         $rootScope.loggedUser = null;
         localStorageService.add("loggedUser", null);

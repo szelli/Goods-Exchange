@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import java.math.BigInteger;
-import java.util.List;
-
 
 /**
  * The persistent class for the CATEGORIES database table.
@@ -14,8 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="CATEGORIES")
-
-@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
+@NamedQuery(name="com.szpzs.model.Category.findAll", query="SELECT c FROM Category c")
 public class Category implements Serializable {
 
 	private static final Long serialVersionUID = 1L;
@@ -23,11 +19,12 @@ public class Category implements Serializable {
 	@SequenceGenerator(name="Cat", sequenceName="CATEGORIES_SEQ")
 	@Id @GeneratedValue(generator="Cat")
 	private Long id;
-
+	
+	@Column(name="NAME")
 	private String name;
 
 	@Column(name="PARENT_ID")
-	private BigInteger parentId;
+	private Long parentId;
 	
 	public Category() {
 	}
@@ -48,18 +45,12 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 
-	public BigInteger getParentId() {
+	public Long getParentId() {
 		return this.parentId;
 	}
 
-	public void setParentId(BigInteger parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
-
-	public Object getSubCategories() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
+	
 }

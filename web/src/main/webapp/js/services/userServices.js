@@ -23,7 +23,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
                 "fullName" : user.fullname,
 				"password" : user.password,
 				"email" : user.email,
-				"city" : user.city,
+				"city" : user.city.name,
                 "address" : user.address,
                 "postcode" : user.postcode,
                 "status" : 1

@@ -5,37 +5,13 @@ function($scope, $rootScope, $http, productServices, $location) {
 
 	$scope.product = {};
 	$scope.product.ownerId = $rootScope.loggedUser.id;
-	$scope.product.categoryName = "Kategória";
-	$scope.product.cityName = "Város";
 	$scope.product.images = [];
     $scope.previewImages = [];
     $scope.showPreviewImages = false;
 	$scope.category_active = false;
 	$scope.city_active = false;
-	$scope.error_category = false;
-	$scope.error_city = false;
 	$scope.error_offpristine = false;
 	$scope.productUpErr_message = "";
-	
-	$scope.toggleCityActive = function(){
-	    $scope.city_active = !$scope.city_active;
-	};
-	
-	$scope.toggleCategoryActive = function(){
-	    $scope.category_active = !$scope.category_active;
-	};
-	
-	$scope.setSelectedCity = function (SelectedCity) {
-		$scope.product.cityName = SelectedCity.city;
-		$scope.product.cityId = SelectedCity.id;
-		$scope.error_city = false;
-	};
-	
-	$scope.setSelectedCategory = function (SelectedCategory) {
-		$scope.product.categoryName = SelectedCategory.name;
-		$scope.product.categoryId = SelectedCategory.id;
-		$scope.error_category = false;
-	};
 	
 	$scope.imagesUpload = function(){
         if($scope.images){
@@ -83,17 +59,6 @@ function($scope, $rootScope, $http, productServices, $location) {
 	$scope.btnlabel = "Termék feltöltés";
 	
 	$scope.productUpload = function(form, imageForm){
-		if($scope.product.categoryName=="Kategória"){
-		    $scope.error_category = true;
-		}else{
-		    $scope.error_category = false;
-		}
-		
-		if($scope.product.cityName=="Város"){
-		    $scope.error_city = true;
-		}else{
-		    $scope.error_city = false;
-		}
 		if(form.$valid && imageForm.$valid && $scope.showPreviewImages){
 			$scope.error_offpristine = false;
 			productServices.saveProduct($scope.product).success(function(status_message){

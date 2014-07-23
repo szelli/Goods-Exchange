@@ -68,31 +68,13 @@
                         <div ng-class="{'has-error' : regform.postcode.$invalid && (!regform.postcode.$pristine || error_offpristine)}">
                             <input type="text" class="form-control" placeholder="Irszám" name="postcode" ng-model="newUser.postcode" required ng-minlength="4" ng-maxlength="4" ng-pattern="/^[0-9]*$/" maxlength="5">
                         </div>
-                        <div id="country" class="select-dropdown" tabindex="1" ng-class="{active : country_active}">
-                            <span tabindex="1" ng-click="toggleCountryActive()" ng-class="{'select-error' : error_country}">{{newUser.country}}</span>
-                            <ul class="uldropdown" ng-click="toggleCountryActive()">
-                                <li ng-click="setCountry('Baranya')">Baranya</li>
-                                <li ng-click="setCountry('Pest')">Pest</li>
-                                <li ng-click="setCountry('Zala')">Zala</li>
-                            </ul>
-                        </div>
-                        <div id="city" class="select-dropdown" tabindex="2" ng-class="{active : city_active}">
-                            <span tabindex="1" ng-click="toggleCityActive()" ng-class="{'select-error' : error_city}">{{newUser.city}}</span>
-                            <ul class="uldropdown" ng-click="toggleCityActive()">
-                                <li ng-click="setCity('Pécs')">Pécs</li>
-                                <li ng-click="setCity('Sopron')">Sopron</li>
-                                <li ng-click="setCity('Budapest')">Budapest</li>
-                            </ul>
-                        </div>
+                        <customselect activate="city_active" items="$root.cities" selected="newUser.city" label="Város" error="!newUser.city && error_offpristine"></customselect>
                     </div>
                     <span class="error" ng-show="regform.postcode.$error.required && (!regform.postcode.$pristine || error_offpristine)">Kérlek add meg az irányítószámod!<br></span>
                     <span class="error" ng-show="(regform.postcode.$error.minlength || regform.postcode.$error.minlength || regform.postcode.$error.pattern) && !regform.postcode.$pristine" >
                         Az irányítószám 4 jegyű szám!<br>
                     </span>
-                    <span class="error" ng-show="error_country">
-                        Kérlek add meg a megyét!<br>
-                    </span>
-                    <span class="error" ng-show="error_city">
+                    <span class="error" ng-show="!newUser.city && error_offpristine">
                         Kérlek add meg a várost!<br>
                     </span>
                     <div class="form-group" ng-class="{'has-error' : regform.street.$invalid && (!regform.street.$pristine || error_offpristine)}">

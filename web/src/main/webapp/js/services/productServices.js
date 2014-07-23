@@ -13,9 +13,9 @@ services.factory('productServices', function($http/*, localStorageService*/) {
             data: {
                 product:{
                     "name" : product.name,
-                    "categoryId" : product.categoryId,
+                    "categoryId" : product.category.id,
                     "descriptions" : product.description,
-                    "cityId" : product.cityId,
+                    "cityId" : product.city.id,
                     "area" : product.area,
                     "ownerId" : product.ownerId,
                     "uploadTime" : new Date()
