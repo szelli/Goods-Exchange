@@ -24,6 +24,25 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.SaveCategory(category);
 	}
 
+
+	@Override
+	public List<Category> getCategories() {
+		return categoryDAO.getCategories();
+	}
 	
+	@Override
+	public String saveCategory(Category category) {
+		return categoryDAO.saveCategory(category);
+	}
+	
+	@Override
+	public String editCategory(Category category){
+		return categoryDAO.editCategory(category);
+	}
+	
+	@Override
+	public String deleteCategory(Long id){
+		return categoryDAO.deleteCategory(id);
+	}
 	
 }
