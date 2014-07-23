@@ -26,18 +26,8 @@
 	            </span>
 	        </div>
 	        <div class="productUpDropdown">
-				<div id="category" name="category" class="select-dropdown" tabindex="1" ng-class="{active : category_active}">
-                    <span tabindex="1" ng-click="toggleCategoryActive()" ng-class="{'select-error' : error_category}">{{product.categoryName}}</span>
-                    <ul class="uldropdown" ng-click="toggleCategoryActive()">
-                         <li data-ng-repeat="category in $root.categories" ng-click="setSelectedCategory(category)">{{category.name}}</li>    
-                    </ul>
-                </div>
-                <div id="city" name="city" class="select-dropdown" tabindex="2" ng-class="{active : city_active}">
-                    <span tabindex="1" ng-click="toggleCityActive()" ng-class="{'select-error' : error_city}">{{product.cityName}}</span>
-                    <ul class="uldropdown" ng-click="toggleCityActive()">
-                        <li data-ng-repeat="city in $root.cities" ng-click="setSelectedCity(city)">{{city.city}}</li>
-                    </ul>
-                </div>
+				<customselect activate="category_active" items="$root.categories" selected="product.category" label="Kategória" error="!product.category && error_offpristine"></customselect>
+                <customselect activate="city_active" items="$root.cities" selected="product.city" label="Város" error="!product.city && error_offpristine"></customselect>
 			</div>
 			<div class="form-group" ng-class="{'has-error' : uploadform.area.$invalid && (!uploadform.area.$pristine || error_offpristine)}">
 				<input name="area" ng-model="product.area" class="form-control" placeholder="Körzet km-ben" required ng-pattern="/^[0-9]*$/" ng-minlength="1" maxlength="4" ng-maxlength="3">

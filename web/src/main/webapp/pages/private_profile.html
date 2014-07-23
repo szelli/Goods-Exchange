@@ -57,7 +57,7 @@
 				<div class="dropdown select-dropdown-edit" ng-show="buttonSwitch">
 					<span id="city" role="button" data-toggle="dropdown" ng-class="{'select-error' : error_city}">{{editUser.city}}</span>
 					<ul class="dropdown-menu uldropdown" role="menu" aria-labelledby="city" >
-						<li ng-repeat="city in cities" ng-click="setCity(city.city)">{{city.city}}</li>
+						<li ng-repeat="city in $root.cities" ng-click="setCity(city.name)">{{city.name}}</li>
 					</ul>
 				</div>
 			</div>

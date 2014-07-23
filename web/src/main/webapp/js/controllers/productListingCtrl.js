@@ -80,7 +80,7 @@ function($scope, $rootScope, $http, productServices,$location) {
             find=false;
             while(!find){
                 if ($rootScope.cities[j].id == $scope.products[i].cityId){
-                    $scope.products[i].city = $rootScope.cities[j].city;
+                    $scope.products[i].city = $rootScope.cities[j].name;
                     find = true;
                 }
                 j++;

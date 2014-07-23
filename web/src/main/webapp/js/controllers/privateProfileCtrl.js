@@ -4,8 +4,6 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 	function($scope, $rootScope, $http, $location, userServices) {
 		$scope.myData = {};
 		$scope.editUser = {};
-		$scope.cities = [];
-		$scope.cities.length = 0; 
 		$scope.editUser.id = $rootScope.loggedUser.id;
 		
 		$scope.buttonSwitch = false;
@@ -89,16 +87,4 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 				}
 			});
 		};
-		
-		
-		$scope.getCities = function(){
-			userServices.getCities().success(function(result){
-				if(result){
-					$scope.cities.push.apply($scope.cities, result);
-				} else {
-					alert("Probléma adódott!");
-				}
-			});
-		};
-				
 }]);
