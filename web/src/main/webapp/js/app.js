@@ -34,6 +34,14 @@ var goods_exchange = angular.module('goods_exchange', [
     }
 };*/
 
+var states = [
+    { name: 'public.index', url: '/index', templateUrl: 'pages/index.html', requireLogin: false },
+    { name: 'public.profile', url: '/profile', templateUrl: 'pages/profile.html', requireLogin: false },
+    { name: 'private.privateProfile', url: '/privateProfile', templateUrl: 'pages/private_profile.html', requireLogin: true },
+    { name: 'private.productUpload', url: '/productUpload', templateUrl: 'pages/product_upload.html', requireLogin: true},
+    { name: 'admin.home', url: '/admin', templateUrl: 'pages/admin_users.html', requireLogin: true}
+];
+
 goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','localStorageServiceProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider,localStorageServiceProvider) {
 		localStorageServiceProvider.setStorageType('sessionStorage');
@@ -48,61 +56,50 @@ goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvide
             abstract: true,
             template: "<div ui-view></div>"
         })
-        
-        .state('public.index', {
-            url: '/index',
-            templateUrl: 'pages/index.html'
-        })
-        
-        .state('public.profile', {
-            url: '/profile',
-            templateUrl: 'pages/profile.html'
-        })
 
         .state('private', {
             url: "",
             abstract: true,
             template: "<div ui-view></div>"
         })
-
-        .state('private.privateProfile', {
-            url: '/privateProfile',
-            templateUrl: 'pages/private_profile.html'
+    
+        .state('admin', {
+            url: "",
+            abstract: true,
+            template: "<div ui-view></div>"
         })
-        
-        .state('private.productUpload', {
-            url: '/productUpload',
-            templateUrl: 'pages/product_upload.html'
-        });
-  }]);
+      
+      angular.forEach(states, function (state) {
+            $stateProvider.state(state.name, state);
+      });
+}]);
 
 goods_exchange.run(function ($rootScope, localStorageService, cityServices, categoryServices, $location) {
     $rootScope.header = 'pages/header.html';
     $rootScope.regModal = 'pages/regModal.html';
     $rootScope.footer = 'pages/footer.html';
-    $rootScope.currentProduct = null;
+    $rootScope.preventURL='';
     
-    
-/*    $rootScope.$on("$locationChangeStart", function(event, next, current) {
-        for(var i in window.routes) {
-            if(next.indexOf(i) != -1) {
-                if(window.routes[i].requireLogin && !$rootScope.loggedUser) {
-                	$location.path('/index');
-                	$("#loginModal").modal("show");
-                }
-                if(window.routes[i].requireProduct && !$rootScope.currentProduct){
-                	$location.path('/index');
+    $rootScope.$on("$locationChangeSuccess", function() {
+        if ($rootScope.preventURL != $location.path()){
+            for (var i=0; i<states.length; i++){
+                if ($location.path() == states[i].url){
+                    $rootScope.preventURL=$location.path();
+                    if (states[i].requireLogin && !$rootScope.loggedUser){
+                        $location.path('/index');
+                        $("#loginModal").modal("show");
+                    }
+                    i=states.length;
                 }
             }
         }
     });
-*/    
+    
     cityServices.getCities().success(function(cities){
     	$rootScope.cities = cities;
-        $rootScope.$broadcast('productListingCtrl');
     });
     
-    $rootScope.$on('productListingCtrl', function(e) {
+    //$rootScope.$on('productListingCtrl', function(e) {
         categoryServices.getCategories().success(function(categories){
             $rootScope.categories = categories;
         });
@@ -110,5 +107,5 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
         if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {
             $rootScope.loggedUser = localStorageService.get("loggedUser");
         }
-    });
+    //});
 });
