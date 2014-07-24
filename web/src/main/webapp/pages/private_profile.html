@@ -53,13 +53,8 @@
 				<span>Város:</span>
 			</div>
 			<div class="right-side col-md-7">
-				<span ng-show="!buttonSwitch">{{myData.city}}</span>
-				<div class="dropdown select-dropdown-edit" ng-show="buttonSwitch">
-					<span id="city" role="button" data-toggle="dropdown" ng-class="{'select-error' : error_city}">{{editUser.city}}</span>
-					<ul class="dropdown-menu uldropdown" role="menu" aria-labelledby="city" >
-						<li ng-repeat="city in $root.cities" ng-click="setCity(city.name)">{{city.name}}</li>
-					</ul>
-				</div>
+				<span ng-show="!buttonSwitch">{{myData.city.name}}</span>
+				<customselect ng-show="buttonSwitch" activate="city_active" items="$root.cities" selected="editUser.city" label="{{editUser.city}}" error="false"></customselect>
 			</div>
 		</div>
 		<div class="row">
