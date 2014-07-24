@@ -9,7 +9,6 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 		$scope.buttonSwitch = false;
 		$scope.setNewPassword = false;
 		
-		$scope.error_city = false;
 		$scope.edit_error = false;
 		
 		$scope.buttonSwitchFunction = function(){
@@ -23,18 +22,16 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 			$scope.setNewPassword = !$scope.setNewPassword;
 		};
 		
-		$scope.setCity = function(city){
-			$scope.editUser.city = city;
-		};
-		
 		$scope.toPublicView = function(){
 			$location.path("/profile");
-		}
+		};
 		
 		userServices.getUserById($rootScope.loggedUser.id).success(function(result){
 			if(result){
 				$scope.myData = result;
 				angular.copy($scope.myData, $scope.editUser);
+				$scope.myData.city = {};
+				$scope.myData.city.name = $scope.editUser.city;
 			} else {
 				alert("Hiba történt, kérlek próbálkozz később!");
 			}

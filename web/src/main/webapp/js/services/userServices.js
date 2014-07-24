@@ -50,7 +50,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 			data : {
 				"id" : user.id,
 				"postcode" : user.postcode,
-				"city" : user.city,
+				"city" : user.city.name,
 				"address" : user.address,
 				"email" : user.email
             },
