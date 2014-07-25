@@ -65,7 +65,8 @@ services.factory('productServices', function($http/*, localStorageService*/) {
                 "pageCount": datas.pageCount,
                 "productsCount": datas.productsCount,
                 "offset": datas.offset,
-                "tab": datas.tab
+                "tab": datas.tab,
+				"categoryId": datas.categoryId
                 
             },
 			method : "POST",

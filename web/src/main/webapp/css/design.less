@@ -165,6 +165,9 @@ header{
     h3{
 	  color: @base_color;
       margin-top: 10px;
+	  &:hover{
+	  	 cursor: pointer;
+	  }
     }
 	.panel-collapse{
 		float: left;
@@ -175,6 +178,18 @@ header{
 		float: left;
 		width: 100%;
 		
+	}
+	.panel-body {
+		float: left;
+		width: 100%;
+		padding: 2px 2px 2px 10px;
+		a {
+			background-color: #fff;
+			color: @base_color;
+			&:hover {
+				color: @highlight_color; 
+			}
+		}
 	}
 	/*.panel-default{
 		&:hover{

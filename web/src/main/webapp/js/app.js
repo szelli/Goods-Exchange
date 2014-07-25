@@ -108,11 +108,29 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
         }
         $rootScope.$broadcast('productListingCtrl');
     });
-    
+	
+	
+	
+	createCategoryHierarchy = function(categories, parentId) {
+		var outResult = [];
+		for(var i in categories) {
+			if(categories[i].parentId == parentId) {
+				var children = createCategoryHierarchy(categories, categories[i].id);
+				if(children != null) {
+					categories[i].children = children;
+				}
+				outResult.push(categories[i]);
+			}
+		}
+		return outResult;
+	}
+	
     //$rootScope.$on('productListingCtrl', function(e) {
         categoryServices.getCategories().success(function(categories){
-            $rootScope.categories = categories;
+			$rootScope.categories = createCategoryHierarchy(categories, 0);
+            //$rootScope.categories = categories;
         });
+	
 
         if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {
             $rootScope.loggedUser = localStorageService.get("loggedUser");

@@ -20,6 +20,8 @@ public class ProductListDatas {
 	
 	private String tab;
 	
+	private BigInteger categoryId;
+	
 	public BigInteger getId(){
 		return this.id;
 	}
@@ -83,4 +85,13 @@ public class ProductListDatas {
 	public void setTab(String tab){
 		this.tab = tab;
 	}
+	
+	public BigInteger getCategoryId(){
+		return this.categoryId;
+	}
+	
+	public void setCategoryId(BigInteger id){
+		this.categoryId = id;
+	}
+	
 }

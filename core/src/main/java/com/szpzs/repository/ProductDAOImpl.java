@@ -56,12 +56,17 @@ public class ProductDAOImpl implements ProductDAO{
 		CriteriaQuery<Product> q = cb.createQuery(Product.class);
 		Root<Product> c = q.from(Product.class);
 		ParameterExpression<BigInteger> p = cb.parameter(BigInteger.class);
+		ParameterExpression<BigInteger> l = cb.parameter(BigInteger.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		
 		if (datas.getId() != null && datas.getId() != BigInteger.valueOf(0)){
 			predicates.add(cb.equal(c.get("ownerId"),p));
 		}
 		
+		if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
+			predicates.add(cb.equal(c.get("categoryId"),l));
+		}
+	
 		try{
 			q.select(c).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
 			if (datas.getSort().equals("DESC")){
@@ -73,6 +78,9 @@ public class ProductDAOImpl implements ProductDAO{
 			TypedQuery<Product> query = entityManager.createQuery(q);
 			if (datas.getId() != null && datas.getId() != BigInteger.valueOf(0)){
 				query.setParameter(p, datas.getId());
+			}
+			if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
+				query.setParameter(l, datas.getCategoryId());
 			}
 			query.setFirstResult(datas.getOffset());
 			query.setMaxResults(datas.getLimit());

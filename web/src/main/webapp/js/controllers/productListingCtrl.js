@@ -6,6 +6,7 @@ function($scope, $rootScope, $http, productServices,$location) {
     var id = [];
     var url = $location.url().split('%');
     var page = [];
+	$scope.haveChildNode;
     $scope.datas = {};
     $scope.datas.limit= 12;
     $scope.datas.sort= "DESC";
@@ -13,6 +14,7 @@ function($scope, $rootScope, $http, productServices,$location) {
     $scope.datas.currentPage=1;
     $scope.datas.productsCount=0;
     $scope.datas.offset=0;
+	$scope.datas.categoryId=0;
     $scope.datas.tab={};
     $scope.currentTab={};
     $scope.tabs = [{
@@ -23,7 +25,27 @@ function($scope, $rootScope, $http, productServices,$location) {
             title: 'Név szerint',
             url: '#/index#name'
     }];
-
+	
+	$scope.setCategory = function(id) {
+		$scope.status=false;
+		$scope.datas.categoryId = id;
+		$scope.refreshProducts();
+	}
+	
+	$scope.haveChild = function(id){
+		for(var i in $scope.categories) {
+			if($scope.categories[i].id == id) {
+				if($scope.categories[i].children.length) {
+					$scope.haveChildNode = true;
+					break;
+				} else {
+					$scope.haveChildNode = false;
+					break;
+				}
+			}
+		}
+	};
+	
 //URL setting
     if (url.length == 2){
         page = url[1].split('=');
