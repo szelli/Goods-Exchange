@@ -1,6 +1,8 @@
 package com.szpzs.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+
 import javax.persistence.*;
 
 
@@ -15,7 +17,7 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private long id;
+	private int id;
 
 	@Column(name="\"ROLE\"")
 	private String role;
@@ -23,11 +25,11 @@ public class Role implements Serializable {
 	public Role() {
 	}
 
-	public long getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
