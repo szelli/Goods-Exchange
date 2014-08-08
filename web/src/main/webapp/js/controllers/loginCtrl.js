@@ -1,7 +1,7 @@
 var loginCtrl = angular.module('loginCtrl', []);
 
-loginCtrl.controller('loginCtrl', ['$scope', '$http', 'userServices', 'localStorageService', '$rootScope',
-function($scope, $http, userServices, localStorageService, $rootScope) {
+loginCtrl.controller('loginCtrl', ['$scope', '$http', 'userServices', 'localStorageService', '$rootScope', '$location', 'sharedDatas',
+function($scope, $http, userServices, localStorageService, $rootScope, $location, sharedDatas) {
     $scope.username = null;
     $scope.password = null;
     $scope.error_offpristine = false;
@@ -11,6 +11,8 @@ function($scope, $http, userServices, localStorageService, $rootScope) {
     $scope.logout = function(){
         $rootScope.loggedUser = null;
         localStorageService.add("loggedUser", null);
+		sharedDatas.setOwnerId(0);
+		$location.path("/index");
     };
     
     $scope.login = function(form){
