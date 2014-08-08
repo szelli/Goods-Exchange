@@ -8,10 +8,12 @@ var goods_exchange = angular.module('goods_exchange', [
 	'privateProfileCtrl',
     'productListingCtrl',
 	'adminCtrl',
+	'menuCtrl',
     'formDirectives',
     'itemDirectives',
     'paginatorFilters',
     'generalFilters',
+	'sharedDatas',
     'services'
 ]);
 
@@ -40,8 +42,10 @@ var states = [
     { name: 'public.index', url: '/index', templateUrl: 'pages/index.html', requireLogin: false },
     { name: 'public.profile', url: '/profile', templateUrl: 'pages/profile.html', requireLogin: false },
     { name: 'private.privateProfile', url: '/privateProfile', templateUrl: 'pages/private_profile.html', requireLogin: true },
+	{ name: 'private.myProducts', url: '/myProducts', templateUrl: 'pages/my_products.html', requireLogin: true },
     { name: 'private.productUpload', url: '/productUpload', templateUrl: 'pages/product_upload.html', requireLogin: true},
-    { name: 'admin.home', url: '/admin', templateUrl: 'pages/admin_users.html', requireLogin: true}
+	{ name: 'private.reservation', url: '/reservation', templateUrl: 'pages/reservation.html', requireLogin: true},
+    { name: 'admin.home', url: '/admin', templateUrl: 'pages/admin.html', requireLogin: true}
 ];
 
 goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','localStorageServiceProvider',
@@ -80,6 +84,13 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
     $rootScope.header = 'pages/header.html';
     $rootScope.regModal = 'pages/regModal.html';
     $rootScope.footer = 'pages/footer.html';
+	$rootScope.userMenu = 'pages/user_menu.html';
+	$rootScope.productListing = 'pages/product_listing.html';
+	$rootScope.adminUsers = 'pages/admin_users.html';
+	$rootScope.adminProducts = 'pages/admin_products.html';
+	$rootScope.adminCategories = 'pages/admin_categories.html';
+	$rootScope.adminMessages = 'pages/admin_messages.html';
+	$rootScope.emptyCategory = 'pages/empty_category.html';
     $rootScope.preventURL='';
     
     $rootScope.$on("$locationChangeSuccess", function() {
@@ -126,11 +137,20 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
 	}
 	
     //$rootScope.$on('productListingCtrl', function(e) {
-        categoryServices.getCategories().success(function(categories){
-			$rootScope.categories = createCategoryHierarchy(categories, 0);
-            //$rootScope.categories = categories;
-        });
 	
+	$rootScope.getCategories = function() {
+        categoryServices.getCategories().success(function(categories){
+			$rootScope.subCategories = [];
+			$rootScope.categories = createCategoryHierarchy(categories, 0);
+			for(var i in $rootScope.categories) {
+				for(var j in $rootScope.categories[i].children) {
+					$rootScope.subCategories.push($rootScope.categories[i].children[j]);
+				}
+			}
+			
+        });
+	};
+	$rootScope.getCategories();
 
         if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {
             $rootScope.loggedUser = localStorageService.get("loggedUser");
