@@ -23,10 +23,8 @@ public interface UserService {
 	
 	public String editUser(User user);
 	
-	public String changePassword(Long id, String password);
-	
 	public String validatePassword(Long id, String password);
 
-	public Collection<City> getCities();
+	public String deleteUser(Long id);
 	
 }

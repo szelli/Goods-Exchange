@@ -76,14 +76,6 @@ public class UserController {
 		return result;
 	}
 	
-	@ResponseBody @RequestMapping(value = "/changePasswordRequest", method=RequestMethod.POST, produces = "application/json")
-	public String changePassword(@RequestBody String userdatas) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		User user = mapper.readValue(userdatas, User.class);
-		result = userService.changePassword(user.getId(), user.getPassword());
-		return result;
-	}
-	
 	@ResponseBody @RequestMapping(value = "/validatePasswordRequest", method=RequestMethod.POST, produces = "application/json")
 	public String validatePassword(@RequestBody String userdatas) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -91,12 +83,7 @@ public class UserController {
 		result = userService.validatePassword(user.getId(), user.getPassword());
 		return result;
 	}
-	
-	@ResponseBody @RequestMapping(value = "/getCitiesRequest", method=RequestMethod.POST, produces = "application/json")
-	public List getCities() throws JsonParseException, JsonMappingException, IOException {
-		Collection<City> cities = userService.getCities();
-		return (List) cities;
-	}
+
 	
 /*		
  * 		ObjectMapper mapper = new ObjectMapper();

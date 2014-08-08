@@ -1,17 +1,25 @@
 package com.szpzs.repository;
 
 import java.math.BigInteger;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Path;
 
-import org.hibernate.PersistentObjectException;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.szpzs.model.City;
+import com.szpzs.model.Role;
 import com.szpzs.model.User;
 
 @Repository
@@ -56,25 +64,49 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	@Transactional
-	//még esetleg át lehet írni a Criretia API használatával
-	public void editUser(User user) {
-		entityManager.createQuery("Update User as u Set u.postcode = :postcode, u.city = :city, u.address = :address, u.email = :email Where u.id = :id")
-		.setParameter("postcode", user.getPostcode())
-		.setParameter("city", user.getCity())
-		.setParameter("address", user.getAddress())
-		.setParameter("email", user.getEmail())
-		.setParameter("id", user.getId()).executeUpdate();
+	public String editUser(User user) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaUpdate<User> cu = cb. createCriteriaUpdate(User.class);
+		Root<User> utable = cu.from(User.class);
+		
+		try{
+			cu.where(cb.equal(utable.get("id"), user.getId()));
+			
+			if (user.getUserName() != null && user.getUserName() != String.valueOf(0)){
+				cu.set("userName", user.getUserName());
+			}
+			if (user.getFullName() != null && user.getFullName() != String.valueOf(0)){
+				cu.set("fullName", user.getFullName());
+			}
+			if (user.getPostcode() != null && user.getPostcode() != BigInteger.valueOf(0)){
+				cu.set("postcode", user.getPostcode());
+			}
+			if (user.getCity() != null && user.getCity() != String.valueOf(0)){
+				cu.set("city", user.getCity());
+			}
+			if (user.getAddress() != null && user.getAddress() != String.valueOf(0)){
+				cu.set("address", user.getAddress());
+			}
+			if (user.getEmail() != null && user.getEmail() != String.valueOf(0)){
+				cu.set("email", user.getEmail());
+			}
+			if (user.getPassword() != null && user.getPassword() != String.valueOf(0)){
+				user.setPassword(convertPasswordToMd5(user.getPassword()));
+				cu.set("password", user.getPassword());
+			}
+			if (user.getStatus() != null && user.getStatus() != BigInteger.valueOf(0)){
+				cu.set("status", user.getStatus());
+			}
+			if (user.getRole().getId() != 0){
+				cu.set("role", user.getRole().getId());
+			}
+			
+			entityManager.createQuery(cu).executeUpdate();
+			return "ok";
+		} catch(NoResultException e) {
+			return null;
+		}
 	}
-	
-	@Override
-	@Transactional
-	public boolean changePassword(Long id, String password){
-		entityManager.createQuery("Update User as u Set u.password = :password Where u.id = :id")
-		.setParameter("id", id)
-		.setParameter("password", password).executeUpdate();
-		return true;
-	}
-	
 	
 	@Override
 	@Transactional
@@ -93,7 +125,18 @@ public class UserDAOImpl implements UserDAO {
 	        return false;
 	    }
 	}
-
+	
+	@Override
+	@Transactional
+	public String deleteUser(Long id){
+		try {
+			entityManager.createQuery("Delete From User as u Where u.id = :id").setParameter("id", id).executeUpdate();
+			return "ok";
+		} catch(NoResultException e) {
+	        return "not ok";
+	    }
+	}
+	
 	@Override
 	public boolean existsUser(String userName) {
 		int size = entityManager.createQuery("Select u From User as u Where u.userName = :userName")
@@ -106,9 +149,8 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 	
-	public Collection<City> getCities() {
-		Collection<City> cities = entityManager.createQuery("SELECT c FROM City c").getResultList();
-	    return cities;
-	  }
-	
+	@Override
+	public String convertPasswordToMd5(String pass) {
+		return new Md5PasswordEncoder().encodePassword( pass, null );
+	}
 }

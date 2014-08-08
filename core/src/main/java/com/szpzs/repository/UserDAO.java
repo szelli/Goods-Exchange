@@ -14,13 +14,13 @@ public interface UserDAO {
 	
 	public void saveUser(User user);
 	
-	public void editUser(User user);
-	
-	public boolean changePassword(Long id, String password);
+	public String editUser(User user);
 	
 	public boolean validatePassword(Long id, String password);
 	
 	public boolean existsUser(String userName);
+	
+	public String convertPasswordToMd5(String pass);
 
-	public Collection<City> getCities();
+	public String deleteUser(Long id);
 }

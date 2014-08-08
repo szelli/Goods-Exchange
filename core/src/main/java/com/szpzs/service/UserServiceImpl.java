@@ -47,18 +47,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String editUser(User user){
-		userDAO.editUser(user);
-		return "ok";
-	}
-	
-	@Override
-	public String changePassword(Long id, String password){
-		password = convertPasswordToMd5(password);
-		if(userDAO.changePassword(id, password)){
-			return "ok";
-		} else {
-		return "not ok";
-		}
+		return userDAO.editUser(user);
 	}
 	
 	public String validatePassword(Long id, String password){
@@ -68,6 +57,10 @@ public class UserServiceImpl implements UserService {
 		} else {
 			return null;
 		}
+	}
+	
+	public String deleteUser(Long id){
+		return userDAO.deleteUser(id);
 	}
 	
 	@Override
@@ -90,11 +83,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String convertPasswordToMd5(String pass) {
 		return new Md5PasswordEncoder().encodePassword( pass, null );
-	}
-	
-	@Override
-	public Collection<City> getCities(){
-		return userDAO.getCities();
 	}
 	
 }
