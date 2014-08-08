@@ -49,31 +49,22 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 			url : 'api/editProfileRequest',
 			data : {
 				"id" : user.id,
+				"userName" : user.userName,
+                "fullName" : user.fullName,
 				"postcode" : user.postcode,
 				"city" : user.city.name,
 				"address" : user.address,
-				"email" : user.email
+				"email" : user.email,
+				"password" : user.newPassword,
+				"status" : user.status,
+				"role" : user.role
             },
 			method : "POST",
 			contentType: "application/json"
 		});
 	};
-	
-	user.changePassword = function(id, password) {
-		console.log("ezt kapja a changePassword service:",password, id);
-		return $http({
-			url : 'api/changePasswordRequest',
-			data : {
-				"id" : id,
-				"password" : password
-			},
-			method: "POST",
-			contentType: "application/json"
-		});
-	};
-	
+
 	user.validatePassword = function(id, password) {
-		console.log("ezt kapja a validatePassword service:",password);
 		return $http({
 			url : 'api/validatePasswordRequest',
 			data : {
