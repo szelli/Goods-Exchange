@@ -1,0 +1,92 @@
+<div class="row">
+	<div class="panel-group col-md-2" id="accordion"  ng-controller="menuCtrl">
+		<div id="accordion" ng-include="userMenu"></div>
+		<div class="col-md-12" id="accordion" ng-if="isAdminUser()">
+			<h3>Admin</h3>
+			<h4><a data-parent="#accordion" href="/#/admin">Admin oldal</a></h4>
+		</div>
+	</div>
+	<div class="container col-md-10">
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a href="#reservation" data-toggle="tab">Foglalások</a>
+			</li>
+			<li>
+				<a href="#active_reservation" data-toggle="tab">Kölcsönzések</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="reservation">
+				<div class="row">
+					<table class="list table table-striped">
+						<tr>
+							<th>Bérbeadó/Bérlő</th>
+							<th>Kép</th>
+							<th>Terméknév</th>
+							<th>Hely</th>
+							<th>Ár</th>
+							<th>Foglalás ideje</th>
+							<th>Műveletek</th>
+						</tr>
+						<tr>
+							<td>Flabellina tulaj</td>
+							<td>
+								<img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
+							</td>
+							<td>Flabellina</td>
+							<td>Tenger + 100km</td>
+							<td>15 000 Ft</td>
+							<td>2014.01.09-2014.05.20</td>
+							<td>
+								<a href="#edit"><span class="glyphicon glyphicon-edit"></span></a>
+								<a href="#delete"><span  class="glyphicon glyphicon-remove"></span></a>
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+			</div>
+			<div class="tab-pane" id="active_reservation">
+				<div class="row">
+					<table class="list table table-striped">
+						<tr>
+							<th>Bérbeadó/Bérlő</th>
+							<th>Kép</th>
+							<th>Terméknév</th>
+							<th>Hely</th>
+							<th>Ár</th>
+							<th>Foglalás ideje</th>
+							<th>Kezdés/Befejezés megerősítése</th>
+							<th>Értékelem</th>
+						</tr>
+						<tr>
+							<td>Flabellina tulaj</td>
+							<td>
+								<img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="...">
+							</td>
+							<td>Flabellina</td>
+							<td>Tenger + 100km</td>
+							<td>15 000 Ft</td>
+							<td>2014.01.09-2014.05.20</td>
+							<td><a href="#confirm" >Kezdés megerősítése</a></td>
+							<td>
+								<span class="glyphicon glyphicon-edit lighter"></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<ul class="pagination">
+				  <li><a href="#">&laquo;</a></li>
+				  <li><a href="#">1</a></li>
+				  <li><a href="#">2</a></li>
+				  <li><a href="#">3</a></li>
+				  <li><a href="#">4</a></li>
+				  <li><a href="#">5</a></li>
+				  <li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

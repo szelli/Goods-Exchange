@@ -1,55 +1,51 @@
-<div class="panel-group col-md-2" id="accordion">
-	<h3>Menü</h3>
-	<ul class="nav nav-pills nav-stacked">
-		<li><a href="my_products.html">Termékeim</a></li>
-		<li><a href="reservation.html">Termék foglalások</a></li>
-		<li><a href="reservation.html">Kölcsönzött termékek</a></li>
-		<li><a href="#messages">Üzenetek</a></li>
-		<li><a href="#rates">Értékelések</a></li>
-		<li><a href="private_profile.html">Profil szerkesztése</a></li>
-	</ul>
+<div class="panel-group col-md-2" id="accordion"  ng-controller="menuCtrl">
+	<div id="accordion" ng-include="userMenu"></div>
+	<div class="col-md-12" id="accordion" ng-if="isAdminUser()">
+		<h3>Admin</h3>
+		<h4><a data-parent="#accordion" href="/#/admin">Admin oldal</a></h4>
+	</div>
 </div>
 <div class="container product_upload col-md-10" ng-controller="productUploadCtrl">
 	<form name="uploadform" novalidate class="css-form">
 		<h2>{{label}}</h2>
 		<div class="row product_datas">
-			<div class="form-group" ng-class="{'has-error' : uploadform.name.$invalid && (!uploadform.name.$pristine || error_offpristine)}">
-				<input name="name" ng-model="product.name" maxlength="21" required ng-minlength="5" ng-maxlength="20" class="form-control" placeholder="Terméknév">
-				<span ng-show="uploadform.name.$error.required && (!uploadform.name.$pristine || error_offpristine)">
+			<div class="form-group" ng-class="{'has-error' : uploadform.name.$invalid && (!uploadform.name.$pristine || error_offpristine), 'has-warning' : uploadform.name.$error.minlength || uploadform.name.$error.maxlength}">
+				<input name="name" ng-model="product.name" maxlength="21" required ng-minlength="5" ng-maxlength="20" placeholder="Terméknév">
+				<span class="error" ng-show="uploadform.name.$error.required && (!uploadform.name.$pristine || error_offpristine)">
 	            	A mező kitöltése kötelező!<br>
 	            </span>
-	            <span ng-show="uploadform.name.$error.minlength && !uploadform.name.$pristine">
+	            <span class="warning" ng-show="uploadform.name.$error.minlength && !uploadform.name.$pristine">
 	            	Legalább 5 karakter hosszú kell legyen a név!<br>
 	            </span>
-	            <span ng-show="uploadform.name.$error.maxlength && !uploadform.name.$pristine">
+	            <span class="warning" ng-show="uploadform.name.$error.maxlength && !uploadform.name.$pristine">
 	            	Legfeljebb 20 karakter hosszú lehet a név!<br>
 	            </span>
 	        </div>
 	        <div class="productUpDropdown">
-				<customselect activate="category_active" items="$root.categories" selected="product.category" label="Kategória" error="!product.category && error_offpristine"></customselect>
+				<customselect activate="category_active" items="$root.subCategories" selected="product.category" label="Kategória" error="!product.category && error_offpristine"></customselect>
                 <customselect activate="city_active" items="$root.cities" selected="product.city" label="Város" error="!product.city && error_offpristine"></customselect>
 			</div>
-			<div class="form-group" ng-class="{'has-error' : uploadform.area.$invalid && (!uploadform.area.$pristine || error_offpristine)}">
-				<input name="area" ng-model="product.area" class="form-control" placeholder="Körzet km-ben" required ng-pattern="/^[0-9]*$/" ng-minlength="1" maxlength="4" ng-maxlength="3">
-				<span ng-show="uploadform.area.$error.required && (!uploadform.area.$pristine || error_offpristine)">
+			<div class="form-group" ng-class="{'has-error' : uploadform.area.$invalid && (!uploadform.area.$pristine || error_offpristine), 'has-warning' : uploadform.area.$error.minlength || uploadform.area.$error.maxlength}">
+				<input name="area" ng-model="product.area"  placeholder="Körzet km-ben" required ng-pattern="/^[0-9]*$/" ng-minlength="1" maxlength="4" ng-maxlength="3">
+				<span class="error" ng-show="uploadform.area.$error.required && (!uploadform.area.$pristine || error_offpristine)">
 	            	A mező kitöltése kötelező!<br>
 	            </span>
-	            <span ng-show="uploadform.area.$error.minlength && !uploadform.area.$pristine">
+	            <span class="warning" ng-show="uploadform.area.$error.minlength && !uploadform.area.$pristine">
 	            	Legalább 1 számjegyű kell legyen a körzet!<br>
 	            </span>
-	            <span ng-show="uploadform.area.$error.maxlength && !uploadform.area.$pristine">
+	            <span class="warning" ng-show="uploadform.area.$error.maxlength && !uploadform.area.$pristine">
 	            	Legfeljebb 3 számjegyű lehet a körzet!<br>
 	            </span>
-	            <span ng-show="uploadform.area.$error.pattern && !uploadform.area.$pristine">
+	            <span class="error" ng-show="uploadform.area.$error.pattern && !uploadform.area.$pristine">
 	            	Csak számokat tartalmazhat!<br>
 	            </span>
 	        </div>
-	        <div class="form-group" ng-class="{'has-error' : uploadform.description.$invalid && (!uploadform.description.$pristine || error_offpristine)}">
-				<textarea class="form-control" name="description" ng-model="product.description" class="product_descr" placeholder="Termékleírás" required maxlength="256" ng-maxlength="255"></textarea>
-				<span ng-show="uploadform.description.$error.required && (!uploadform.description.$pristine || error_offpristine)">
+	        <div class="form-group" ng-class="{'has-error' : uploadform.description.$invalid && (!uploadform.description.$pristine || error_offpristine), 'has-warning' : uploadform.description.$error.maxlength}">
+				<textarea  name="description" ng-model="product.description" class="product_descr" placeholder="Termékleírás" required maxlength="256" ng-maxlength="255"></textarea>
+				<span class="error" ng-show="uploadform.description.$error.required && (!uploadform.description.$pristine || error_offpristine)">
 	            	A mező kitöltése kötelező!<br>
 	            </span>
-	             <span ng-show="uploadform.description.$error.maxlength && !uploadform.description.$pristine">
+	             <span class="warning" ng-show="uploadform.description.$error.maxlength && !uploadform.description.$pristine">
 	            	Legfeljebb 255 karakter hosszú lehet a leírás!<br>
 	            </span>
 			</div>
@@ -64,14 +60,14 @@
                                Kép választás <input type="file" ng-model="images" selectimages name="productImages" multiple>
                            </span>
                        </span>
-                       <input type="text" class="form-control" ng-model="imageUploadLabel" name="imageName" readonly="">
+                       <input type="text"  ng-model="imageUploadLabel" name="imageName" readonly="">
                    </div>
                </form>
                <button class="btn btn-primary" ng-click="imagesUpload()">Feltöltés</button>
-               <span class="error" ng-show="imageUpload.productImages.$error.selectimages">
+               <span class="error" class="error" ng-show="imageUpload.productImages.$error.selectimages">
                    Legalább egy képet ki kell választanod, de maximum 5 képet választhatsz ki!
                </span>
-               <span class="error" ng-show="!showPreviewImages && !imageUpload.productImages.$invalid && error_offpristine">
+               <span class="error" class="error" ng-show="!showPreviewImages && !imageUpload.productImages.$invalid && error_offpristine">
                    Kérlek töltsd fel képeket!
                </span>
            </div>

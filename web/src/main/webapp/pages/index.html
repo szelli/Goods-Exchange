@@ -1,6 +1,7 @@
 <div class="row" ng-controller="productListingCtrl">
 	<div class="panel-group col-md-2" id="accordion">
-		<h3 ng-click="setCategory(0)">Kategóriák</h3>
+		<h3>Kategóriák</h3>
+		<h4><a data-parent="#accordion" href="" ng-click="setCategory(0)">Összes kategória</a></h4>
 		<div class="panel panel-default" ng-repeat="category in categories">
 			<div class="panel-heading">
 				<h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{category.id}}" ng-click="haveChild(category.id)"> {{category.name}} </a></h4>
@@ -15,43 +16,16 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container col-md-10" >
-		<form ng-submit="loadProducts()" class="form-horizontal">
-			<ul class="nav nav-tabs">
-				<li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)"><a href="{{tab.url}}" data-toggle="tab">{{tab.title}}</a></li>
-			</ul>
-
-			<img ng-src="img/load.gif" class="loading items" ng-if="!status">
-
-			<div class="tab-content" ng-show="status">
-				<div class="tab-pane active">
-					<div class="row">
-						<div class="col-md-3" ng-repeat="product in products">
-							<div class="thumbnail">
-								<h5>{{product.name}}</h5>
-								<img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg">
-								<div class="caption">
-									<span class="label label-info">{{product.id}}</span>
-									<span class="label label-info">{{product.city}}</span>
-								</div>
-							</div>
-						</div>
-
-					</div>                
-					<div class="row" ng-show="status">
-						<ul class="pagination">
-							 <li ng-click="previousPage()" ng-hide="datas.currentPage==1"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#171 </a></li>
-						</ul>
-						<ul class="pagination" ng-repeat="i in [] | forLoop: datas.pageCount: datas.currentPage">
-							<li ng-click="currentPage(i)" ><a href="{{currentTab}}?page={{i}}" ng-class="{active:isActivePage(i)}"> {{i}} </a></li>
-						</ul>
-						<ul class="pagination">
-							<li ng-click="nextPage()" ng-hide="datas.currentPage==datas.pageCount"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#187 </a></li>
-						</ul>
-					</div>
+		<div ng-controller="menuCtrl">
+			<div ng-if="loggedUser()">
+				<div id="accordion" ng-include="userMenu"></div>
+				<div id="accordion" ng-if="isAdminUser()" class="col-md-12">
+					<h3>Admin</h3>
+					<h4><a data-parent="#accordion" href="/#/admin">Admin oldal</a></h4>
 				</div>
 			</div>
-		</form>
+		</div>
+	</div>
+	<div class="container col-md-10" ng-include="productListing">
 	</div>
 </div>

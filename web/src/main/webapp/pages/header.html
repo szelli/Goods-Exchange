@@ -3,17 +3,13 @@
         <img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="Logó">
     </div>
     <div class="search col-md-7">
-        <input type="text" class="form-control" placeholder="Keresés">
-        <button class="btn btn-default">
-            Részletes keresés
-        </button>
+        <input type="text" placeholder="Keresés">
+        <button class="btn btn-default"> Részletes keresés </button>
     </div>
     <div ng-show="$root.loggedUser" ng-controller="loginCtrl" class="auth_box col-md-3">
-        <button class="btn btn-default" ng-click="logout()">
-            Kijelentkezés
-        </button>
+        <button class="btn btn-default" ng-click="logout()"> Kijelentkezés </button>
     </div>
-    
+	
     <div ng-show="!$root.loggedUser" ng-controller="loginCtrl" class="auth_box col-md-3">
         <!-- Bejelentkezés -->
         <button class="btn btn-default" data-toggle="modal" data-target="#loginModal">
@@ -30,14 +26,14 @@
                     <div class="modal-body">
                         <form name="loginform" novalidate class="css-form">
                             <div class="form-group" ng-class="{'has-error' : loginform.username.$invalid && (!loginform.username.$pristine || error_offpristine)}">
-                                <input type="text" class="form-control" name="username" ng-model="username" placeholder="Felhasználó név" maxlength="21" required>
-                                <span ng-show="loginform.username.$error.required && (!loginform.username.$pristine || error_offpristine)">
-                                    Kérlek add meg a felhasználó neved!<br>
+                                <input type="text" name="username" ng-model="username" placeholder="Felhasználó név" maxlength="21" required>
+                                <span class="error" ng-show="loginform.username.$error.required && (!loginform.username.$pristine || error_offpristine)">
+                                    Kérlek add meg a felhasználó neved!
                                 </span>
                             </div>
                             <div class="form-group" ng-class="{'has-error' : loginform.password.$invalid && (!loginform.password.$pristine || error_offpristine)}">
-                                <input type="password" class="form-control" name="password" ng-model="password" placeholder="Jelszó" maxlength="150" required>
-                                <span ng-show="loginform.password.$error.required && (!loginform.password.$pristine || error_offpristine)">
+                                <input type="password" name="password" ng-model="password" placeholder="Jelszó" maxlength="150" required>
+                                <span class="error" ng-show="loginform.password.$error.required && (!loginform.password.$pristine || error_offpristine)">
                                     Kérlek add meg a jelszavad!
                                 </span>
                             </div>
@@ -46,12 +42,8 @@
                         <span id="login_error" class="error" ng-show="login_error" >{{login_error_message}}</span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" ng-click="login(loginform)" class="btn btn-primary">
-                            Bejelentkezés
-                        </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            Mégse
-                        </button>
+                        <button type="button" ng-click="login(loginform)" class="btn btn-primary"> Bejelentkezés </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Mégse </button>
                     </div>
                 </div>
             </div>

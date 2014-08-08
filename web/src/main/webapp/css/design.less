@@ -2,6 +2,7 @@
 @base_color : #87B580;
 @highlight_color : #197E0A;
 @error_color: #a94442;
+@warning_color: #E6B85C;
 .row {
 	margin: 0px;
 }
@@ -19,11 +20,13 @@ body{
 	background: #fff;
 	margin-top: 35px;
 	padding-left: 10px;
+	padding-right: 10px;
 	box-shadow: 2px 2px 22px;
 	padding-top: 20px;
 	border-radius: 3px;
 }
 
+/* buttons */
 button:active, .btn:active, .btn.active{
     outline: none !important;
 	background-color: @highlight_color !important;
@@ -58,9 +61,55 @@ button:active, .btn:active, .btn.active{
     border-color: #ccc !important;
 	color: #111 !important;
 }
+/* buttons - end */
 
-.form-control:focus{
-    border-color: @highlight_color;
+/* input fields */
+input{
+	float: left;
+	width: 100%;
+	margin: 0px;
+	padding: 3px;
+	color: @base_color;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 25px;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid @base_color;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	overflow: hidden;
+	&:focus {
+		border-color: @highlight_color;
+		outline: none;
+	}
+}
+
+textarea {
+	min-height: 100px;
+	max-height: 100px;
+	min-width: 100%;
+	width: 100%;
+	max-width: 100%;
+	color: @base_color;
+	overflow-x: auto;
+	border: 1px solid @base_color;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	outline: 0;
+	&:focus {
+		border-color: @highlight_color;
+	}
+}
+/* input fields - end */
+
+#is_empty {
+	width: 60%;
+	color: @base_color;
+	font-weight: bold;
+	margin: auto;
+	margin-top: 20px;
+	text-align: center;
 }
 
 .remove-icon{
@@ -150,40 +199,55 @@ header{
 }
 
 #accordion {
-	a{
+	float: left;
+	color: @base_color;
+	padding: 0px;
+	margin: 0px;
+	ul{
+		list-style: none;
+		padding: 0px;
+	}
+	a{	
+		line-height: 22px;
+		font-size: 16px;
+		text-align: center;
 		background-color: @base_color;
 		color: #fff;
 		width: 100%;
-		margin-bottom: 5px;
 		float: left;
+		border-radius: 4px;
+		padding: 10px;
+		margin-bottom: 2px;
 		&:hover{
 			text-decoration: none;
 			color: @highlight_color; 
 		}
 	}
-	padding: 0px;
-    h3{
-	  color: @base_color;
-      margin-top: 10px;
-	  &:hover{
-	  	 cursor: pointer;
-	  }
-    }
-	.panel-collapse{
-		float: left;
+	h3 {
+		padding-left: 5px;
+		margin-top: 10px;
+	}
+	h4 {
+		width: 100%;
+	}
+	.panel {
+		overflow: visible;
+		margin-top: 2px;
 	}
 	.panel-heading{
-		background-color: @base_color;
-		color: #fff;
-		float: left;
 		width: 100%;
-		
+		margin: 0px;
+		padding: 0px;
 	}
 	.panel-body {
-		float: left;
 		width: 100%;
-		padding: 2px 2px 2px 10px;
+		padding: 0px;
+		margin: 0px;
+		border-radius: 4px;
+		border-color: @base_color;
 		a {
+			padding: 0px;
+			margin: 0px;
 			background-color: #fff;
 			color: @base_color;
 			&:hover {
@@ -191,12 +255,14 @@ header{
 			}
 		}
 	}
-	/*.panel-default{
-		&:hover{
-			transform: translateX(-25px);
+	span {
+		text-align: center;
+		>a {
+			padding: 10px 0px 10px 0px;
+			margin: 0px;
 		}
-	}*/
-
+	}
+	
 }
 
 
@@ -215,7 +281,6 @@ header{
 }
 
 footer{
-	//background-color: @base_color; 
 	text-align: center;
 	&.row{
 		margin-top: 20px;
@@ -339,6 +404,7 @@ h2.product_name, .lessor_name{
 }
 
 .lessor_rate{
+	color: #000;
 	width: 90%;
 	border: 1px solid #ccc;
 	border-radius: 8px;
@@ -515,8 +581,10 @@ h2.product_name, .lessor_name{
     }
 	textarea{
 		min-height:200px;
-        width: 100%;
-        max-width: 100%;
+		border-color: @base_color;
+		&:focus {
+			border-color: @highlight_color;
+		}
 	}
 	.rental_calendar{
 		width:25%; 
@@ -566,37 +634,6 @@ h2.product_name, .lessor_name{
 	}
 }
 
-//Login - modal over
-//Login - dropdown
-#loginDropdown{ 
-	.dropdown-menu{
-		margin-top: 8px; 
-		border: none; 
-		width: 224px;
-		input{
-			max-width: 220px; 
-			margin-left: 2px; 
-			margin-bottom: 10px;
-			margin-right: 0px;
-		}
-		a{
-			color: #428bca; 
-			margin-left: 5px;
-		}
-
-		button:first-child{
-			margin-left: 10px;
-			float: right; margin-right: 10px;
-		}
-		button:last-child{
-			float: right; 
-			margin-right: 10px;
-		}
-	}
-}
-
-//Login - dropdown end
-
 //Reg - modal
 
 #registrationModal {
@@ -620,6 +657,9 @@ h2.product_name, .lessor_name{
             float: left;
             width: 100%;
         }
+		label {
+			
+		}
 	}
 
 	.modal-footer{
@@ -839,23 +879,32 @@ h2.product_name, .lessor_name{
 .left-box{
 	float: left;
 	position: relative;
+	color: @base_color;
+	input {
+		font-size: 18px;
+	}
+	span.error{
+    	float: left;
+	}
+	 span.warning{
+		float: left;
+	}
 }
 
 .left-box .row{
-	float: left;
-	position: relative;
 	margin-left: 40px;
 	line-height: 28px;
-	color: @base_color;
 	width: 90%;
 	border-bottom-style: solid;
 	border-width: thin;
 	border-color: #ddd;
 }
 
+#buttons_row {
+	border-bottom-style: none;
+}
+
 .left-box .left-side{
-	float: left;
-	position: relative;
 	margin: 5px 0px 5px 5px;
 	width: 45%;
 	button{
@@ -865,10 +914,8 @@ h2.product_name, .lessor_name{
 	}
 }
 
-
 .left-box .right-side{
 	float: right;
-	position: relative;
 	margin: 5px 0px 5px 0px;
 	width: 45%;
 	button{
@@ -886,47 +933,183 @@ h2.product_name, .lessor_name{
 }
 
 .left-box span{
-	position: relative;
-	float: left;
 	font-size: 18px;
 	font-weight: bold;
 	color: @base_color;
 	
 }
 
-.left-box input{
-	float: left;
+#dropdown-city{
 	position: relative;
-	font-size: 18px;
-	font-weight: bold;
-	line-height: 25px;
-	width: 100%;
-	margin: 0px 0px 0px 0px;
-	padding: 3px;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-	overflow: hidden;
+	z-index: 500;
+    .select-dropdown{
+        margin: 0px;
+        width: 100%;
+        span{
+            padding: 3px 5px;
+            font-size: 18px;
+        }
+        .uldropdown{
+            position: absolute;
+            width: 89%;
+            top: 100%;
+			li {
+				font-weight: bold;
+				font-size: 18px;
+			}
+        }
+    }
 }
 
-.left-box input:focus{
+.right-box {
 	float: left;
-	position: relative;
-	font-size: 18px;
-	line-height: 25px;
-	width: 100%;
-	padding: 3px;
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid;
-	border-color: @highlight_color;
-	border-radius: 4px;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-	outline: none;
+	margin: none;
+	padding: none;
+	.lessor_rate {
+		margin-top: 5px;
+		width: 100%;
+	}
 }
 
+/* Private profile - end */
+
+/* Admin Users */
+
+.admin {
+	label {
+		display: table-row;
+		color:  @highlight_color;
+	}
+	span {
+		color: @base_color;
+	}
+	input {
+		float: right;
+		font-size: 14px;
+		color: @base_color;
+	}
+}
+#radio {
+	width: auto;
+	float: left;
+}
+.admin .select-dropdown {
+	margin-left: 0px;
+	position: relative;
+}
+
+.admin .tab-content {
+	padding: 0px 0px 0px 0px;
+}
+
+.admin .left-side {	
+}
+.admin .right-side {
+	input {
+		margin-bottom: 4px;
+	}
+}
+
+#dropdown-admin{
+	position: relative;
+	z-index: 500;
+	margin-bottom: 4px;
+    .select-dropdown{
+		position: relative;
+        margin: 0px;
+        width: 100%;
+        span{
+            padding: 3px 5px;
+            font-size: 14px;
+			line-height: 25px;
+			color:  @base_color;
+			font-weight: bold;
+        }
+        .uldropdown{
+            position: absolute;
+            width: 100%;
+            top: 100%;
+			height: 200px;
+			&:after {
+				position: absolute;
+			}
+        }
+    }
+	.select-dropdown.active .uldropdown {
+		position: absolute;
+		z-index: 5000;	
+		opacity: 1;
+		pointer-events: auto;
+		display: block;
+		height: auto;
+		overflow-x: auto;
+	}
+}
+
+.admin .table {
+	margin-top: 30px;
+}
+
+.admin .table>tbody>tr {
+	position: relative;
+	text-align: left;
+}
+
+.admin .table-details {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	button {
+		float: left;
+	}
+}
+
+.admin .table-head {
+	margin-bottom: 0px;
+	width: 100%;
+	>tbody>tr>td {
+		padding-right: 0px;
+	}
+}
+#width-table-head {
+	margin-top: 0px;
+}
+.admin .table-details>tbody>tr {
+	text-align: right;
+	span {
+		margin-right: 20px;
+	}
+	label {
+		margin-left: 20px;
+	}
+}
+
+#pagination-admin {
+	margin-bottom: 35px;
+	padding-bottom: 30px;
+}
+
+/* Admin Users - end */
+
+/* tabs and paging */
+a, .pagination>li>a {
+	position: relative;
+	color: @base_color;
+	cursor: pointer;
+}
+
+a:hover, .pagination>li>a:hover {
+	position: relative;
+	color: @highlight_color;
+}
+
+a:active, .pagination>li>a:active {
+	position: relative;
+	color: @highlight_color;
+}
+/* tabs and paging */
+
+/* input fields validation */
 .has-error input{
 	color: @error_color;
 	border-color: @error_color;
@@ -934,39 +1117,87 @@ h2.product_name, .lessor_name{
 
 .has-error input:focus{
 	color: @error_color;
-	border-color: @error_color
+	border-color: @error_color;
 }
 
-.has-error span{
-    color: @error_color;
-	font-size: 15px;
+.has-warning input{
+	color: @warning_color;
+	border-color: @warning_color;
+}
+
+.has-warning input:focus{
+	color: @warning_color;
+	border-color: @warning_color;
+}
+
+.has-error textarea{
+	color: @error_color;
+	border-color: @error_color;
+}
+
+.has-error textarea:focus{
+	color: @error_color;
+	border-color: @error_color !important;
+	outline: 0;
+}
+
+.has-warning textarea{
+	color: @warning_color;
+	border-color: @warning_color;
+}
+
+.has-warning textarea:focus{
+	color: @warning_color;
+	border-color: @warning_color !important;
+	outline: 0;
 }
 
 span.error{
     color: @error_color;
 	font-size: 15px;
+	font-weight: normal;
+}
+span.warning{
+    color: @warning_color;
+	font-size: 15px;
+	font-weight: normal;
+}
+/* input fields validation - end */
+
+.loading{
+    margin-left: 225px;
+    margin-top: 98px;
+    &.items{
+		width: 30%;
+        margin-left: 35%;
+		margin-right: 35%;
+        margin-top: 50px;
+    }
 }
 
+/* select dropdown */
 .select-dropdown {
     float:left;
+	width: 100%;
+	padding: 0px;
     margin: 0px;
     margin-left: 2%;
     background: none;
     border-radius: 7px;
+	outline: none;
     cursor: pointer;
-    outline: none;
-    width: 100%;
     box-sizing: border-box;
-    padding: 0px;
     &:focus{
         outline: none;
     }
     >span {
+		float: left;
         width: 100%;
-        float: left;
         text-align: left;
         padding: 6px 5px;
+		color: @base_color;
         font-size: 14px;
+		font-weight: bold;
         line-height: 1.42857143;
         background-color: #fff;
         background-image: none;
@@ -974,9 +1205,9 @@ span.error{
         border-radius: 4px;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
         overflow: hidden;
+		border-color: @base_color;
         &:focus {
             border: 1px solid;
-            border-color: @highlight_color;
             outline: 0;
             box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
         }
@@ -1000,7 +1231,7 @@ span.error{
         border-radius: inherit;
         border: 1px solid rgba(0,0,0,0.17);
         box-shadow: 0 0 5px rgba(0,0,0,0.1);
-        font-weight: normal;
+        font-weight: bold;
         transition: all 0.5s ease-in;
         list-style: none;
         opacity: 0;
@@ -1010,14 +1241,15 @@ span.error{
         li {
             width: 100%;
             display: block;
-            padding: 10px;
+            padding: 2px;
             text-decoration: none;
-            color: @highlight_color;
+            color: @base_color;
             border-bottom: 1px solid #e6e8ea;
             box-shadow: inset 0 1px 0 rgba(255,255,255,1);
             transition: all 0.3s ease-out;
             &:hover {
                 background: #f3f8f8;
+				color: @highlight_color;
             }
         }
         &:first-of-type li {
@@ -1069,126 +1301,6 @@ span.error{
     display: block;
     height: 200px;
     overflow-x: auto;
+	border-color: @base_color;
 }
-
-#dropdown-city{
-	position: relative;
-	z-index: 500;
-    .select-dropdown{
-        margin: 0px;
-        width: 100%;
-        span{
-            padding: 3px 5px;
-            font-size: 18px;
-        }
-        .uldropdown{
-            position: absolute;
-            width: 89%;
-            top: 100%;
-        }
-    }
-}
-
-.right-box {
-	float: left;
-	margin: none;
-	padding: none;
-	button {
-		width: 100%;
-		float: right;
-		margin: 5px 0px 10px 0px;
-	}
-	.lessor_rate {
-		width: 100%;
-	}
-}
-
-/* Private profile - end */
-
-/* Admin Users */
-
-.admin {
-	label {
-		display: table-row;
-		color: @highlight_color;
-	}
-	button {
-		width: 17%;
-		margin-bottom: 10px;
-		cursor: pointer;
-	}
-	span {
-		color: @base_color;
-	}
-}
-
-.admin .subcategory {
-	padding-left: 30px;
-}
-
-.form-button{
-	margin: 10px 0px 10px 0px;
-}
-
-.admin .table>tbody>tr {
-	text-align: left;
-}
-
-.admin .table-details {
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.admin .table-head {
-	margin-bottom: 0px;
-	width: 100%;
-	>tbody>tr>td {
-		padding-right: 0px;
-	}
-}
-
-.admin .table-details>tbody>tr {
-	text-align: right;
-	span {
-		margin-right: 20px;
-	}
-	label {
-		margin-left: 20px;
-	}
-}
-
-a, .pagination>li>a {
-	color: @base_color;
-	cursor: pointer;
-}
-
-a:hover, .pagination>li>a:hover {
-	color: @highlight_color;
-	
-	
-}
-
-a:active, .pagination>li>a:active {
-	color: @highlight_color;
-}
-
-
-/* Admin Users - end */
-.has-error span {
-    color: @error_color;
-    float:left;
-}
-
-span.error {
-    color: @error_color;
-}
-
-.loading{
-    margin-left: 225px;
-    margin-top: 98px;
-    &.items{
-        margin-left: 225px;
-        margin-top: 59px;
-    }
-}
+/* select dropdown - end */
