@@ -38,6 +38,16 @@ public class ProductDAOImpl implements ProductDAO{
 		
 	}
 
+	public List<Product> getProductsByOwner(BigInteger ownerId){
+		try {
+			List<Product> product = entityManager.createQuery("Select p From Product as p Where p.ownerId = :ownerId")
+				.setParameter("ownerId",ownerId).getResultList();
+			return product;
+		} catch(NoResultException ex) {
+			return null;
+		}
+	}
+	
 	@Override
 	@Transactional
 	public String saveProduct(Product product) {
@@ -53,31 +63,31 @@ public class ProductDAOImpl implements ProductDAO{
 	@Override
 	public List<Product> getProductsList(ProductListDatas datas) {	
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Product> q = cb.createQuery(Product.class);
-		Root<Product> c = q.from(Product.class);
+		CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+		Root<Product> ptable = cq.from(Product.class);
 		ParameterExpression<BigInteger> p = cb.parameter(BigInteger.class);
 		ParameterExpression<BigInteger> l = cb.parameter(BigInteger.class);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		
-		if (datas.getId() != null && datas.getId() != BigInteger.valueOf(0)){
-			predicates.add(cb.equal(c.get("ownerId"),p));
+		if (datas.getOwnerId() != null && datas.getOwnerId() != BigInteger.valueOf(0)){
+			predicates.add(cb.equal(ptable.get("ownerId"),p));
 		}
 		
 		if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
-			predicates.add(cb.equal(c.get("categoryId"),l));
+			predicates.add(cb.equal(ptable.get("categoryId"),l));
 		}
 	
 		try{
-			q.select(c).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+			cq.select(ptable).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
 			if (datas.getSort().equals("DESC")){
-				q.orderBy(cb.desc(c.get(datas.getTab())));
+				cq.orderBy(cb.desc(ptable.get(datas.getTab())));
 			} else {
-				q.orderBy(cb.asc(c.get(datas.getTab())));
+				cq.orderBy(cb.asc(ptable.get(datas.getTab())));
 			}
 				
-			TypedQuery<Product> query = entityManager.createQuery(q);
-			if (datas.getId() != null && datas.getId() != BigInteger.valueOf(0)){
-				query.setParameter(p, datas.getId());
+			TypedQuery<Product> query = entityManager.createQuery(cq);
+			if (datas.getOwnerId() != null && datas.getOwnerId() != BigInteger.valueOf(0)){
+				query.setParameter(p, datas.getOwnerId());
 			}
 			if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
 				query.setParameter(l, datas.getCategoryId());
@@ -91,16 +101,37 @@ public class ProductDAOImpl implements ProductDAO{
 	}
 
 	@Override
-	public int getProductsCountByOwner(BigInteger id) {
-		Query q = entityManager.createQuery("Select count(q.id) as count From Product as q Where q.ownerId = :ownerId")
-				.setParameter("ownerId",id);
-		return ((Long) q.getSingleResult()).intValue();
-	}
-
-	@Override
-	public int getProductsCount() {
-		Query q = entityManager.createQuery("Select count(q.id) as count From Product as q");
-		return ((Long) q.getSingleResult()).intValue();
+	public int getProductsCount(Product datas) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+		Root<Product> ptable = cq.from(Product.class);
+		ParameterExpression<BigInteger> p = cb.parameter(BigInteger.class);
+		ParameterExpression<BigInteger> l = cb.parameter(BigInteger.class);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		if (datas.getOwnerId() != null && datas.getOwnerId() != BigInteger.valueOf(0)){
+			predicates.add(cb.equal(ptable.get("ownerId"),p));
+		}
+		
+		if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
+			predicates.add(cb.equal(ptable.get("categoryId"),l));
+		}
+	
+		try{
+			cq.select(ptable).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+				
+			TypedQuery<Product> query = entityManager.createQuery(cq);
+			if (datas.getOwnerId() != null && datas.getOwnerId() != BigInteger.valueOf(0)){
+				query.setParameter(p, datas.getOwnerId());
+			}
+			if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
+				query.setParameter(l, datas.getCategoryId());
+			}
+		    
+			return query.getResultList().size();
+		} catch(NoResultException e) {
+			return 0;
+		}
 	}
 	
 	@Override

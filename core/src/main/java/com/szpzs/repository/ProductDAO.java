@@ -14,9 +14,9 @@ public interface ProductDAO {
 	
 	public String updateProduct(Product product);
 	
-	public int getProductsCountByOwner(BigInteger id);
-	
 	public List<Product> getProductsList(ProductListDatas datas);
 	
-	public int getProductsCount();
+	public int getProductsCount(Product datas);
+
+	public List<Product> getProductsByOwner(BigInteger ownerId);
 }

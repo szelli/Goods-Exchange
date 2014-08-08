@@ -1,12 +1,14 @@
 var productListingCtrl = angular.module('productListingCtrl', []);
 
-productListingCtrl.controller('productListingCtrl', ['$scope', '$rootScope', '$http', 'productServices','$location',
-function($scope, $rootScope, $http, productServices,$location) {
+productListingCtrl.controller('productListingCtrl', ['$scope', '$rootScope', '$http', 'productServices','$location', 'sharedDatas',
+function($scope, $rootScope, $http, productServices, $location, sharedDatas) {
     var j, find;
     var id = [];
+	var base = $location.url().split('#');
     var url = $location.url().split('%');
     var page = [];
 	$scope.haveChildNode;
+	$scope.isEmpty = false;
     $scope.datas = {};
     $scope.datas.limit= 12;
     $scope.datas.sort= "DESC";
@@ -17,18 +19,19 @@ function($scope, $rootScope, $http, productServices,$location) {
 	$scope.datas.categoryId=0;
     $scope.datas.tab={};
     $scope.currentTab={};
-    $scope.tabs = [{
+	$scope.tabs = [{
             title: 'Legújabb',
-            url: '#/index#new'
+            url: '#'+base[0]+'#new'
         }, {
             //legtöbbet bérelt
             title: 'Név szerint',
-            url: '#/index#name'
+            url: '#'+base[0]+'#name'
     }];
 	
 	$scope.setCategory = function(id) {
 		$scope.status=false;
 		$scope.datas.categoryId = id;
+		sharedDatas.setOwnerId(0);
 		$scope.refreshProducts();
 	}
 	
@@ -67,21 +70,25 @@ function($scope, $rootScope, $http, productServices,$location) {
 
 //ProductListing
     $scope.refreshProducts = function() {
-        productServices.GetProductsCount().success(function(productsCount){
-            if (productsCount != 0){
-                $scope.datas.pageCount= Math.ceil(parseInt(productsCount) / parseInt($scope.datas.limit));
-                $scope.datas.productsCount = productsCount;
-                $scope.datas.offset=Math.ceil((parseInt($scope.datas.currentPage)-1) * parseInt($scope.datas.limit));
-                productServices.loadProducts($scope.datas).success(function(productsList){
-                    $scope.products = productsList;
-                    //$scope.getIndexPictures();
-                    $scope.getCitys();
-                    $scope.status=true;
-                });
-            };
-        });
+		productServices.GetProductsCount(sharedDatas.getOwnerId(), $scope.datas.categoryId).success(function(productsCount){
+			if(productsCount != 0){
+				$scope.isEmpty = false;
+				$scope.datas.pageCount= Math.ceil(parseInt(productsCount) / parseInt($scope.datas.limit));
+				$scope.datas.productsCount = productsCount;
+				$scope.datas.offset=Math.ceil((parseInt($scope.datas.currentPage)-1) * parseInt($scope.datas.limit));
+				$scope.datas.ownerId = sharedDatas.getOwnerId();
+				productServices.loadProducts($scope.datas).success(function(productsList){
+					$scope.products = productsList;
+					//$scope.getIndexPictures();
+					$scope.getCitys();
+					$scope.status=true;
+				});
+			} else {
+				$scope.isEmpty = true;
+			}
+		});
     };
-
+	
     $scope.getIndexPictures = function(){
         for (var i=0; i<$scope.products.length; i++){
             var j=0;

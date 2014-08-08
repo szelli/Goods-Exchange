@@ -46,18 +46,22 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.getProductsList(datas);
 	}
 	
-	/*@Override
+	public List<Product> getProductsByOwner(BigInteger ownerId) {
+		return productDAO.getProductsByOwner(ownerId);
+	}
+	
+	@Override
 	public String updateProduct(Product product) {
 		if(productDAO.getProduct(product.getId())!=null){
 			product.setStatus(BigInteger.valueOf(1));
 			return productDAO.updateProduct(product);	
 		}
 		else return "product not updated";
-	}*/
+	}
 
 	@Override
-	public int getProductCount() {
-		return productDAO.getProductsCount();
+	public int getProductCount(Product datas) {
+		return productDAO.getProductsCount(datas);
 	}
 
 }

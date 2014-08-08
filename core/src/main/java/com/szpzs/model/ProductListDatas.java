@@ -22,6 +22,8 @@ public class ProductListDatas {
 	
 	private BigInteger categoryId;
 	
+	private BigInteger ownerId;
+	
 	public BigInteger getId(){
 		return this.id;
 	}
@@ -92,6 +94,14 @@ public class ProductListDatas {
 	
 	public void setCategoryId(BigInteger id){
 		this.categoryId = id;
+	}
+	
+	public BigInteger getOwnerId(){
+		return this.ownerId;
+	}
+	
+	public void setOwnerId(BigInteger id){
+		this.ownerId = id;
 	}
 	
 }

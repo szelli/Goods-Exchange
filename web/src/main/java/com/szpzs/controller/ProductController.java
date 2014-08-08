@@ -27,6 +27,7 @@ import com.szpzs.model.Category;
 import com.szpzs.model.City;
 import com.szpzs.model.Product;
 import com.szpzs.model.ProductListDatas;
+import com.szpzs.model.User;
 import com.szpzs.service.CategoryService;
 import com.szpzs.service.CityService;
 import com.szpzs.service.ProductService;
@@ -90,9 +91,12 @@ public class ProductController {
 	}*/
 
 	@ResponseBody @RequestMapping(value = "/productsCount", method=RequestMethod.POST, produces = "application/json")
-	public int getProductsCount() throws JsonParseException, JsonMappingException, IOException {
-		return productService.getProductCount();
+	public int getProductsCount(@RequestBody String searchingDatas) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Product datas = mapper.readValue(searchingDatas, Product.class);
+		return productService.getProductCount(datas);
 	}
+
 
 	@ResponseBody @RequestMapping(value = "/cityResponse",  method=RequestMethod.GET, produces = "application/json")
 	public List<City> citysend()throws JsonParseException, JsonMappingException, IOException {

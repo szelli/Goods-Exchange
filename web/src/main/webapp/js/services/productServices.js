@@ -38,22 +38,21 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 		});
 	};
 	
-	/*product.updateProduct = function(product) {
+	product.updateProduct = function(product) {
 		return $http({
 			url : 'api/updateProduct',
 			data : {
-				"id": product.id,
 				"name" : product.name,
                 "categoryId" : product.categoryId,
 				"descriptions" : product.description,
 				"cityId" : product.cityId,
 				"area" : product.area,
-                "ownerId" : product.ownerId
+				"status" : product.status
             },
 			method : "POST",
 			contentType : "application/json"
 		});
-	};*/
+	};
     
     product.loadProducts = function(datas) {
 		return $http({
@@ -66,7 +65,8 @@ services.factory('productServices', function($http/*, localStorageService*/) {
                 "productsCount": datas.productsCount,
                 "offset": datas.offset,
                 "tab": datas.tab,
-				"categoryId": datas.categoryId
+				"categoryId": datas.categoryId,
+				"ownerId": datas.ownerId
                 
             },
 			method : "POST",
@@ -74,9 +74,25 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 		});
 	};
 
-    product.GetProductsCount = function(datas) {
+	product.getProductsByOwner = function(id) {
+	return $http({
+			url : 'api/getProductsByOwner',
+			data : {
+				"ownerId": id
+                
+            },
+			method : "POST",
+			contentType : "application/json"
+		});
+	};
+	
+    product.GetProductsCount = function(ownerId, categoryId) {
         return $http({
 			url : 'api/productsCount',
+			data : {
+				"categoryId": categoryId,
+				"ownerId": ownerId	
+			},
 			method : "POST",
 			contentType : "application/json"
 		});

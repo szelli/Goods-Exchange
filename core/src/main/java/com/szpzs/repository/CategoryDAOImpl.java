@@ -19,7 +19,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	@Override
 	public List<Category> ListAllCategory() {
-		List<Category> categories = entityManager.createQuery("SELECT c FROM Category c Order By name Asc").getResultList();
+		List<Category> categories = entityManager.createQuery("SELECT c FROM Category c").getResultList();
 		return categories;
 	}
 
@@ -34,7 +34,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	@Transactional
 	public List<Category> getCategories() {
-		List<Category> categories = entityManager.createQuery("SELECT c FROM Category c Order By parentId Asc").getResultList();		
+		List<Category> categories = entityManager.createQuery("SELECT c FROM Category c").getResultList();		
 	    return categories;
 	  }
 	
