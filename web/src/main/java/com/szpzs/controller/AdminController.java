@@ -1,9 +1,11 @@
 package com.szpzs.controller;
 
 import com.szpzs.model.Category;
+import com.szpzs.model.Product;
 import com.szpzs.model.User;
 import com.szpzs.service.AdminService;
 import com.szpzs.service.CategoryService;
+import com.szpzs.service.ProductService;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +34,30 @@ public class AdminController {
 	protected AdminService adminService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private ProductService productService;
 	
 	@ResponseBody @RequestMapping(value = "/getUsersRequest", method=RequestMethod.POST, produces = "application/json")
 	public List getUsers() throws JsonParseException, JsonMappingException, IOException {
 		List<User> users = adminService.getUsers(); 
 		return users;
+	}
+	
+	@ResponseBody @RequestMapping(value = "/deleteUserRequest", method=RequestMethod.POST, produces = "application/json")
+	public String getUsers(@RequestBody String id) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.readValue(id, User.class);
+		return userService.deleteUser(user.getId());
+	}
+	
+	@ResponseBody @RequestMapping(value = "/getProductsByOwner", method=RequestMethod.POST, produces = "application/json")
+	public List getProductsByOwner(@RequestBody String id) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Product product = mapper.readValue(id, Product.class);
+		List<Product> products = productService.getProductsByOwner(product.getOwnerId()); 
+		return products;
 	}
 	
 	@ResponseBody @RequestMapping(value = "/getCategoriesRequest", method=RequestMethod.POST, produces = "application/json")

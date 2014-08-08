@@ -11,12 +11,23 @@ services.factory('adminServices', function($http) {
 		});
 	};
 	
-	admin.saveCategory = function(categoryName, parentId) {
+	admin.deleteUser = function(id) {
+		return $http({
+			url : 'api/deleteUserRequest',
+			data : {
+				"id" : id
+			},
+			method : "POST",
+			contentType : "application/json"
+		});	
+	};
+	
+	admin.saveCategory = function(category) {
 		return $http({
 			url : 'api/saveCategoryRequest',
 			data : {
-				"parentId" : parentId,
-				"name" : categoryName
+				"parentId" : category.parentId.id,
+				"name" : category.name
 			},
 			method : "POST",
 			contentType : "application/json"
@@ -31,13 +42,14 @@ services.factory('adminServices', function($http) {
 		});
 	};
 	
-	admin.editCategory = function(id, categoryName, parentId) {
+	admin.editCategory = function(category) {
+		console.log(category.id, category.parentId.id, category.name);
 		return $http({
 			url : 'api/editCategoryRequest',
 			data : {
-				"id" : id,
-				"parentId" : parentId,
-				"name" : categoryName
+				"id" : category.id,
+				"parentId" : category.parentId.id,
+				"name" : category.name
 			},
 			method : "POST",
 			contentType : "application/json"
