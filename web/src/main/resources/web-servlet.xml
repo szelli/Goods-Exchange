@@ -14,15 +14,12 @@
       http://www.springframework.org/schema/mvc 
 	  http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-<!-- 	<context:annotation-config/> -->
-	<context:component-scan base-package="com.szpzs" />
+ 	<context:annotation-config/>
+	<context:component-scan base-package="com.szpzs" /> 
     <mvc:annotation-driven ></mvc:annotation-driven>
     <mvc:resources location="/" mapping="**" />
     
- 	<!-- 	<context:annotation-config/> -->
-	<context:component-scan base-package="com.szpzs" />	
-	
-	<!-- <context:annotation-config/> -->
+<!-- <context:component-scan base-package="com.szpzs" />	 -->	
 	
 	<context:property-placeholder location="file:///${user.home}/.jdbc.properties" />
 	 
@@ -41,7 +38,7 @@
 		</property>
 		<property name="jpaProperties">
 			<props>
-				<prop key="hibernate.hbm2ddl.auto">${jdbc.hbm2ddl.auto}</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">${jdbc.hbm2ddl.auto}</prop> -->
 				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
 				<prop key="hibernate.show_sql">${jdbc.show}</prop>
 			</props>
@@ -59,7 +56,11 @@
 	
 	<bean id="persistenceExceptionTranslationPostProcessor" 
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-	
+	<!-- 
+	 <bean id="userServiceBean" class="com.szpsz.service.UserService" autowire="byName">
+	 	<property name="userServiceB" value="userServiceBean" />
+	 </bean> 
+	 -->
 	<!-- <tx:annotation-driven /> -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
     

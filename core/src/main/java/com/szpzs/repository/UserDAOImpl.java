@@ -1,25 +1,19 @@
 package com.szpzs.repository;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Path;
 
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.szpzs.model.Role;
 import com.szpzs.model.User;
 
 @Repository
@@ -27,7 +21,15 @@ public class UserDAOImpl implements UserDAO {
 	
 	@PersistenceContext
     private EntityManager entityManager;
-
+	
+	@Override
+	@Transactional
+	public List<User> getAllUsers() {
+		@SuppressWarnings("unchecked")
+		List<User> users = entityManager.createQuery("SELECT u FROM User u Order by id Asc").getResultList();
+		return users;
+	}
+	
 	@Override
 	@Transactional
 	public User getUser(String userName, String password){
@@ -41,6 +43,7 @@ public class UserDAOImpl implements UserDAO {
 	        return null;
 	    }
 	}
+
 	
 	@Override
 	@Transactional
@@ -53,6 +56,20 @@ public class UserDAOImpl implements UserDAO {
 		} catch(NoResultException e) {
 	        return null;
 	    }
+	}
+	
+	@Override
+	@Transactional
+	public User getUserByName(String userName) {
+		try{
+			User user = (User) entityManager.createQuery("Select u From User as u Where u.userName = :userName")
+				.setParameter("userName",userName)
+				.getSingleResult();
+				
+				return user;
+		} catch(NoResultException e) {
+	        return null;
+		}
 	}
 	
 	@Override
@@ -81,8 +98,8 @@ public class UserDAOImpl implements UserDAO {
 			if (user.getPostcode() != null && user.getPostcode() != BigInteger.valueOf(0)){
 				cu.set("postcode", user.getPostcode());
 			}
-			if (user.getCity() != null && user.getCity() != String.valueOf(0)){
-				cu.set("city", user.getCity());
+			if (user.getCityId() != null && user.getCityId() != Long.valueOf(0)){
+				cu.set("city", user.getCityId());
 			}
 			if (user.getAddress() != null && user.getAddress() != String.valueOf(0)){
 				cu.set("address", user.getAddress());
@@ -153,4 +170,8 @@ public class UserDAOImpl implements UserDAO {
 	public String convertPasswordToMd5(String pass) {
 		return new Md5PasswordEncoder().encodePassword( pass, null );
 	}
+
+
+
+	
 }

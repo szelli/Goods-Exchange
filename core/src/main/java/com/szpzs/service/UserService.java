@@ -1,23 +1,25 @@
 package com.szpzs.service;
 
-import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 
-import com.szpzs.model.City;
 import com.szpzs.model.Role;
 import com.szpzs.model.User;
 
 public interface UserService {
+	
+	public List<User> getAllUsers();
+	
+	public User getUser(String userName,String password);
+	
+	public User getUserByName(String username);
+	
+	public User getUserById(Long id);
 	
 	public boolean existsUser(String userName);
 	
 	public String convertPasswordToMd5(String pass);
 	
 	public Role addRole();
-	
-	public User getUser(String userName,String password);
-	
-	public User getUserById(Long id);
 	
 	public String saveUser(User user);
 	

@@ -1,14 +1,16 @@
 package com.szpzs.repository;
 
-import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 
-import com.szpzs.model.City;
 import com.szpzs.model.User;
 
 public interface UserDAO {
-
+	
+	public List<User> getAllUsers();
+	
 	public User getUser (String userName, String password);
+	
+	public User getUserByName(String username);
 	
 	public User getUserById(Long id);
 	
@@ -23,4 +25,5 @@ public interface UserDAO {
 	public String convertPasswordToMd5(String pass);
 
 	public String deleteUser(Long id);
+
 }
