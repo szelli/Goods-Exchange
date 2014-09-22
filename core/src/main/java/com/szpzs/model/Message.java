@@ -5,7 +5,6 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
 
-
 /**
  * The persistent class for the MESSAGES database table.
  * 
@@ -24,13 +23,13 @@ public class Message implements Serializable {
 	private String message;
 
 	@Column(name="\"READ\"")
-	private BigInteger read;
+	private Boolean read;
 
 	@Column(name="RECEIVER_ID")
 	private BigInteger receiverId;
 
 	@Column(name="RECEIVER_STATUS")
-	private BigInteger receiverStatus;
+	private Boolean receiverStatus;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="SEND_DATE")
@@ -40,8 +39,9 @@ public class Message implements Serializable {
 	private BigInteger senderId;
 
 	@Column(name="SENDER_STATUS")
-	private BigInteger senderStatus;
-
+	private Boolean senderStatus;
+	
+	@Column(name="SUBJECT")
 	private String subject;
 
 	public Message() {
@@ -63,11 +63,11 @@ public class Message implements Serializable {
 		this.message = message;
 	}
 
-	public BigInteger getRead() {
+	public Boolean getRead() {
 		return this.read;
 	}
 
-	public void setRead(BigInteger read) {
+	public void setRead(Boolean read) {
 		this.read = read;
 	}
 
@@ -79,11 +79,11 @@ public class Message implements Serializable {
 		this.receiverId = receiverId;
 	}
 
-	public BigInteger getReceiverStatus() {
+	public Boolean getReceiverStatus() {
 		return this.receiverStatus;
 	}
 
-	public void setReceiverStatus(BigInteger receiverStatus) {
+	public void setReceiverStatus(Boolean receiverStatus) {
 		this.receiverStatus = receiverStatus;
 	}
 
@@ -103,11 +103,11 @@ public class Message implements Serializable {
 		this.senderId = senderId;
 	}
 
-	public BigInteger getSenderStatus() {
+	public Boolean getSenderStatus() {
 		return this.senderStatus;
 	}
 
-	public void setSenderStatus(BigInteger senderStatus) {
+	public void setSenderStatus(Boolean senderStatus) {
 		this.senderStatus = senderStatus;
 	}
 
