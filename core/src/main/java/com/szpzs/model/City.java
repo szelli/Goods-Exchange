@@ -1,6 +1,8 @@
 package com.szpzs.model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -16,9 +18,13 @@ public class City implements Serializable {
 
 	@Id
 	private Long id;
-
+	
+	@Column(name="CITY")
 	private String city;
-
+	
+	@Column(name="COUNTY_ID")
+	private Long countyId;
+	
 	public City() {
 	}
 
@@ -37,5 +43,12 @@ public class City implements Serializable {
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
+	public Long getCountyId() {
+		return this.id;
+	}
 
+	public void setCountyId(Long id) {
+		this.id = id;
+	}
 }

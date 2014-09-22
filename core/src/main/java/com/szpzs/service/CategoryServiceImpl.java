@@ -20,17 +20,6 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public String SaveCategory(Category category) {
-		return categoryDAO.SaveCategory(category);
-	}
-
-
-	@Override
-	public List<Category> getCategories() {
-		return categoryDAO.getCategories();
-	}
-	
-	@Override
 	public String saveCategory(Category category) {
 		return categoryDAO.saveCategory(category);
 	}

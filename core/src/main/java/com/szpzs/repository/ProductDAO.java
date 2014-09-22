@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 import com.szpzs.model.Product;
-import com.szpzs.model.ProductListDatas;
 
 public interface ProductDAO {
 	
@@ -14,9 +13,11 @@ public interface ProductDAO {
 	
 	public String updateProduct(Product product);
 	
-	public List<Product> getProductsList(ProductListDatas datas);
+	//public List<Product> getProductsList(ProductListDatas datas);
 	
 	public int getProductsCount(Product datas);
 
 	public List<Product> getProductsByOwner(BigInteger ownerId);
+
+	public List<Product> getAllProduct(Product datas);
 }

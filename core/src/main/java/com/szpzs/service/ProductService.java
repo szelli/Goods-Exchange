@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 import com.szpzs.model.Product;
-import com.szpzs.model.ProductListDatas;
 
 public interface ProductService {
 	
@@ -16,9 +15,11 @@ public interface ProductService {
 	
 	public String updateProduct(Product product);
 	
-	public List<Product> getProductList(ProductListDatas datas);
+	//public List<Product> getProductList(ProductListDatas datas);
 
 	public List<Product> getProductsByOwner(BigInteger ownerId);
+
+	public List<Product> getAllProduct(Product datas);
 
 
 }

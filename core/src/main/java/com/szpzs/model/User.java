@@ -1,7 +1,11 @@
 package com.szpzs.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.math.BigInteger;
 
 /**
@@ -17,25 +21,30 @@ public class User implements Serializable {
 	@SequenceGenerator(name="User", sequenceName="USERS_SEQ1")
 	@Id @GeneratedValue(generator="User")
 	private Long id;
-
+	
 	private String address;
-
-	private String city;
-
+	
+	@Column(name="CITY_ID")
+	private Long city;
+	
+	@Column(name="EMAIL")
 	private String email;
 
 	@Column(name="FULL_NAME")
 	private String fullName;
-
+	
+	@Column(name="PASSWORD")
 	private String password;
-
+	
+	@Column(name="POSTCODE")
 	private BigInteger postcode;
 
 	@ManyToOne
 	@JoinColumn(name="\"ROLE\"")
 	private Role role;
-		
-	private BigInteger status;
+	
+	@Column(name="ENABLED")
+	private BigInteger enabled;
 
 	@Column(name="USER_NAME")
 	private String userName;
@@ -59,11 +68,11 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public String getCity() {
+	public Long getCityId() {
 		return this.city;
 	}
 
-	public void setCity(String city) {
+	public void setCityId(Long city) {
 		this.city = city;
 	}
 
@@ -108,11 +117,11 @@ public class User implements Serializable {
 	}
 
 	public BigInteger getStatus() {
-		return this.status;
+		return this.enabled;
 	}
 
 	public void setStatus(BigInteger status) {
-		this.status = status;
+		this.enabled = status;
 	}
 
 	public String getUserName() {

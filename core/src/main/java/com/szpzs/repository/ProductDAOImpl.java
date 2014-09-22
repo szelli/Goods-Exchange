@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.szpzs.model.Product;
-import com.szpzs.model.ProductListDatas;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO{
@@ -38,10 +36,12 @@ public class ProductDAOImpl implements ProductDAO{
 		
 	}
 
+	@Override
 	public List<Product> getProductsByOwner(BigInteger ownerId){
 		try {
-			List<Product> product = entityManager.createQuery("Select p From Product as p Where p.ownerId = :ownerId")
-				.setParameter("ownerId",ownerId).getResultList();
+			@SuppressWarnings("unchecked")
+			List<Product> product = entityManager.createQuery("Select p From Product as p Where p.ownerId = :ownerId").setParameter("ownerId",ownerId)
+					.getResultList();
 			return product;
 		} catch(NoResultException ex) {
 			return null;
@@ -59,7 +59,7 @@ public class ProductDAOImpl implements ProductDAO{
 			return "product not saved";
 		}
 	}
-
+/*
 	@Override
 	public List<Product> getProductsList(ProductListDatas datas) {	
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -99,7 +99,47 @@ public class ProductDAOImpl implements ProductDAO{
 			return null;
 		}
 	}
-
+*/	
+	@Override
+	public List<Product> getAllProduct(Product datas){
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+		Root<Product> ptable = cq.from(Product.class);
+		ParameterExpression<BigInteger> p = cb.parameter(BigInteger.class);
+		ParameterExpression<BigInteger> l = cb.parameter(BigInteger.class);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		if (datas.getOwnerId() != null && datas.getOwnerId() != BigInteger.valueOf(0)){
+			predicates.add(cb.equal(ptable.get("ownerId"),p));
+		}
+		
+		if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
+			predicates.add(cb.equal(ptable.get("categoryId"),l));
+		}
+		
+		try{
+			cq.select(ptable).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+			
+			TypedQuery<Product> query = entityManager.createQuery(cq);
+			if (datas.getOwnerId() != null && datas.getOwnerId() != BigInteger.valueOf(0)){
+				query.setParameter(p, datas.getOwnerId());
+			}
+			if (datas.getCategoryId() != null && datas.getCategoryId() != BigInteger.valueOf(0)){
+				query.setParameter(l, datas.getCategoryId());
+			}
+			
+			return query.getResultList();
+		} catch(NoResultException e) {
+			return null;
+		}
+		/*try {
+			List<Product> product = entityManager.createQuery("Select p From Product as p").getResultList();
+			return product;
+		} catch(NoResultException ex) {
+			return null;
+		}*/
+	}
+	
 	@Override
 	public int getProductsCount(Product datas) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();

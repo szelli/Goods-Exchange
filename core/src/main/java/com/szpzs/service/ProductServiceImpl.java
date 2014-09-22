@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.szpzs.model.Picture;
 import com.szpzs.model.Product;
-import com.szpzs.model.ProductListDatas;
 import com.szpzs.repository.ProductDAO;
 
 @Service("ProductServiceImpl")
@@ -40,12 +39,18 @@ public class ProductServiceImpl implements ProductService{
 		productDAO.saveProduct(product);
 		return "ok";
 	}
-
+/*
 	@Override
 	public List<Product> getProductList(ProductListDatas datas) {
 		return productDAO.getProductsList(datas);
 	}
+*/
+	@Override
+	public List<Product> getAllProduct(Product datas) {
+		return productDAO.getAllProduct(datas);
+	}
 	
+	@Override
 	public List<Product> getProductsByOwner(BigInteger ownerId) {
 		return productDAO.getProductsByOwner(ownerId);
 	}

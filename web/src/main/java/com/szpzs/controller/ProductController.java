@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +27,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.szpzs.model.Category;
 import com.szpzs.model.City;
 import com.szpzs.model.Product;
-import com.szpzs.model.ProductListDatas;
-import com.szpzs.model.User;
 import com.szpzs.service.CategoryService;
 import com.szpzs.service.CityService;
 import com.szpzs.service.ProductService;
@@ -58,6 +57,7 @@ public class ProductController {
 			if(map != null) {
 				String webappDatasRoot = servletContext.getRealPath("../GoodsExchangePublic/images");
 				List<String> fileNames = new ArrayList<String>();
+				@SuppressWarnings("rawtypes")
 				Iterator iter = map.keySet().iterator();
 
 				while(iter.hasNext()) {
@@ -97,7 +97,6 @@ public class ProductController {
 		return productService.getProductCount(datas);
 	}
 
-
 	@ResponseBody @RequestMapping(value = "/cityResponse",  method=RequestMethod.GET, produces = "application/json")
 	public List<City> citysend()throws JsonParseException, JsonMappingException, IOException {
 		return cityService.ListAllCity();
@@ -107,12 +106,25 @@ public class ProductController {
 	public List<Category> categorySend()throws JsonParseException, JsonMappingException, IOException {
 		return categoryService.ListAllCategory();
 	}
-
+/*
 	@ResponseBody @RequestMapping(value = "/productList", method=RequestMethod.POST, produces = "application/json")
 	public List<Product> getProductList(@RequestBody String searchingDatas) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		ProductListDatas datas = mapper.readValue(searchingDatas, ProductListDatas.class);
 		List<Product> products = productService.getProductList(datas);
 		return products;
+	}
+*/
+	//getAllProductRequest
+	@ResponseBody @RequestMapping(value = "/productList", method=RequestMethod.POST, produces = "application/json")
+	public List<Product> getProducts(@RequestBody String searchingDatas) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Product datas = mapper.readValue(searchingDatas, Product.class);
+		List<Product> products = productService.getAllProduct(datas); 
+		return products;
+	}
+	@PostConstruct
+	public void init() {
+		System.out.println("*****************************************************************");
 	}
 }

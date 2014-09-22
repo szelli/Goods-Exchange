@@ -19,24 +19,10 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	@Override
 	public List<Category> ListAllCategory() {
+		@SuppressWarnings("unchecked")
 		List<Category> categories = entityManager.createQuery("SELECT c FROM Category c").getResultList();
 		return categories;
 	}
-
-	@Override
-	@Transactional
-	public String SaveCategory(Category category) {
-		entityManager.persist(category);
-		entityManager.flush();
-		return "OK";
-	}
-
-	@Override
-	@Transactional
-	public List<Category> getCategories() {
-		List<Category> categories = entityManager.createQuery("SELECT c FROM Category c").getResultList();		
-	    return categories;
-	  }
 	
 	@Override
 	@Transactional
