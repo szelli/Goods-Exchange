@@ -1,0 +1,90 @@
+<div class="message" ng-controller="messageCtrl">
+	<div class="panel-group col-md-2" id="accordion" ng-controller="menuCtrl">
+		<div ng-include="userMenu"></div>
+		<div id="accordion" ng-if="isAdminUser()" class="col-md-12">
+			<h3>Admin</h3>
+			<h4><a data-parent="#accordion" href="#/beCareful">Admin oldal</a></h4>
+		</div>
+	</div>
+	<div class="container col-md-10 admin-container">
+		<ul class="nav nav-tabs" ng-hide="showMessageDetails">
+		   <li class="active">
+			   <a data-toggle="tab" ng-click="changeContentFunction('incoming');">Bejövő üzenetek</a>
+		   </li>
+		   <li>
+			   <a data-toggle="tab" ng-click="changeContentFunction('sent');">Elküldött üzenetek</a>
+		   </li>
+		</ul>
+		<div ng-switch on="changeContent">
+			<div ng-switch-when="incoming">
+				<table class="table" ng-show="!noIncomeMessage && !showMessageDetails">
+					<tr id="head_line">
+						<td id="td-4" ng-click="selectAll()" ng-show="!selectedAll"><span class="glyphicon glyphicon-unchecked"></span></td>
+						<td id="td-4" ng-click="deselectAll()" ng-show="selectedAll"><span class="glyphicon glyphicon-check"></span></td>
+						<td id="td-4" ng-click="deleteSelectedMessages()" ng-show="selectedAll"><button class="btn btn-default btn-icon"><span class="glyphicon glyphicon-trash remove"></span></button></td>
+					</tr>
+					<tr ng-repeat="message in messages | orderBy: '-sendDate' | offset: (currentPage-1)*itemsPerPage | limitTo: itemsPerPage" ng-class="(message.read==false) ? 'not-read clickable' : 'clickable' ">
+						<td id="td-4" ng-click="addToQueue(message)" ng-show="!message.checked"><span class="glyphicon glyphicon-unchecked"></span></td>
+						<td id="td-4" ng-click="removeFromQueue(message)" ng-show="message.checked"><span class="glyphicon glyphicon-check"></span></td>
+						<td id="td-20" ng-click="onClick(message)"><span id="bold">{{message.senderName}}</span></td>
+						<td ng-click="onClick(message)">
+							<span id="bold">{{message.subject}}&nbsp;</span>
+							<span>{{message.message | limitTo : 50}}</span>
+						</td>
+						<td id="td-12" ng-click="onClick(message)"><span id="bold">{{message.sendDate}}</span></td>
+						<td id="td-4"><span class="glyphicon glyphicon-remove remove" ng-click="deleteMessage(message.id)"></span></td>
+					</tr>
+				</table>
+				<div id="is_empty" ng-show="noIncomeMessage && !showMessageDetails">
+					<span>Még nem kaptál egy üzenetet sem!</span>
+				</div>
+			</div>
+			<div ng-switch-when="sent">
+				<table class="table" ng-show="!noSentMessage && !showMessageDetails">
+					<tr id="head_line">
+						<td id="td-4" ng-click="selectAll()" ng-show="!selectedAll"><span class="glyphicon glyphicon-unchecked"></span></td>
+						<td id="td-4" ng-click="deselectAll()" ng-show="selectedAll"><span class="glyphicon glyphicon-check"></span></td>
+						<td id="td-4" ng-click="deleteSelectedMessages()" ng-show="selectedAll"><button class="btn btn-default btn-icon"><span class="glyphicon glyphicon-trash remove"></span></button></td>
+					</tr>
+					<tr ng-repeat="message in messages | orderBy: '-sendDate' | offset: (currentPage-1)*itemsPerPage | limitTo: itemsPerPage" class="clickable">
+						<td id="td-4" ng-click="addToQueue(message)" ng-show="!message.checked"><span class="glyphicon glyphicon-unchecked"></span></td>
+						<td id="td-4" ng-click="removeFromQueue(message)" ng-show="message.checked"><span class="glyphicon glyphicon-check"></span></td>
+						<td id="td-20" ng-click="getMessageDetails(message); showMessageDetailsFunction();"><span id="bold">{{message.senderName}}</span></td>
+						<td ng-click="getMessageDetails(message); showMessageDetailsFunction();">
+							<span id="bold">{{message.subject}}&nbsp;</span>
+							<span>{{message.message | limitTo : 50}}</span>
+						</td>
+						
+						<td id="td-12" id="bold" ng-click="getMessageDetails(message); showMessageDetailsFunction();"><span id="bold">{{message.sendDate}}</span></td>
+					  </div>
+						<td id="td-4"><span class="glyphicon glyphicon-remove remove" ng-click="deleteMessage(message.id)"></span></td>
+					</tr>
+				</table>
+				<div id="is_empty" ng-show="noSentMessage  && !showMessageDetails">
+					<span>Még nem küldtél egy üzenetet sem!</span>
+				</div>
+			</div>
+			<div class="message-details" ng-show="showMessageDetails">
+				<div class="row field">
+					<span id="bold" ng-switch-when="incoming">Feladó: {{currentMessage.senderName}}</span>
+					<span id="bold" ng-switch-when="sent">Címzett: {{currentMessage.receiverName}}</span>
+				</div>
+				<div class="row field">
+					<span span id="bold">Tárgy: {{currentMessage.subject}}</span>
+				</div>
+				<div class="row field message-field">
+					<span>{{currentMessage.message}}</span>
+				</div>
+				<div class="row">
+					<button type="button" class="btn btn-primary" ng-click="getMessages();showMessageDetailsFunction();" id="bold">Vissza</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newMessageModal" ng-click="reply()" id="bold" ng-hide="{{changeContent === 'sent'}}">Válasz</button>
+				</div>
+				<div ng-include="newMessageModal"></div>
+			</div>
+		</div>
+		
+		<div ng-show="!noIncomeMessage && !noSentMessage && !showMessageDetails">
+			<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+		</div>
+	</div>
+</div>

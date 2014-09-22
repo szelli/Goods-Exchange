@@ -1,0 +1,32 @@
+<div class="modal fade" id="newMessageModal" tabindex="-1" role="dialog" aria-labelledby="newMessageModalLabel" aria-hidden="true" ng-controller="messageCtrl">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Új üzenet</h4>
+			</div>
+			<div class="modal-body">
+				<form name="newMessageForm" class="css-form" novalidate>
+					<div class="message-box">
+						<div>
+							<span>Címzett: {{recipient}}</span>
+						</div>
+						<div class="row">
+							<input type="text" name="subject" ng-model="newMessage.subject" placeholder="Tárgy">
+						</div>
+						<div class="form-group" ng-class="{'has-warning' : newMessageForm.message.$error.maxlength && (!newMessageForm.message.$pristine || error_offpristine)}">
+							<textarea name="message" ng-model="newMessage.message" required maxlength="501" ng-maxlength="500"></textarea>
+							<span class="warning" ng-show="newMessageForm.message.$error.maxlength && (!newMessageForm.message.$pristine || error_offpristine)">
+								Maximum 500 karakteres lehet az üzenet!
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary" ng-click="sendMessage()" ng-disabled="newMessageForm.$invalid">Küldés</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="">Mégse</button>
+			</div>
+		</div>
+	</div>
+</div>
