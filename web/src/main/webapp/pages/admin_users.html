@@ -1,112 +1,126 @@
 <table class="table table-striped" ng-show="!showUserDetails && !showProductsByUser">
-   <tr>
-	   <td><label>ID</label></td>
-	   <td><label>Felhasználónév</label></td>
-	   <td><label>Szerepkör</label></td>
+   <tr id="heading">
+	   <td id="td-4"><label>ID</label></td>
+	   <td id="td-20"><label>Felhasználónév</label></td>
+	   <td id="td-7"><label>Jogosultság</label></td>
 	   <td colspan="7"><label>Státusz</label></td>
    </tr>
-   <tr ng-repeat="user in users">
-	   <td><label>{{user.id}}</label></td>
-	   <td><a ng-click="showUserDetailsFunction(); getCurrentUser(user.id);">{{user.userName}}</a></td>
+   <tr ng-repeat="user in users | offset: (currentPage-1)*itemsPerPage | limitTo: itemsPerPage">
+	   <td id="td-4"><label>{{user.id}}</label></td>
+	   <td id="td-20"><a id="bold_link" ng-click="showUserDetailsFunction(); getCurrentUser(user.id);">{{user.userName}}</a></td>
 	   <td align="center"><label>{{user.role.role}}</label></td>
-	   <td width="8%" align="center"><label>{{user.status}}</label></td>
+	   <td id="td-7" align="center"><label>{{user.status}}</label></td>
 	   <td><a >Foglalásai</a></td>
-	   <td><a ng-click="getProductByOwner(user.id);showProductsByUserFunction();">Termékei</a></td>
+	   <td><a ng-click="getProductByOwner(user.id);showProductsByUserFunction();">Eszközei</a></td>
 	   <td><a >Kölcsönzései</a></td>
 	   <td><a >Értékelései</a></td>
-	   <td><a ng-click="editDatasFunction(); getCurrentUser(user.id);">Szerkesztés</a></td>
-	   <td><a ng-click="deleteUserFunction(user.id)">Törlés</a></td>
+	   <td>
+		   <button type="button" class="btn btn-primary" ng-click="editDatasFunction(); getCurrentUser(user.id);">Szerkesztés</button>
+		   <button type="button" class="btn btn-primary" ng-click="deleteUserFunction(user.id)">Törlés</button>
+	   </td>
    </tr>
 </table>
-<form name="editUserForm" ng-show="editDatas" novalidate>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Felhasználói név:</label></div>
-		<div class="right-side col-md-4" ng-class="{'has-error' : editUserForm.userName.$invalid && (!editUserForm.userName.$pristine || error_offpristine), 'has-warning': editUserForm.userName.$error.minlength || editUserForm.userName.$error.maxlength}">
-			<input type="text" name="userName" ng-model="currentUser.userName" maxlength="21" required ng-minlength="4" ng-maxlength="20" ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9]*$/">
-				<span class="error" ng-show="editUserForm.userName.$error.required && (!editUserForm.userName.$pristine || error_offpristine)">
-					Kérlek add meg a felhasználó nevet!
+<div id="edit_datas">
+	<form name="editUserForm" ng-show="editDatas && !showProductsByUser && !showUserDetails" novalidate>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Felhasználói név:</label></div>
+			<div class="right-side col-md-7" ng-class="{'has-error' : editUserForm.userName.$invalid && (!editUserForm.userName.$pristine || error_offpristine), 'has-warning': editUserForm.userName.$error.minlength || editUserForm.userName.$error.maxlength}">
+				<input type="text" name="userName" ng-model="currentUser.userName" maxlength="21" required ng-minlength="4" ng-maxlength="20" ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9]*$/">
+					<span class="error" ng-show="editUserForm.userName.$error.required && (!editUserForm.userName.$pristine || error_offpristine)">
+						Kérlek add meg a felhasználó nevet!
+					</span>
+					<span class="warning" ng-show="editUserForm.userName.$error.minlength && !editUserForm.userName.$pristine">
+						Túl rövid felhasználó név! (min 4 karakter)
+					</span>
+					<span class="warning" ng-show="editUserForm.userName.$error.maxlength && !editUserForm.userName.$pristine">
+						Túl hosszú felhasználó név! (max 20 karakter)
+					</span>
+					<span class="error" ng-show="editUserForm.userName.$error.pattern && !editUserForm.userName.$pristine">
+						Nem megengedett karakter a felhasználó névben!
+					</span>
+				</div>
+		</div>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Teljes név:</label></div>
+			<div class="right-side col-md-7" ng-class="{'has-error' : editUserForm.fullName.$invalid && (!editUserForm.fullName.$pristine || error_offpristine), 'has-warning': editUserForm.fullName.$error.minlength || editUserForm.fullName.$error.maxlength}">
+				<input type="text" name="fullName" ng-model="currentUser.fullName"  maxlength="31" required ng-minlength="5" ng-maxlength="30" ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű ]*$/">
+				<span class="error" ng-show="editUserForm.fullName.$error.required && (!editUserForm.fullName.$pristine || error_offpristine)">
+					Kérlek add meg a nevet!
 				</span>
-				<span class="warning" ng-show="editUserForm.userName.$error.minlength && !editUserForm.userName.$pristine">
-					Túl rövid felhasználó név! (min 4 karakter)
+				<span class="warning" ng-show="editUserForm.fullName.$error.minlength && !editUserForm.fullName.$pristine">
+					Túl rövid név! (min 5 karakter)
 				</span>
-				<span class="warning" ng-show="editUserForm.userName.$error.maxlength && !editUserForm.userName.$pristine">
-					Túl hosszú felhasználó név! (max 20 karakter)
+				<span class="warning" ng-show="editUserForm.fullName.$error.maxlength && !editUserForm.fullName.$pristine">
+					Túl hosszú név! (max 30 karakter)
 				</span>
-				<span class="error" ng-show="editUserForm.userName.$error.pattern && !editUserForm.userName.$pristine">
-					Nem megengedett karakter a felhasználó névben!
+				<span class="error" ng-show="editUserForm.fullName.$error.pattern && !editUserForm.fullName.$pristine">
+					Nem megengedett karakter a névben!
 				</span>
 			</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Teljes név:</label></div>
-		<div class="right-side col-md-4" ng-class="{'has-error' : editUserForm.fullName.$invalid && (!editUserForm.fullName.$pristine || error_offpristine), 'has-warning': editUserForm.fullName.$error.minlength || editUserForm.fullName.$error.maxlength}">
-			<input type="text" name="fullName" ng-model="currentUser.fullName"  maxlength="31" required ng-minlength="5" ng-maxlength="30" ng-pattern="/^[A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű ]*$/">
-			<span class="error" ng-show="editUserForm.fullName.$error.required && (!editUserForm.fullName.$pristine || error_offpristine)">
-				Kérlek add meg a nevet!
-			</span>
-			<span class="warning" ng-show="editUserForm.fullName.$error.minlength && !editUserForm.fullName.$pristine">
-				Túl rövid név! (min 5 karakter)
-			</span>
-			<span class="warning" ng-show="editUserForm.fullName.$error.maxlength && !editUserForm.fullName.$pristine">
-				Túl hosszú név! (max 30 karakter)
-			</span>
-			<span class="error" ng-show="editUserForm.fullName.$error.pattern && !editUserForm.fullName.$pristine">
-				Nem megengedett karakter a névben!
-			</span>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Státusz:</label></div>
-		<div class="right-side col-md-4">
-			<div class="radio">
-				<label>
-					<input type="radio" id="radio" name="status" value="0" ng-model="currentUser.status">Inaktív
-				</label>
-			</div>
-			<div class="radio">
-				<label>
-					<input type="radio" id="radio" name="status" value="1" ng-model="currentUser.status">Aktív
-				</label>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Státusz:</label></div>
+			<div class="right-side col-md-7">
+				<div class="radio">
+					<label>
+						<input type="radio" id="radio" name="status" value="0" ng-model="currentUser.status">Inaktív
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" id="radio" name="status" value="1" ng-model="currentUser.status">Aktív
+					</label>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Szerepkör:</label></div>
-		<div class="right-side col-md-4">
-			<div class="radio">
-				<label>
-					<input type="radio" id="radio" name="role" value="1" ng-model="currentUser.role.id">Admin
-				</label>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Szerepkör:</label></div>
+			<div class="right-side col-md-7">
+				<div class="radio">
+					<label>
+						<input type="radio" id="radio" name="role" value="1" ng-model="currentUser.role.id">Admin
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" id="radio" name="role" value="2" ng-model="currentUser.role.id">Felhasználó
+					</label>
+				</div>
 			</div>
-			<div class="radio">
-				<label>
-					<input type="radio" id="radio" name="role" value="2" ng-model="currentUser.role.id">Felhasználó
-				</label>
+		</div>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<button type="button" class="btn btn-primary" ng-click="editUserDatas(); editDatasFunction(); setInitialState();">Mentés</button>
+			</div>
+			<div class="right-side col-md-7">
+				<button type="submit" class="btn btn-primary" ng-click="editDatasFunction(); setInitialState();">Mégse</button>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3">
-			<button type="button" class="btn btn-primary" ng-click="editUserDatas(); editDatasFunction(); setInitialState();">Mentés</button>
-		</div>
-		<div class="right-side col-md-4">
-			<button type="submit" class="btn btn-primary" ng-click="editDatasFunction(); setInitialState();">Mégse</button>
-		</div>
-	</div>
-</form>
+	</form>
+</div>
 <div ng-show="showProductsByUser">
 	<table class="table table-striped table-details">
-	  <tbody >
+		<tr>
+			<td  id="td-4"><label>ID</label></td>
+			<td ><label>Eszköz neve</label></td>
+			<td id="td-7"><label>Leírás</label></td>
+			<td id="td-20" align="center"><label>Város</label></td>
+			<td id="td-40" align="center"><label>Kategória</label></td>
+		</tr>
 		<tr ng-repeat="product in productsByOwner">
 			<td ><label>{{product.id}}</label></td>
 			<td ><label>{{product.name}}</label></td>
-			<td ><a ng-click="showProductDescription(product.descriptions)">Leírás</a></td>
-			<td ><label>{{product.city}}</label></td>
-			<td ><label> {{product.categoryId}}</label></td>
+			<td ><a id="bold_link" ng-click="showProductDescription(product.descriptions)">Leírás</a></td>
+			<td align="center"><label>{{product.city}}</label></td>
+			<td align="center"><label> {{product.category}}</label></td>
 		</tr>
+	</table>
+	<table class="table-details">
 		<tr>
 			<td colspan="5"><button type="button" class="btn btn-primary" ng-click="showProductsByUserFunction()">Vissza</button></td>
 		</tr>
-	  </tbody>
    </table>
+</div>
+<div class="row" ng-show="!editDatas && !showProductsByUser && !showUserDetails">
+	<pagination boundary-links="true" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
 </div>

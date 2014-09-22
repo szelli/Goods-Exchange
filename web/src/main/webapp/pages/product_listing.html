@@ -1,19 +1,23 @@
 <div>
 	<form ng-submit="loadProducts()" class="form-horizontal">
 		<ul class="nav nav-tabs">
-			<li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)"><a href="{{tab.url}}" data-toggle="tab">{{tab.title}}</a></li>
+			<li class="active"><a ng-click="changeOrder('Legújabb')" data-toggle="tab">Legújabb</a></li>
+			<li><a ng-click="changeOrder('Név szerint')" data-toggle="tab">Név szerint 
+				<span ng-show="az" class="glyphicon glyphicon-sort-by-alphabet"></span>
+				 <span ng-show="!az" class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+			</li>
 		</ul>
 		
-		<img ng-src="img/load.gif" class="loading items" ng-if="!status">
+		<img ng-src="img/load.gif" class="loading items" ng-show="!status" ng-hide="isEmpty">
 		<div id="is_empty" ng-if="!status">
-			<span ng-show="isEmpty">Nincs megjelenítendő eszköz!</span>
+			<span ng-show="isEmpty">Nincs megjeleníthető eszköz!</span>
 		</div>
 
-		<div class="tab-content" ng-show="status">
+		<div class="tab-content" ng-show="status && !showProductDetails">
 			<div class="tab-pane active">
 				<div class="row">
-					<div class="col-md-3" ng-repeat="product in products">
-						<div class="thumbnail">
+					<div class="col-md-3" ng-repeat="product in products | orderBy: order | offset: (currentPage-1)*itemsPerPage | limitTo: itemsPerPage">
+						<div class="thumbnail" ng-click="showProductById(product)">
 							<h5>{{product.name}}</h5>
 							<img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg">
 							<div class="caption">
@@ -23,18 +27,70 @@
 						</div>
 					</div>
 				</div>
-				<div class="row" ng-show="status">
-					<ul class="pagination">
-						 <li ng-click="previousPage()" ng-hide="datas.currentPage==1"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#171 </a></li>
-					</ul>
-					<ul class="pagination" ng-repeat="i in [] | forLoop: datas.pageCount: datas.currentPage">
-						<li ng-click="currentPage(i)" ><a href="{{currentTab}}?page={{i}}" ng-class="{active:isActivePage(i)}"> {{i}} </a></li>
-					</ul>
-					<ul class="pagination">
-						<li ng-click="nextPage()" ng-hide="datas.currentPage==datas.pageCount"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#187 </a></li>
-					</ul>
+				<div class="row" ng-show="status && !showProductDetails">
+					<pagination boundary-links="true" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
 				</div>
 			</div>
-	   </div>
+		</div>
+		<div class="product-details" ng-show="status && showProductDetails">
+			<div class="col-md-5"></div>
+			<div class="col-md-7">
+				<div class="row">
+				   <div class="left-side">
+					   <label>Eszköz neve:</label>
+				   </div>
+				   <div class="right-side">
+					   <span>{{currentProduct.name}}</span>
+				   </div>
+				</div>
+				<div class="row">
+				   <div class="left-side">
+					   <label>Tulajdonos:</label>
+				   </div>
+				   <div class="right-side">
+					   <span>{{currentProduct.ownerName}}</span>
+				   </div>
+				</div>
+				<div class="row">
+				   <div class="left-side">
+					   <label>Város:</label>
+				   </div>
+				   <div class="right-side">
+					   <span>{{currentProduct.city}}</span>
+				   </div>
+				</div>
+				<div class="row">
+				   <div class="left-side">
+					   <label>Elérhető:</label>
+				   </div>
+				   <div class="right-side">
+					   <span>{{currentProduct.area}} km-en belül</span>
+				   </div>
+				</div>
+				<div class="row">
+				   <div class="left-side">
+					   <label>Kategória:</label>
+				   </div>
+				   <div class="right-side">
+					   <span>{{currentProduct.category}}</span>
+				   </div>
+				</div>
+				<div class="row">
+					 <div class="left-side">
+					   <label>Leírás:</label>
+				   </div>
+				</div>
+				<div class="row">
+					 <div class="left-side" id="descriptions">
+					   <span>{{currentProduct.descriptions}}</span>
+				   </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="right-side">
+					<button type="button" class="btn btn-primary" ng-click="notShowProductDetails()">Vissza</button>
+				</div>
+			</div>
+		</div>
 	</form>
 </div>

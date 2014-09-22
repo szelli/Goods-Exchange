@@ -1,61 +1,61 @@
-<table class="table table-head">
-	<tr>
-		<td width="4%"><label>ID</label></td>
-		<td width="41%"><label>Kategória neve</label></td>
+<table class="table table-striped" ng-hide="isEmpty">
+	<tr id="heading">
+		<td id="td-4"><label>ID</label></td>
+		<td id="td-40"><label>Kategória neve</label></td>
 		<td colspan="7"><label>Szülő ID</label></td>
 	</tr>
-</table>
-<table class="table table-striped" id="width-table-head">
-  <tbody ng-repeat="category in categories" >
-	<tr>
-		<td width="4%"><label>{{category.id}}</label></td>
-		<td td width="43%"><label>{{category.name}}</label></td>
-		<td width="25%"><label>{{category.parentId}}</label></td>
-		<td><a ng-click="setCurrentCategory(category); saveOrEditSwitchFunction('edit');">Szerkesztés</a></td>
-		<td><a ng-click="deleteCategoryFunction(category.id);">Törlés</a></td>
+	<tr ng-repeat="category in categories | offset: (currentPage-1)*itemsPerPage | limitTo: itemsPerPage">
+		<td id="td-4"><label>{{category.id}}</label></td>
+		<td id="td-40" ng-if="!showChildCategories"><a id="bold_link" href="" ng-click="showChildCategoriesFunction(); setCategories(category.id); ">{{category.name}}</a></td>
+		<td id="td-40" ng-if="showChildCategories"><label>{{category.name}}</label></td>
+		<td id="td-25"><label>{{category.parentId}}</label></td>
+		<td><button type="button" class="btn btn-primary" ng-click="setCurrentCategory(category); saveOrEditSwitchFunction('edit');">Szerkesztés</button>
+			<button type="button" class="btn btn-primary" ng-click="deleteCategoryFunction(category.id);">Törlés</button>
+		</td>
 	</tr>
-	<tr ng-repeat="childCategory in category.children">
-		<td width="4%"><label>{{childCategory.id}}</label></td>
-		<td width="43%"><label>{{childCategory.name}}</label></td>
-		<td width="25%"><label>{{childCategory.parentId}}</label></td>
-		<td><a ng-click="setCurrentCategory(childCategory); saveOrEditSwitchFunction('edit');">Szerkesztés</a></td>
-		<td><a ng-click="deleteCategoryFunction(childCategory.id);">Törlés</a></td>
-	</tr>
-  </tbody>
 </table>
-<button type="button" class="btn btn-primary" ng-show="!editDatas" ng-click="editDatasFunction(); saveOrEditSwitchFunction('save');">Kategória felvétele</button>
-<form ng-show="editDatas" name="editCategoryForm" ng-switch on="saveOrEditSwitch">
-	<div class="row" id="dropdown-admin">
-		<div class="left-side  col-md-3"><label>Szülő id:</label></div>
-		<div class="right-side col-md-4">
-			<customselect activate="category_active" items="$root.categories" selected="currentCategory.parentId" label="Szülő kategória" error="!currentParentId && error_offpristine" ng-switch-when="edit"></customselect>
-			<customselect activate="category_active" items="$root.categories" selected="newCategory.parentId" label="Szülő kategória" error="!currentParentId && error_offpristine" ng-switch-when="save"></customselect>
+<div id="is_empty" ng-show="isEmpty">
+	<span>Nem tartozik alkategória ehhez a kategóriához!</span>
+</div>
+<button type="button" class="btn btn-primary" ng-show="!editDatas && showChildCategories" ng-click="showChildCategoriesFunction(); setCategories();">Vissza</button>
+<button type="button" class="btn btn-primary" ng-show="!editDatas && !showChildCategories" ng-click="editDatasFunction(); saveOrEditSwitchFunction('save');">Kategória felvétele</button>
+<div id="edit_datas">	
+	<form ng-show="editDatas" name="editCategoryForm" ng-switch on="saveOrEditSwitch">
+		<div class="row" id="dropdown-admin">
+			<div class="left-side col-md-5"><label>Szülő id:</label></div>
+			<div class="right-side col-md-7">
+				<customselect activate="category_active" items="$root.categories" selected="currentCategory.parentId" label="Főkategória" error="!currentParentId && error_offpristine" ng-switch-when="edit"></customselect>
+				<customselect activate="category_active" items="$root.categories" selected="newCategory.parentId" label="Főkategória" error="error_offpristine" ng-switch-when="save"></customselect>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Kategória neve:</label></div>
-		<div class="right-side col-md-4" ng-class="{'has-error' : (editCategoryForm.categoryName.$error.required || editCategoryForm.categoryName.$error.pattern) && !editCategoryForm.categoryName.$pristine, 'has-warning' :  editCategoryForm.categoryName.$error.maxlength || editCategoryForm.categoryName.$error.minlength}">
-			<input type="text" name="categoryName" ng-model="currentCategory.name" ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű./,-]*$/" required ng-minlength="4" ng-maxlength="30" ng-switch-when="edit">
-			<input type="text" name="categoryName" ng-model="newCategory.name" ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű./,-]*$/" required ng-minlength="4" ng-maxlength="30" ng-switch-when="save">
-			<span class="error" ng-show="editCategoryForm.categoryName.$error.required && !editCategoryForm.categoryName.$pristine">
-				Kérlek add meg a kategória nevét!
-			</span>
-			<span class="error" ng-show="editCategoryForm.categoryName.$error.pattern">Nem megengedett karakter a névben!</span>
-			<span class="warning" ng-show="editCategoryForm.categoryName.$error.minlength && !editCategoryForm.categoryName.$pristine">
-				Legalább 4 karakter hosszú legyen a név!
-			</span>
-			<span class="warning" ng-show="editCategoryForm.categoryName.$error.maxlength && !editCategoryForm.categoryName.$pristine">
-				Legfeljebb 30 karakter hosszú lehet a név!
-			</span>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Kategória neve:</label></div>
+			<div class="right-side col-md-7" ng-class="{'has-error' : (editCategoryForm.categoryName.$error.required || editCategoryForm.categoryName.$error.pattern) && !editCategoryForm.categoryName.$pristine, 'has-warning' :  editCategoryForm.categoryName.$error.maxlength || editCategoryForm.categoryName.$error.minlength}">
+				<input type="text" name="categoryName" ng-model="currentCategory.name" ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű./,-]*$/" required ng-minlength="4" ng-maxlength="30" ng-switch-when="edit">
+				<input type="text" name="categoryName" ng-model="newCategory.name" ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű./,-]*$/" required ng-minlength="4" ng-maxlength="30" ng-switch-when="save">
+				<span class="error" ng-show="editCategoryForm.categoryName.$error.required && !editCategoryForm.categoryName.$pristine">
+					Kérlek add meg a kategória nevét!
+				</span>
+				<span class="error" ng-show="editCategoryForm.categoryName.$error.pattern">Nem megengedett karakter a névben!</span>
+				<span class="warning" ng-show="editCategoryForm.categoryName.$error.minlength && !editCategoryForm.categoryName.$pristine">
+					Legalább 4 karakter hosszú legyen a név!
+				</span>
+				<span class="warning" ng-show="editCategoryForm.categoryName.$error.maxlength && !editCategoryForm.categoryName.$pristine">
+					Legfeljebb 30 karakter hosszú lehet a név!
+				</span>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3">
-			<button type="submit" class="btn btn-primary" ng-switch-when="save" ng-click="saveCategoryFunction(); editDatasFunction();  setInitialState();refreshCategories();" ng-disabled="editCategoryForm.$invalid">Mentés</button>
-			<button type="submit" class="btn btn-primary" ng-switch-when="edit" ng-click="editCategoryFunction(); editDatasFunction(); setInitialState();refreshCategories();" ng-disabled="editCategoryForm.$invalid">Módosítás</button>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<button type="submit" class="btn btn-primary" ng-switch-when="save" ng-click="saveCategoryFunction(); editDatasFunction();  setInitialState(); refreshCategories();" ng-disabled="editCategoryForm.$invalid">Mentés</button>
+				<button type="submit" class="btn btn-primary" ng-switch-when="edit" ng-click="editCategoryFunction(); editDatasFunction(); setInitialState(); refreshCategories();" ng-disabled="editCategoryForm.$invalid">Módosítás</button>
+			</div>
+			<div class="right-side col-md-7">
+				<button type="button" class="btn btn-primary" ng-click="editDatasFunction(); saveOrEditSwitchFunction(); setInitialState();">Mégse</button>
+			</div>
 		</div>
-		<div class="right-side col-md-4">
-			<button type="button" class="btn btn-primary" ng-click="editDatasFunction(); saveOrEditSwitchFunction();  setInitialState();">Mégse</button>
-		</div>
-	</div>
-</form>
+	</form>
+</div>
+<div class="row" ng-show="!editDatas">
+	<pagination boundary-links="true" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-hide="isEmpty"></pagination>
+</div>

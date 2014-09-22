@@ -1,0 +1,35 @@
+<div class="modal fade"  id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="loginCtrl">
+	<div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	    <!-- action="j_spring_security_check" -->
+	    	<form name="loginform" novalidate class="css-form" >
+	         <div class="modal-header">
+	             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	             <h4 class="modal-title" id="myModalLabel">Bejelentkezés</h4>
+	         </div>
+	         <div class="modal-body">
+	                 <div class="form-group" ng-class="{'has-error' : loginform.username.$invalid && (!loginform.username.$pristine || error_offpristine)}">
+	                     <input type="text" name="username" ng-model="username" placeholder="Felhasználó név" maxlength="21" required>
+	                     <span class="error" ng-show="loginform.username.$error.required && (!loginform.username.$pristine || error_offpristine)">
+	                         Kérlek add meg a felhasználó neved!
+	                     </span>
+	                 </div>
+	                 <div class="form-group" ng-class="{'has-error' : loginform.password.$invalid && (!loginform.password.$pristine || error_offpristine)}">
+	                     <input type="password" name="password" ng-model="password" placeholder="Jelszó" maxlength="150" required>
+	                     <span class="error" ng-show="loginform.password.$error.required && (!loginform.password.$pristine || error_offpristine)">
+	                         Kérlek add meg a jelszavad!
+	                     </span>
+	                 </div>
+	             
+	             <a href="#">Elfelejtettem a jelszavam</a></br>
+	             <span id="login_error" class="error" ng-show="login_error" >{{login_error_message}}</span>
+	         </div>
+	         <div class="modal-footer">
+	             <button type="submit" ng-click="login(loginform)" class="btn btn-primary"> Bejelentkezés </button>
+	             <button type="button" class="btn btn-default" data-dismiss="modal"> Mégse </button>
+	         </div>
+	        
+	        </form>
+	    </div>  
+    </div>
+</div>

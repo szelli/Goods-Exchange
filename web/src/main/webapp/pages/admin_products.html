@@ -1,100 +1,101 @@
-<table class="table table-head">
-	<tr>
-		<td width="4%"><label>ID</label></td>
-		<td width="25%"><label>Terméknév</label></td>
-		<td width="24%"><label>Tulajdonos ID</label></td>
-		<td width="20%" align="center"><label>Város</label></td>
-		<td colspan="4"><label>Kategória</label></td>
-
+<table class="table table-striped">
+ 	<tr id="heading">
+		<td id="td-4"><label>ID</label></td>
+		<td id="td-20"><label>Eszköznév</label></td>
+		<td id="td-4" align="center"><label>TulajdonosID</label></td>
+		<td id="td-20" align="center"><label>Város</label></td>
+		<td colspan="2"><label>Kategória</label></td>
+	</tr>
+	<tr ng-repeat="product in products |  offset: (currentPage-1)*itemsPerPage | limitTo: itemsPerPage">
+		<td id="td-4"><label>{{product.id}}</label></td>
+		<td id="td-20"><label>{{product.name}}</label></td>
+		<td id="td-4" align="center"><a id="bold_link" ng-click="showUserDetailsFunction();getCurrentUser(product.ownerId);">{{product.ownerId}}</a></td>
+		<td id="td-20" align="center"><label>{{product.city}}</label></td>
+		<td id="td-25"><label> {{product.category}}</label></td>
+		<td id="td-40">
+			<button type="button" class="btn btn-primary" ng-click="setCurrentProduct(product);">Szerkesztés</button>
+			<button type="button" class="btn btn-primary">Törlés</button>
+		</td>
 	</tr>
 </table>
-<table class="table table-striped" id="width-table-head">
-  <tbody >
-	<tr ng-repeat="product in products">
-		<td width="4%"><label>{{product.id}}</label></td>
-		<td width="25%"><label>{{product.name}}</label></td>
-		<td width="13%" align="center"><a ng-click="showUserDetailsFunction();getCurrentUser(product.ownerId);">{{product.ownerId}}</a></td>
-		<td width="20%" align="center"><label>{{product.city}}</label></td>
-		<td width="10%" align="center"><label> {{product.categoryId}}</label></td>
-		<td><a ng-click="setCurrentProduct(product);">Szerkesztés</a></td>
-		<td><a>Törlés</a></td>
-	</tr>
-  </tbody>
-</table>
-<form name="editProductForm" ng-show="editDatas" ng-switch on="saveOrEditSwitch">
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Termék neve:</label></div>
-		<div class="right-side col-md-4" ng-class="{'has-error' : editProductForm.name.$error.required  && !editProductForm.name.$pristine, 'has-warning' :  editProductForm.name.$error.minlength || editProductForm.name.$error.maxlength }">
-			<input type="text" name="name" ng-model="currentProduct.name" required ng-minlength="5" ng-maxlength="20"><br>
-			<span class="error" ng-show="editProductForm.name.$error.required && !editProductForm.name.$pristine">
-				Kérlek add meg a termék új nevét!
-			</span>
-			<span class="warning" ng-show="editProductForm.name.$error.minlength && !editProductForm.name.$pristine">
-				Legalább 5 karakter hosszú legyen a név!
-			</span>
-			<span class="warning" ng-show="editProductForm.name.$error.maxlength && !editProductForm.name.$pristine">
-				Legfeljebb 20 karakter hosszú lehet a név!
-			</span>
+<div id="edit_datas">
+	<form name="editProductForm" ng-show="editDatas" ng-switch on="saveOrEditSwitch">
+		<div class="row">
+			<div class="left-side col-md-5"><label>Eszköz neve:</label></div>
+			<div class="right-side col-md-7" ng-class="{'has-error' : editProductForm.name.$error.required  && !editProductForm.name.$pristine, 'has-warning' :  editProductForm.name.$error.minlength || editProductForm.name.$error.maxlength }">
+				<input type="text" name="name" ng-model="currentProduct.name" required ng-minlength="5" ng-maxlength="20"><br>
+				<span class="error" ng-show="editProductForm.name.$error.required && !editProductForm.name.$pristine">
+					Kérlek add meg a eszköz új nevét!
+				</span>
+				<span class="warning" ng-show="editProductForm.name.$error.minlength && !editProductForm.name.$pristine">
+					Legalább 5 karakter hosszú legyen a név!
+				</span>
+				<span class="warning" ng-show="editProductForm.name.$error.maxlength && !editProductForm.name.$pristine">
+					Legfeljebb 20 karakter hosszú lehet a név!
+				</span>
+			</div>
 		</div>
-	</div>
-	<div class="row" id="dropdown-admin">
-		<div class="left-side  col-md-3"><label>Kategória:</label></div>
-		<div class="right-side col-md-4">
-			<customselect activate="category_active" items="$root.subCategories" selected="currentProduct.categoryId" label="Kategória"></customselect>
+		<div class="row" id="dropdown-admin2">
+			<div class="left-side col-md-5"><label>Kategória:</label></div>
+			<div class="right-side col-md-7">
+				<customselect activate="category_active" items="$root.subCategories" selected="currentProduct.categoryId" label="{{currentProduct.category}}"></customselect>
+			</div>
 		</div>
-	</div>
-	<div class="row" id="dropdown-admin">
-		<div class="left-side  col-md-3"><label>Város:</label></div>
-		<div class="right-side col-md-4">
-			<customselect activate="city_active" items="$root.cities" selected="currentProduct.city" label="{{currentProduct.city}}" error="false"></customselect>
+		<div class="row" id="dropdown-admin">
+			<div class="left-side col-md-5"><label>Város:</label></div>
+			<div class="right-side col-md-7">
+				<customselect activate="city_active" items="$root.cities" selected="currentProduct.city" label="{{currentProduct.city}}" error="false"></customselect>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Körzet (km-ben):</label></div>
-		<div class="right-side col-md-4" ng-class="{'has-error' : editProductForm.area.$error.required  && !editProductForm.area.$pristine, 'has-warning' :  editProductForm.area.$error.pattern }">
-			<input type="text" name="area" ng-model="currentProduct.area" required maxlength="3" ng-pattern="/^[0-9]{1,4}$/"></br>
-			<span class="error" ng-show="editProductForm.area.$error.required && !editProductForm.area.$pristine">
-				A mező kitöltése kötelező!
-			</span>
-			<span class="warning" ng-show="editProductForm.area.$error.pattern && !editProductForm.area.$pristine">
-				Csak számokat tartalmazhat!
-			</span>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Körzet (km-ben):</label></div>
+			<div class="right-side col-md-7" ng-class="{'has-error' : editProductForm.area.$error.required  && !editProductForm.area.$pristine, 'has-warning' :  editProductForm.area.$error.pattern }">
+				<input type="text" name="area" ng-model="currentProduct.area" required maxlength="3" ng-pattern="/^[0-9]{1,4}$/"></br>
+				<span class="error" ng-show="editProductForm.area.$error.required && !editProductForm.area.$pristine">
+					A mező kitöltése kötelező!
+				</span>
+				<span class="warning" ng-show="editProductForm.area.$error.pattern && !editProductForm.area.$pristine">
+					Csak számokat tartalmazhat!
+				</span>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Leírás:</label></div>
-		<div class="right-side col-md-4" ng-class="{'has-error' : editProductForm.description.$error.required && !editProductForm.description.$pristine, 'has-warning' :  editProductForm.description.$error.maxlength }">
-			<textarea name="description" ng-model="currentProduct.descriptions" required ng-maxlength="255" maxlength="256"></textarea></br>
-			<span class="error" ng-show="editProductForm.description.$error.required && !editProductForm.description.$pristine">
-				A mező kitöltése kötelező!
-			</span>
-			<span class="warning" ng-show="editProductForm.description.$error.maxlength && !editProductForm.description.$pristine">
-				Legfeljebb 255 karakter hosszú lehet a leírás!
-			</span>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Leírás:</label></div>
+			<div class="right-side col-md-7" ng-class="{'has-error' : editProductForm.description.$error.required && !editProductForm.description.$pristine, 'has-warning' :  editProductForm.description.$error.maxlength }">
+				<textarea name="description" ng-model="currentProduct.descriptions" required ng-maxlength="255" maxlength="256"></textarea></br>
+				<span class="error" ng-show="editProductForm.description.$error.required && !editProductForm.description.$pristine">
+					A mező kitöltése kötelező!
+				</span>
+				<span class="warning" ng-show="editProductForm.description.$error.maxlength && !editProductForm.description.$pristine">
+					Legfeljebb 255 karakter hosszú lehet a leírás!
+				</span>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side  col-md-3"><label>Státusz:</label></div>
-		<div class="right-side col-md-4">
-				<div class="radio">
-					<label>
-						<input type="radio" id="radio" name="status" value="0" ng-model="currentProduct.status">Nem kölcsönözhető
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" id="radio" name="status" value="1" ng-model="currentProduct.status">Kölcsönözhető
-					</label>
-				</div>
+		<div class="row">
+			<div class="left-side col-md-5"><label>Státusz:</label></div>
+			<div class="right-side col-md-7">
+					<div class="radio">
+						<label>
+							<input type="radio" id="radio" name="status" value="0" ng-model="currentProduct.status">Nem kölcsönözhető
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" id="radio" name="status" value="1" ng-model="currentProduct.status">Kölcsönözhető
+						</label>
+					</div>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left-side col-md-3">
-			<button type="submit" class="btn btn-primary" ng-switch-when="save" ng-click="editProductFunction(); editDatasFunction(); setInitialState();" ng-disabled="editProductForm.$invalid">Mentés</button>
-			<button type="submit" class="btn btn-primary" ng-switch-when="edit" ng-click="editProductFunction(); editDatasFunction(); setInitialState();" ng-disabled="editProductForm.$invalid">Módosítás</button>
+		<div class="row">
+			<div class="left-side col-md-5">
+				<button type="submit" class="btn btn-primary" ng-click="editProductFunction(); editDatasFunction(); setInitialState();" ng-disabled="editProductForm.$invalid">Módosítás</button>
+			</div>
+			<div class="right-side col-md-7">
+				<button type="button" class="btn btn-primary" ng-show="editDatas" ng-click="editDatasFunction(); setInitialState();">Mégse</button>
+			</div>
 		</div>
-		<div class="right-side col-md-4">
-			<button type="button" class="btn btn-primary" ng-show="editDatas" ng-click="editDatasFunction(); setInitialState();">Mégse</button>
-		</div>
-	</div>
-</form>
+	</form>
+</div>
+<div class="row" ng-show="!editDatas && !showUserDetails">
+	<pagination boundary-links="true" total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+</div>

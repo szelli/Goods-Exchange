@@ -1,9 +1,9 @@
-<div class="row" ng-controller="privateProfileCtrl">
+<div class="row min_height" ng-controller="privateProfileCtrl">
 	<div class="panel-group col-md-2" id="accordion"  ng-controller="menuCtrl">
 		<div id="accordion" ng-include="userMenu"></div>
 		<div class="col-md-12" id="accordion" ng-if="isAdminUser()">
 			<h3>Admin</h3>
-			<h4><a data-parent="#accordion" href="/#/admin">Admin oldal</a></h4>
+			<h4><a data-parent="#accordion" href="#/beCareful" ng-click="setOwnerIdToNull()">Admin oldal</a></h4>
 		</div>
 	</div>
 	<div class="left-box col-md-8">
@@ -13,7 +13,7 @@
 					<span>Felhasználónév:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<span>{{myData.userName}}</span>
+					<span>{{userDatas.userName}}</span>
 				</div>
 			</div>
 			<div class="row">
@@ -21,7 +21,7 @@
 					<span>Teljes név:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<span>{{myData.fullName}}</span>
+					<span>{{userDatas.fullName}}</span>
 				</div>
 			</div>
 			<div class="row">
@@ -29,7 +29,7 @@
 					<span>Megye:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<span>Megye</span>
+					<span>{{userDatas.county}}</span>
 				</div>
 			</div>
 			<div class="row">
@@ -37,9 +37,9 @@
 					<span>Irányítószám:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<span  ng-show="!buttonSwitch">{{myData.postcode}}</span>
+					<span  ng-show="!buttonSwitch">{{userDatas.postcode}}</span>
 					<div class="form-group" ng-show="buttonSwitch" ng-class="{'has-error' : editForm.newPostcode.$error.required  && !editForm.newPostcode.$pristine, 'has-warning' :  editForm.newPostcode.$error.pattern}">
-						<input type="text" name="newPostcode" ng-model="editUser.postcode" required maxlength="4" ng-pattern="/^[0-9]{4,4}$/" >
+						<input type="text" name="newPostcode" ng-model="userDatas.postcode" required maxlength="4" ng-pattern="/^[0-9]{4,4}$/" >
 						<span class="error" ng-show="editForm.newPostcode.$error.required && !editForm.newPostcode.$pristine">Kérlek add meg az irányítószámod!<br></span>
 						<span class="warning" ng-show="editForm.newPostcode.$error.pattern">Az irányítószám négyjegyű és csak számokat tartalmazhat!</span>
 					</div>
@@ -50,8 +50,8 @@
 					<span>Város:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<span ng-show="!buttonSwitch">{{myData.city.name}}</span>
-					<customselect ng-show="buttonSwitch" activate="city_active" items="$root.cities" selected="editUser.city" label="{{editUser.city}}" error="false"></customselect>
+					<span ng-show="!buttonSwitch">{{userDatas.city.name}}</span>
+					<customselect ng-show="buttonSwitch" activate="city_active" items="$root.cities" selected="userDatas.city" label="{{userDatas.city}}" error="false"></customselect>
 				</div>
 			</div>
 			<div class="row">
@@ -59,9 +59,9 @@
 					<span>Lakcím:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<span  ng-show="!buttonSwitch">{{myData.address}}</span>
+					<span  ng-show="!buttonSwitch">{{userDatas.address}}</span>
 					<div class="form-group" ng-show="buttonSwitch" ng-class="{'has-error' : (editForm.newAddress.$error.required || editForm.newAddress.$error.pattern) && !editForm.newAddress.$pristine }">
-						<input type="text" name="newAddress" required ng-model="editUser.address" ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9./]*$/" maxlength="100">
+						<input type="text" name="newAddress" required ng-model="userDatas.address" ng-pattern="/^[ A-ZAÁEÉIÍOÓÖŐUÚÜŰa-zaáeéiíoóöőuúüű0-9./]*$/" maxlength="100">
 						<span class="error" ng-show="editForm.newAddress.$error.required && !editForm.newAddress.$pristine">Kérlek add meg a lakcímed!<br></span>
 						<span class="error" ng-show="editForm.newAddress.$error.pattern">Nem megengedett karakter a lakcímben!</span>
 					</div>
@@ -72,9 +72,9 @@
 					<span>E-mail cím:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<span ng-show="!buttonSwitch">{{myData.email}}</span>
+					<span ng-show="!buttonSwitch">{{userDatas.email}}</span>
 					<div class="form-group" ng-show="buttonSwitch" ng-class="{'has-error' : (editForm.newEmail.$error.required || editForm.newEmail.$invalid) && !editForm.newEmail.$pristine }">
-						<input type="email" name="newEmail" required ng-model="editUser.email" maxlength="100" email>
+						<input type="email" name="newEmail" required ng-model="userDatas.email" maxlength="100" email>
 						<span class="error" ng-show="editForm.newEmail.$error.required && !editForm.newEmail.$pristine">Hiányzó email-cím!</span>
 						<span class="error" ng-show="editForm.newEmail.$invalid && !editForm.newEmail.$error.required">Nem megfelelő e-mail cím!</span>
 						<span class="error" ng-show="regform.email.$error.email">Hibás email-cím!<br></span>
@@ -84,7 +84,7 @@
 			<div class="row" ng-show="buttonSwitch">
 				<div class="left-side col-md-5">
 					<button type="button" class="btn btn-primary" ng-click="setNewPasswordFunction()"  ng-show="buttonSwitch && !setNewPassword" >Jelszó megváltoztatása</button>
-					<button type="button" class="btn btn-primary" ng-click="setNewPasswordFunction(); setInitialState();"  ng-show="buttonSwitch && setNewPassword" >Még sem akarom megváltoztatni</button>
+					<button type="button" class="btn btn-primary" ng-click="setNewPasswordFunction(); setInitialState(); consoles();"  ng-show="buttonSwitch && setNewPassword" >Még sem akarom megváltoztatni</button>
 				</div>
 			</div>
 			<div class="row" ng-if="setNewPassword && buttonSwitch">
@@ -92,7 +92,7 @@
 					<span>Régi jelszó:</span>
 				</div>
 				<div class="right-side col-md-7">
-					<input type="password" name="oldPassword" ng-model="editUser.oldPassword" ng-minlength="8" ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]))/" required>
+					<input type="password" name="oldPassword" ng-model="userDatas.oldPassword" ng-minlength="8" ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]))/" required>
 				</div>
 			</div>
 			<div class="row" ng-if="setNewPassword && buttonSwitch">
@@ -101,7 +101,7 @@
 				</div>
 				<div class="right-side col-md-7">
 					<div class="form-group" ng-class="{'has-error' : editForm.newPassword.$error.required && !editForm.newPassword.$pristine, 'has-warning' : editForm.newPassword.$error.pattern || editForm.newPassword.$error.minlength}">
-						<input type="password" name="newPassword" ng-model="editUser.newPassword" ng-minlength="8" ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]))/" required>
+						<input type="password" name="newPassword" ng-model="userDatas.newPassword" ng-minlength="8" ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]))/" required>
 						<span class="error" ng-show="editForm.newPassword.$error.required && !editForm.newPassword.$pristine">
 						   Nem lehet üres a mező!<br>
 						</span>
@@ -120,8 +120,8 @@
 				</div>
 				<div class="right-side col-md-7">
 					<div class="form-group" ng-class="{'has-error' : editForm.newPassword2.$invalid && !editForm.newPassword2.$pristine }">
-						<input type="password" name="newPassword2" ng-model="editUser.newPassword2" equalpasswds2 maxlength="150">
-						<span class="error" ng-show="editForm.newPassword2.$error.equalpasswds2 && !editForm.newPassword2.$pristine">
+						<input type="password" name="newPassword2" ng-model="newPassword2" equalpasswds maxlength="150">
+						<span class="error" ng-show="editForm.newPassword2.$error.equalpasswds && !editForm.newPassword2.$pristine">
 							A két jelszónak meg kell egyezni!
 					   </span>	
 					</div>
@@ -136,13 +136,15 @@
 			</div>
 		</form>
 	</div>
-	<div class="right-box col-md-2" id="accordion">
-		<span><a ng-href="/#/profile?id={{loggedUser.id}}">Nyilvános profil</a></span>
-		<div class="lessor_rate">
-		   <p class="all_rating">Összes: 150</p>
-		   <p class="positive">100</p>
-		   <p class="negative">50</p>
-		   <p class="rate">66%</p>
+	<div class="right-box col-md-2">
+		<div id="accordion">
+			<span><a ng-href="#/profile?id={{loggedUser.id}}">Nyilvános profil</a></span>
+			<div class="lessor_rate">
+			   <p class="all_rating">Összes: 150</p>
+			   <p class="positive">100</p>
+			   <p class="negative">50</p>
+			   <p class="rate">66%</p>
+			</div>
 		</div>
 	</div>
 </div>

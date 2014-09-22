@@ -1,103 +1,87 @@
-<div class="admin" ng-controller="adminCtrl">
+<div class="admin min_height" ng-controller="adminCtrl">
 	<div class="panel-group col-md-2" id="accordion">
 		<div ng-include="userMenu"></div>
-		<div>
+		<div id="accordion">
 			<h3>Keresés</h3>
 			<ul class="nav nav-pills nav-stacked">
 				<input type="text" class="form-control" placeholder="Keresés">
 			</ul>
 		</div>
 	</div>
-	<div class="container col-md-10">
+	<div class="container col-md-10 admin-container">
 		<ul class="nav nav-tabs">
 		   <li class="active">
-			   <a data-toggle="tab" ng-click="changeContentFunction('users');showDetailsFunction();">Felhasználók</a>
+			   <a data-toggle="tab" ng-click="changeContentFunction('users');setInitalStates();">Felhasználók</a>
 		   </li>
 		   <li>
-			   <a data-toggle="tab" ng-click="changeContentFunction('products');showDetailsFunction();">Termékek</a>
+			   <a data-toggle="tab" ng-click="changeContentFunction('products');setInitalStates();">Eszközök</a>
 		   </li>
 		   <li>
-			   <a data-toggle="tab" ng-click="changeContentFunction('messages');showDetailsFunction();">Üzenetek</a>
+			   <a data-toggle="tab" ng-click="changeContentFunction('messages');setInitalStates();">Üzenetek</a>
 		   </li>
 		   <li>
-			   <a data-toggle="tab" ng-click="changeContentFunction('categories');showDetailsFunction();">Kategóriák</a>
+			   <a data-toggle="tab" ng-click="changeContentFunction('categories');setInitalStates();">Kategóriák</a>
 		   </li>
 		   <li>
-			   <a data-toggle="tab" ng-click="changeContentFunction('static');showDetailsFunction();">Statikus tartalmak</a>
+			   <a data-toggle="tab" ng-click="changeContentFunction('static');setInitalStates();">Statikus tartalmak</a>
 		   </li>
 		</ul>
 		<div class="tab-content" ng-switch on="changeContent">
 			<div ng-switch-when="users">
 				<div ng-include="adminUsers"></div>
 			</div>
-			<div ng-switch-when="products" ng-show="!showUserDetails" ng-controller="productListingCtrl">
+			<div ng-switch-when="products" ng-show="!showUserDetails">
 				 <div ng-include="adminProducts"></div>
 			</div>
 			<div ng-switch-when="messages">
 				<div ng-include="adminMessages"></div>
 			</div>
-			<div ng-switch-when="categories" ng-controller="adminCtrl">
+			<div ng-switch-when="categories">
 				<div ng-include="adminCategories"></div>
 			</div>
-			<div ng-switch-when="static">Static</div>
+			<div ng-switch-when="static"></div>
 			
 			<div ng-show="showUserDetails">
-				<table class="table table-striped table-details">
+				<table class="table table-striped table-details" id="user-details">
 					<tr>
-						<td><label>ID</label></td>
+						<td><label>ID:</label></td>
 						<td><span>{{currentUser.id}}</span></td>
 					</tr>
 					<tr>
-						<td><label>Felhasználónév</label></td>
+						<td><label>Felhasználónév:</label></td>
 						<td><span>{{currentUser.userName}}</span></td>
 					</tr>
 					<tr>
-						<td><label>Teljes név</label></td>
+						<td><label>Teljes név:</label></td>
 						<td><span>{{currentUser.fullName}}</span></td>
 					</tr>
 					<tr>
-						<td><label>Irányítószám</label></td>
+						<td><label>Megye:</label></td>
+						<td><span>{{currentUser.county}}</span></td>
+					</tr>
+					<tr>
+						<td><label>Irányítószám:</label></td>
 						<td><span>{{currentUser.postcode}}</span></td>
 					</tr>
 					<tr>
-						<td><label>Város</label></td>
+						<td><label>Város:</label></td>
 						<td><span>{{currentUser.city}}</span></td>
 					</tr>
 					<tr>
-						<td><label>Cím</label></td>
+						<td><label>Cím:</label></td>
 						<td><span>{{currentUser.address}}</span></td>
 					</tr>
 					<tr>
-						<td><label>E-mail cím</label></td>
+						<td><label>E-mail cím:</label></td>
 						<td><span>{{currentUser.email}}</span></td>
 					</tr>
+				</table>
+				<table class="table-details" id="user-details">
 					<tr>
-						<td colspan="2"><button type="button" class="btn btn-primary" ng-click="showUserDetailsFunction()">Vissza</button></td>
+						<td><button type="button" class="btn btn-primary" ng-click="showUserDetailsFunction()">Vissza</button></td>
 					</tr>
 				</table>
 			</div>
 		</div>
-		<div class="row" ng-show="!showUserDetails">
-			<ul class="pagination-admin">
-				 <li ng-click="previousPage()" ng-hide="pages.currentPage==1"><a href="{{currentTab}}?page={{pages.currentPage}}"> &#171 </a></li>
-			</ul>
-			<ul class="pagination-admin" ng-repeat="i in [] | forLoop: pages.pageCount: pages.currentPage">
-				<li ng-click="currentPage(i)" ><a href="{{currentTab}}?page={{i}}" ng-class="{active:isActivePage(i)}"> {{i}} </a></li>
-			</ul>
-			<ul class="pagination-admin">
-				<li ng-click="nextPage()" ng-hide="pages.currentPage==pages.pageCount"><a href="{{currentTab}}?page={{pages.currentPage}}"> &#187 </a></li>
-			</ul>
-		</div>
-		<!--<div class="row" >
-			<ul class="pagination">
-				 <li ng-click="previousPage()" ng-hide="datas.currentPage==1"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#171 </a></li>
-			</ul>
-			<ul class="pagination" ng-repeat="i in [] | forLoop: datas.pageCount: datas.currentPage">
-				<li ng-click="currentPage(i)" ><a href="{{currentTab}}?page={{i}}" ng-class="{active:isActivePage(i)}"> {{i}} </a></li>
-			</ul>
-			<ul class="pagination">
-				<li ng-click="nextPage()" ng-hide="datas.currentPage==datas.pageCount"><a href="{{currentTab}}?page={{datas.currentPage}}"> &#187 </a></li>
-			</ul>
-		</div>-->
 	</div>
 </div>

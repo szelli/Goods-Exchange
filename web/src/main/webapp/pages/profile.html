@@ -1,23 +1,28 @@
-<div class="row profile" ng-controller="profileCtrl">	
-	<div class="panel-group col-md-2" id="accordion">
-		<span><a href="/#/privateProfile">Vissza a privát nézetre</a></span>
-		<div ng-show="!ownProfile">
-			Menü helye
+<div class="row profile min_height" ng-controller="profileCtrl">	
+	<div class="panel-group col-md-2" id="accordion" ng-controller="menuCtrl">
+		<span><a href="#/privateProfile" ng-show="ownProfile">Vissza a privát nézetre</a></span>
+		<div id="accordion" ng-include="userMenu"></div>
+		<div class="col-md-12" id="accordion" ng-if="isAdminUser()">
+			<h3>Admin</h3>
+			<h4><a data-parent="#accordion" href="#/beCareful" ng-click="setOwnerIdToNull()">Admin oldal</a></h4>
 		</div>
 	</div>
 	<div class="col-md-10 container">
 		<div class="row">
-			<div class="col-md-3 data ">
+			<div class="col-md-3 data">
 				<div class="user">
-					<label>{{data.userName}}</label>
+					<label>{{datas.userName}}</label>
 				</div>
-				<button type="button" class="btn btn-primary">Üzenet küldés</button>
+				<div ng-controller="messageCtrl">
+					<button type="button" class="btn btn-primary" ng-show="messageButton"  ng-click="toUser()" data-toggle="modal" data-target="#newMessageModal">Üzenet küldés</button>
+					 <div ng-include="newMessageModal"></div>
+				</div>
 				<div class="date">
 					<label>Regisztrált: 2014.05.16.</label>
 				</div>
 				<div class="place">
-					<label>Baranya</label>
-					<label>{{data.city}}</label>
+					<label>{{datas.county}}</label>
+					<label>{{datas.city}}</label>
 				</div>
 				<div class="lessor_rate">
 					<p class="all_rating">
@@ -34,7 +39,7 @@
 					</p>
 				</div>
 			</div>		
-			<div class="col-md-9 rating ">
+			<div class="col-md-9 rating">
 				<label id="rating" class="label label-info">Legutóbbi értékelések</label>
 				<table class="table table-hover">
 					<tr>
@@ -89,33 +94,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="row" ng-controller="productListingCtrl" ng-include="productListing">
-			<!--		
-			<div class="row">		
-				<div class="tab-pane" id="list">
-					<div class="row">
-						<table class="list table table-striped">
-							<tr>
-								<th> Kép </th>
-								<th> Terméknév </th>
-								<th> Hely </th>
-								<th> Ár </th>
-								<th> Értékelés </th>
-								<th> Feltöltve </th>
-							</tr>
-							<tr>
-								<td><img src="http://upload.wikimedia.org/wikipedia/commons/b/bc/Flabellina-300x200.jpg" alt="..."></td>
-								<td>Flabellina</td>
-								<td>Tenger + 100km</td>
-								<td>15 000 Ft</td>
-								<td>Pozitív</td>
-								<td>2013.04.25</td>
-							</tr>
-						</table>
-					</div>
-				</div>			
-			</div>
-			-->		
-		</div>
+		<hr>
+		<div class="row" ng-controller="productListingCtrl" ng-include="productListing"></div>
 	</div>
 </div>

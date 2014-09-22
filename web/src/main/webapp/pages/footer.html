@@ -1,4 +1,8 @@
 <footer class="row">
     <p class="text-muted">Kapcsolat</p>
-    <button class="btn btn-default" >Üzenet</button>
+	<!--<div ng-controller="messageCtrl">-->
+	<div ng-controller="messageCtrl">
+		<button class="btn btn-default" ng-click="toAdmin()" data-toggle="modal" data-target="#newMessageModal">Üzenet</button>
+		<div ng-include="newMessageModal"></div>
+	</div>
 </footer>

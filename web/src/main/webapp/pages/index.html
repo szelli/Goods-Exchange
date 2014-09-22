@@ -1,7 +1,7 @@
 <div class="row" ng-controller="productListingCtrl">
 	<div class="panel-group col-md-2" id="accordion">
 		<h3>Kategóriák</h3>
-		<h4><a data-parent="#accordion" href="" ng-click="setCategory(0)">Összes kategória</a></h4>
+		<h4><a data-parent="#accordion" href="" ng-click="setCategory(null)">Összes kategória</a></h4>
 		<div class="panel panel-default" ng-repeat="category in categories">
 			<div class="panel-heading">
 				<h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{category.id}}" ng-click="haveChild(category.id)"> {{category.name}} </a></h4>
@@ -21,7 +21,7 @@
 				<div id="accordion" ng-include="userMenu"></div>
 				<div id="accordion" ng-if="isAdminUser()" class="col-md-12">
 					<h3>Admin</h3>
-					<h4><a data-parent="#accordion" href="/#/admin">Admin oldal</a></h4>
+					<h4><a data-parent="#accordion" href="#/beCareful">Admin oldal</a></h4>
 				</div>
 			</div>
 		</div>

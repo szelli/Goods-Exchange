@@ -1,5 +1,10 @@
-<div class="row" ng-controller="privateProfileCtrl">
-	<div class="panel-group col-md-2" id="accordion" ng-include="userMenu">
+<div class="row min_height" ng-controller="privateProfileCtrl">
+	<div class="panel-group col-md-2" id="accordion" ng-controller="menuCtrl">
+		<div ng-include="userMenu" id="accordion"></div>
+		<div class="col-md-12" id="accordion" ng-if="isAdminUser()">
+			<h3>Admin</h3>
+			<h4><a data-parent="#accordion" href="#/beCareful" ng-click="setOwnerIdToNull()">Admin oldal</a></h4>
+		</div>
    	</div>
 	<div class="container col-md-10" ng-controller="productListingCtrl" ng-include="productListing">
 	</div>
