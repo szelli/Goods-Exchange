@@ -1,36 +1,27 @@
 var productListingCtrl = angular.module('productListingCtrl', []);
 
-productListingCtrl.controller('productListingCtrl', ['$scope', '$rootScope', '$http', 'productServices','$location', 'sharedDatas',
-function($scope, $rootScope, $http, productServices, $location, sharedDatas) {
-    var j, find;
-    var id = [];
-	var base = $location.url().split('#');
-    var url = $location.url().split('%');
-    var page = [];
+productListingCtrl.controller('productListingCtrl', ['$scope', '$rootScope', '$http', 'productServices', 'userServices', '$location', 'sharedDatas', 'location',
+function($scope, $rootScope, $http, productServices, userServices, $location, sharedDatas, location) {
+    //var id = [];
+	//var base = $location.url().split('#');
+    //var url = $location.url().split('%');
+    //var page = [];
 	$scope.haveChildNode;
+	$scope.showProductDetails = false;
+	$scope.currentProduct = {};
 	$scope.isEmpty = false;
-    $scope.datas = {};
-    $scope.datas.limit= 12;
-    $scope.datas.sort= "DESC";
-    $scope.datas.pageCount={};
-    $scope.datas.currentPage=1;
-    $scope.datas.productsCount=0;
-    $scope.datas.offset=0;
-	$scope.datas.categoryId=0;
-    $scope.datas.tab={};
-    $scope.currentTab={};
-	$scope.tabs = [{
-            title: 'Legújabb',
-            url: '#'+base[0]+'#new'
-        }, {
-            //legtöbbet bérelt
-            title: 'Név szerint',
-            url: '#'+base[0]+'#name'
-    }];
+	$scope.categoryId = null;
+	$scope.products = [];
+ 	$scope.currentTab = {};
+	$scope.totalItems = 0;
+	$scope.currentPage = 1;
+	$scope.itemsPerPage = 12;
+	$scope.order = '-uploadTime';
+	$scope.az = true;
 	
 	$scope.setCategory = function(id) {
 		$scope.status=false;
-		$scope.datas.categoryId = id;
+		$scope.categoryId = id;
 		sharedDatas.setOwnerId(0);
 		$scope.refreshProducts();
 	}
@@ -50,7 +41,7 @@ function($scope, $rootScope, $http, productServices, $location, sharedDatas) {
 	};
 	
 //URL setting
-    if (url.length == 2){
+/*    if (url.length == 2){
         page = url[1].split('=');
     } else {
         page[1] = 1;
@@ -67,30 +58,50 @@ function($scope, $rootScope, $http, productServices, $location, sharedDatas) {
             $scope.currentTab = '#/index#new';
             $scope.datas.tab = 'uploadTime';
     };
-
+*/
 //ProductListing
-    $scope.refreshProducts = function() {
-		productServices.GetProductsCount(sharedDatas.getOwnerId(), $scope.datas.categoryId).success(function(productsCount){
-			if(productsCount != 0){
-				$scope.isEmpty = false;
-				$scope.datas.pageCount= Math.ceil(parseInt(productsCount) / parseInt($scope.datas.limit));
-				$scope.datas.productsCount = productsCount;
-				$scope.datas.offset=Math.ceil((parseInt($scope.datas.currentPage)-1) * parseInt($scope.datas.limit));
-				$scope.datas.ownerId = sharedDatas.getOwnerId();
-				productServices.loadProducts($scope.datas).success(function(productsList){
-					$scope.products = productsList;
-					//$scope.getIndexPictures();
-					$scope.getCitys();
-					$scope.status=true;
-				});
-			} else {
+	$scope.refreshProducts = function() {
+		$scope.ownerId = sharedDatas.getOwnerId();
+		productServices.getAllProducts($scope.ownerId, $scope.categoryId).success(function(result) {
+			if(result && result.length != 0) {
+				for(var i in result) {
+					result[i].city = location.getCity(result[i].cityId);
+					result[i].category = sharedDatas.setCategoryName(result[i].categoryId);
+				}
+				angular.copy(result, $scope.products);
+				$scope.totalItems = $scope.products.length;
+				$scope.status=true;
+			} else if(result.length == 0) {
 				$scope.isEmpty = true;
+			} else {
+				alert("Hiba történt!");
 			}
 		});
-    };
-	
+	};
+	$scope.refreshProducts();
+		
+		
+	$scope.changeOrder = function(value) {
+		$scope.status = false;
+		switch(value){
+            case 'Legújabb':
+				$scope.order = '-uploadTime';
+				break;
+			 case 'Név szerint':
+				if($scope.order == 'name') {
+					$scope.order = '-name';
+					$scope.az = false;
+				} else {
+					$scope.order = 'name';
+					$scope.az = true;
+				}
+				break;
+		}
+		$scope.status = true;
+	};
+
     $scope.getIndexPictures = function(){
-        for (var i=0; i<$scope.products.length; i++){
+		for(var i in $scope.products) {
             var j=0;
             find=false;
             while(!find){
@@ -103,84 +114,19 @@ function($scope, $rootScope, $http, productServices, $location, sharedDatas) {
         };
     };
 
-    $scope.getCitys = function(){
-        for (var i=0; i<$scope.products.length; i++){
-            j=0;
-            find=false;
-            while(!find){
-                if ($rootScope.cities[j].id == $scope.products[i].cityId){
-                    $scope.products[i].city = $rootScope.cities[j].name;
-                    find = true;
-                }
-                j++;
-            };
-        };
-    };
+	$scope.showProductById = function(product) {
+		$scope.showProductDetails = true;
+		angular.copy(product, $scope.currentProduct);
+		userServices.getUserById($scope.currentProduct.ownerId).success(function(result){
+			if(result) {
+				$scope.currentProduct.ownerName = result.userName;
+			}
+		});
+		$scope.currentProduct.category = sharedDatas.setCategoryName($scope.currentProduct.categoryId);
+	};
+	
+	$scope.notShowProductDetails = function() {
+		$scope.showProductDetails = false;
+	};
 
-//Tabbing 
-    $scope.orderChange = function(){
-        switch($scope.datas.sort) {
-            case 'DESC':
-                $scope.datas.sort = 'ASC';
-            break;
-            default:
-                $scope.datas.sort = 'DESC';
-        }
-    };
-
-    $scope.isActiveTab = function(tabUrl) {
-        return tabUrl == $scope.currentTab;
-    };
-
-    $scope.onClickTab = function (tab) {
-        $scope.status=false;
-        $scope.currentTab = tab.url;
-        switch(tab.title){
-            case 'Legújabb':
-                if ($scope.datas.tab!='uploadTime'){
-                    $scope.datas.tab='uploadTime';
-                    $scope.datas.sort= 'DESC';
-                    $scope.datas.currentPage = 1;
-                } else {
-                    $scope.orderChange();
-                };
-                break;
-            case 'Név szerint':
-                if ($scope.datas.tab!='name'){
-                    $scope.datas.tab='name';
-                    $scope.datas.sort= 'DESC';
-                    $scope.datas.currentPage = 1;
-                } else {
-                    $scope.orderChange();
-                };
-                break;
-        };
-        $scope.refreshProducts();
-    };
-
-//Paging
-    $scope.currentPage = function (page){
-        $scope.status=false;
-        $scope.datas.currentPage = page;
-        $scope.refreshProducts();
-    };
-
-    $scope.previousPage = function(){
-        $scope.status=false;
-        $scope.datas.currentPage = 1;
-        $scope.refreshProducts();
-    };
-
-    $scope.nextPage = function(){
-        $scope.status=false;
-        $scope.datas.currentPage = $scope.datas.pageCount;
-        $scope.refreshProducts();
-    };
-
-    $scope.isActivePage = function(page) {
-        return page == $scope.datas.currentPage;
-    };
-
-//Refresh page
-    $scope.refreshProducts();
 }]);

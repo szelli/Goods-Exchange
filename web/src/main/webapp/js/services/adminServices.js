@@ -2,14 +2,6 @@
 
 services.factory('adminServices', function($http) {
 	var admin = {};
-
-	admin.getUsers = function() {
-		return $http({
-			url : 'api/getUsersRequest',
-			method : "POST",
-			contentType : "application/json"
-		});
-	};
 	
 	admin.deleteUser = function(id) {
 		return $http({
@@ -34,16 +26,7 @@ services.factory('adminServices', function($http) {
 		});
 	};
 	
-	admin.listCategories = function() {
-		return $http({
-			url : 'api/getCategoriesRequest',
-			method : "POST",
-			contentType : "application/json"
-		});
-	};
-	
 	admin.editCategory = function(category) {
-		console.log(category.id, category.parentId.id, category.name);
 		return $http({
 			url : 'api/editCategoryRequest',
 			data : {
@@ -59,18 +42,6 @@ services.factory('adminServices', function($http) {
 	admin.deleteCategory = function(id) {
 		return $http({
 			url : 'api/deleteCategoryRequest',
-			data : {
-				"id" : id
-			},
-			method : "POST",
-			contentType : "application/json"
-		});	
-	};
-	
-	admin.getCategory = function(id) {
-		console.log("adminService: ", id);
-		return $http({
-			url : 'api/getCategoryRequest',
 			data : {
 				"id" : id
 			},

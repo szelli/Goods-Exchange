@@ -2,8 +2,16 @@ var services = angular.module('services', ['ngResource']);
 
 services.factory('userServices', function($http/*, localStorageService*/) {
 	var user = {};
-
-	user.getUser = function(username, password) {
+	
+	user.getAllUsers = function() {
+		return $http({
+			url : 'api/getUsersRequest',
+			method : "GET",
+			contentType : "application/json"
+		});
+	};
+	
+	user.login = function(username, password) {
 		return $http({
 			url : 'api/loginRequest',
 			data : {
@@ -15,6 +23,14 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 		});
 	};
 
+	user.logout = function() {
+		return $http({
+			url : 'api/logoutRequest',
+			method : "POST",
+			contentType : "application/json"
+		});
+	};
+	
 	user.saveUser = function(user) {
 		return $http({
 			url : 'api/registrationRequest',
@@ -23,7 +39,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
                 "fullName" : user.fullname,
 				"password" : user.password,
 				"email" : user.email,
-				"city" : user.city.name,
+				"cityId" : user.city.id,
                 "address" : user.address,
                 "postcode" : user.postcode,
                 "status" : 1
@@ -52,7 +68,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 				"userName" : user.userName,
                 "fullName" : user.fullName,
 				"postcode" : user.postcode,
-				"city" : user.city.name,
+				"cityId" : user.city.id,
 				"address" : user.address,
 				"email" : user.email,
 				"password" : user.newPassword,
@@ -74,7 +90,7 @@ services.factory('userServices', function($http/*, localStorageService*/) {
 			method : "POST",
 			contentType: "application/json"
 		});
-	}
+	};
 	
 	return user;
 });

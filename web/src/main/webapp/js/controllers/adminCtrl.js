@@ -1,53 +1,111 @@
 var adminCtrl = angular.module('adminCtrl', []);
 
-adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServices', 'userServices', 'categoryServices', 'sharedDatas', 'productServices',
-	function($scope, $rootScope, $http, adminServices, userServices, categoryServices, sharedDatas, productServices) {
+adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', 'adminServices', 'userServices', 'messageServices', 'sharedDatas', 'productServices', 'location',
+	function($scope, $rootScope, adminServices, userServices, messageServices, sharedDatas, productServices, location) {
 	$scope.changeContent = 'users';
 	$scope.showUserDetails = false;
 	$scope.editDatas = false;
 	$scope.showProductsByUser = false;
+	$scope.showChildCategories = false;
+	$scope.isEmpty = false;
 	$scope.saveOrEditSwitch = 'save';
-	$scope.users = {};
+	$scope.products = [];
+	$scope.productsByOwner = [];
+	$scope.currentProduct = {};
+	$scope.users = [];
 	$scope.currentUser = {};
 	$scope.currentCategory = {};
 	$scope.newCategory = {};
-	$scope.currentProduct = {};
-	$scope.productsByOwner = {};
 	$scope.edit_error = false;
-	$scope.category_active = false;	
+	$scope.totalItems = 0;
+	$scope.currentPage = 1;
+	$scope.itemsPerPage = 10;
 	
 	$scope.changeContentFunction = function(value) {
 		$scope.changeContent = value;
+		if(value == 'users') {
+			$scope.totalItems = $scope.users.length;
+		} else if(value == 'products') {
+			$scope.totalItems = $scope.products.length;
+		} else if(value == 'categories') {
+			$scope.setCategories();
+		}
 	};
 		
-	$scope.showDetailsFunction = function() {
+	$scope.setInitalStates = function() {
 		$scope.showUserDetails = false;
+		$scope.editDatas = false;
+		$scope.showProductsByUser = false;
+		$scope.showChildCategories = false;
 	};
 	
 	$scope.showUserDetailsFunction = function(value) {
 		$scope.showUserDetails = !$scope.showUserDetails;
 	};
 	
+	$scope.showChildCategoriesFunction = function() {
+		$scope.showChildCategories = !$scope.showChildCategories;
+	};	
+	
 	$scope.editDatasFunction = function() {
 		$scope.editDatas = !$scope.editDatas;
-	};
+	};	
 	
-	$scope.setInitialState = function() {
-		$scope.currentUser = {};
-		$scope.currentCategory = {};
-		$scope.newCategory = {};
-		$scope.currentProduct = {};
-	}
-		
 	$scope.saveOrEditSwitchFunction = function(value) {
 		$scope.saveOrEditSwitch = value;
-	};			
+	};	
+		
+	$scope.setCategories = function(parentId) {
+		$scope.categories = [];
+		if($scope.showChildCategories) {
+			for(var i in $rootScope.subCategories) {
+				if(parentId == $rootScope.subCategories[i].parentId) {
+					$scope.categories.push($rootScope.subCategories[i]);
+				}
+			}
+		} else {
+			$scope.categories = $rootScope.categories;
+		}
+		$scope.totalItems = $scope.categories.length;
+		if($scope.categories.length == 0) {
+			$scope.isEmpty = true;
+		} else {
+			$scope.isEmpty = false;
+		}
+	}
+	
+	userServices.getAllUsers().success(function(result) {
+		if(result){
+			angular.copy(result, $scope.users);
+			$scope.totalItems = $scope.users.length;
+		} else {
+			alert("Hiba történt!");
+		}
+	});
+		
+	productServices.getAllProducts().success(function(result) {
+		if(result) {
+			for(var i in result) {
+				result[i].city = location.getCity(result[i].cityId);
+				result[i].category = sharedDatas.setCategoryName(result[i].categoryId);
+			}
+			angular.copy(result, $scope.products);
+		} else {
+			alert("Hiba történt!");
+		}
+	});		
+	
+	
 	
 	/* users */
 	$scope.getCurrentUser = function(id) {
+		var city;
 		userServices.getUserById(id).success(function(result) {
 			if(result){
+				city = result.cityId;
 				angular.copy(result, $scope.currentUser);
+				$scope.currentUser.county = location.getCounty(location.getCountyId(city));
+				$scope.currentUser.city = location.getCity(city);
 			} else {
 				alert("Hiba történt!");
 			}
@@ -56,15 +114,7 @@ adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServic
 	
 	$scope.editUserDatas = function() {
 		userServices.editProfile($scope.currentUser);
-	}	
-	
-	adminServices.getUsers().success(function(result){
-		if(result){
-			$scope.users = result;
-		} else {
-			alert("Hiba történt!");
-		}
-	});
+	};	
 		
 	$scope.deleteUserFunction = function(id) {
 		adminServices.deleteUser(id);
@@ -72,7 +122,7 @@ adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServic
 	/* users - end */
 	
 	/* products */
-		
+
 	$scope.showProductsByUserFunction = function() {
 		$scope.showProductsByUser = !$scope.showProductsByUser;
 	};
@@ -80,7 +130,11 @@ adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServic
 	$scope.getProductByOwner = function(id) {
 		productServices.getProductsByOwner(id).success(function(result) { 
 			if(result) {
-				$scope.productsByOwner = result;
+				angular.copy(result, $scope.productsByOwner);
+				for(var i in $scope.productsByOwner) {
+					$scope.productsByOwner[i].city = location.getCity($scope.productsByOwner[i].cityId);
+					$scope.productsByOwner[i].category = sharedDatas.setCategoryName($scope.productsByOwner[i].categoryId);
+				}
 			} else {
 				alert("Hiba történt!");
 			}
@@ -96,14 +150,23 @@ adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServic
 	/* categories */
 	$scope.setCurrentCategory = function(category) {
 		angular.copy(category, $scope.currentCategory);
+		console.log($scope.currentCategory.id, $scope.currentCategory.name, $scope.currentCategory.parentId);
+		if($scope.currentCategory.parentId == "" || !$scope.currentCategory.parentId) {
+			$scope.currentCategory.parentId = 0;
+		}
+		console.log($scope.currentCategory.id, $scope.currentCategory.name, $scope.currentCategory.parentId);
 		$scope.editDatasFunction();
 	};
 	
 	$scope.saveCategoryFunction = function() {
 		$scope.status=false;
+		if($scope.newCategory.parentId == "" || !$scope.newCategory.parentId) {
+			$scope.newCategory.parentId = 0;
+		}
 		adminServices.saveCategory($scope.newCategory).success(function(result) {
 			if(result=="ok") {
 				alert("Sikeres művelet!");
+				$scope.newCategory = {};
 				$scope.refreshCategories();
 			} else if(result == "already exist") {
 				alert("Már létezik ez a nevű kategória!");
@@ -115,7 +178,7 @@ adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServic
 
 	$scope.editCategoryFunction = function() {
 		$scope.status=false;
-		$scope.edit_error = $scope.checkFirst($scope.currentCategory.id, $scope.currentCategory.parentId.id);
+		$scope.edit_error = $scope.checkFirst($scope.currentCategory.id, $scope.currentCategory.parentId);
 		if(!$scope.edit_error){
 			adminServices.editCategory($scope.currentCategory).success(function(result) {
 				if(result == "ok") {
@@ -172,7 +235,6 @@ adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServic
 				}
 			}
 		}
-	
 	};
 		
 	$scope.getCategoryById = function(id) {
@@ -186,7 +248,9 @@ adminCtrl.controller('adminCtrl', ['$scope', '$rootScope', '$http', 'adminServic
 		
 	$scope.refreshCategories = function() {
 		$rootScope.getCategories();
-	}
+		$scope.setCategories();
+		$rootScope.setItems();
+	};
 	/* categories - end */	
 		
 }]);

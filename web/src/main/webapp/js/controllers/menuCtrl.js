@@ -1,7 +1,7 @@
 var menuCtrl = angular.module('menuCtrl', []);
 
-menuCtrl.controller('menuCtrl', ['$scope', '$rootScope',
-function($scope, $rootScope) {
+menuCtrl.controller('menuCtrl', ['$scope', '$rootScope', 'sharedDatas',
+function($scope, $rootScope, sharedDatas) {
 	
 	$scope.loggedUser = function() {
 		if($rootScope.loggedUser != null && $rootScope.loggedUser != '') {
@@ -18,5 +18,9 @@ function($scope, $rootScope) {
 			return false;
 		}
 	};
+	
+	$scope.setOwnerIdToNull = function() {
+		sharedDatas.setOwnerId(0);
+	}
 	
 }]);

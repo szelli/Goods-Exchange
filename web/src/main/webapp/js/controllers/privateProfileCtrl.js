@@ -1,15 +1,12 @@
 var privateProfileCtrl = angular.module('privateProfileCtrl', []);
 
-privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$http', '$location', 'userServices', 'sharedDatas',
-	function($scope, $rootScope, $http, $location, userServices, sharedDatas) {
-		$scope.myData = {};
-		$scope.editUser = {};
-		$scope.editUser.id = $rootScope.loggedUser.id;
+privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$http', '$location', 'userServices', 'sharedDatas', 'location',
+	function($scope, $rootScope, $http, $location, userServices, sharedDatas, location) {
+		$scope.userDatas = {};
+		//$scope.userDatas.newPassword2 = "";
 		sharedDatas.setOwnerId($rootScope.loggedUser.id);
-		
 		$scope.buttonSwitch = false;
 		$scope.setNewPassword = false;
-		
 		$scope.edit_error = false;
 		
 		$scope.buttonSwitchFunction = function(){
@@ -28,18 +25,20 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 		};
 		
 		$scope.setInitialState = function() {
-			$scope.editUser.oldPassword = null;
-			//$scope.editUser.newPassword = null;
-			$scope.editUser.newPassword2 = null;
+			$scope.userDatas.oldPassword = null;
+			$scope.newPassword2 = null;
 		}
 		
 		$scope.refreshUserDatas = function() {
 			userServices.getUserById($rootScope.loggedUser.id).success(function(result){
+				var city;
 				if(result){
-					$scope.myData = result;
-					angular.copy($scope.myData, $scope.editUser);
-					$scope.myData.city = {};
-					$scope.myData.city.name = $scope.editUser.city;
+					$scope.userDatas = result;
+					$scope.userDatas.county = location.getCounty(location.getCountyId(result.cityId));
+					city = result.cityId;
+					$scope.userDatas.city = {};
+					$scope.userDatas.city.id = city;
+					$scope.userDatas.city.name = location.getCity(city);
 					$scope.status=true;
 				} else {
 					alert("Hiba történt, kérlek próbálkozz később!");
@@ -52,10 +51,9 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 			$scope.status=false;
 			if(isValid){
 				if($scope.setNewPassword){
-						userServices.validatePassword($rootScope.loggedUser.id, $scope.editUser.oldPassword).success(function(status_message) {
+						userServices.validatePassword($rootScope.loggedUser.id, $scope.userDatas.oldPassword).success(function(status_message) {
 							if(status_message == "ok"){
 								$scope.edit_error = false;
-								console.log($scope.editUser.newPassword);
 								$scope.editProfileFunction();
 						} else {
 							$scope.validPassword = false;
@@ -64,14 +62,13 @@ privateProfileCtrl.controller('privateProfileCtrl', ['$scope', '$rootScope', '$h
 							}
 					});
 				} else {
-					console.log("editUser: ", $scope.editUser.city);
 					$scope.editProfileFunction();
 				}
 			}
 		};
 		
 		$scope.editProfileFunction = function(){
-			userServices.editProfile($scope.editUser).success(function(status_message) {
+			userServices.editProfile($scope.userDatas).success(function(status_message) {
 				if(status_message == "ok"){
 					$scope.edit_error = false;
 					$scope.refreshUserDatas();

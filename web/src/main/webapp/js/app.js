@@ -1,6 +1,8 @@
 var goods_exchange = angular.module('goods_exchange', [
     'ui.router',
-    'LocalStorageModule',
+    'ngRoute',
+	'LocalStorageModule',
+	'angular-md5',
     'registrationCtrl',
     'productCtrl',
     'loginCtrl',
@@ -8,35 +10,17 @@ var goods_exchange = angular.module('goods_exchange', [
 	'privateProfileCtrl',
     'productListingCtrl',
 	'adminCtrl',
+	'messageCtrl',
 	'menuCtrl',
     'formDirectives',
     'itemDirectives',
     'paginatorFilters',
     'generalFilters',
 	'sharedDatas',
-    'services'
+	'location',
+    'services',
+	//'ngCookies'
 ]);
-
-/*window.routes =
-{
-    "/index": {
-    	templateUrl: 'pages/index.html',
-        requireLogin: false
-    },
-    "/productUpload": {
-    	templateUrl: 'pages/product_upload.html',
-        requireLogin: true,
-    },
-    "/productUpdate": {
-    	templateUrl: 'pages/product_upload.html',
-        requireLogin: true,
-        requireProduct: true,
-    },
-    "/product":{
-	    templateUrl: 'pages/product.html', 
-	    requireLogin: false,
-    }
-};*/
 
 var states = [
     { name: 'public.index', url: '/index', templateUrl: 'pages/index.html', requireLogin: false },
@@ -45,14 +29,18 @@ var states = [
 	{ name: 'private.myProducts', url: '/myProducts', templateUrl: 'pages/my_products.html', requireLogin: true },
     { name: 'private.productUpload', url: '/productUpload', templateUrl: 'pages/product_upload.html', requireLogin: true},
 	{ name: 'private.reservation', url: '/reservation', templateUrl: 'pages/reservation.html', requireLogin: true},
-    { name: 'admin.home', url: '/admin', templateUrl: 'pages/admin.html', requireLogin: true}
-];
-
-goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','localStorageServiceProvider',
-  function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider,localStorageServiceProvider) {
-		localStorageServiceProvider.setStorageType('sessionStorage');
-		$httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+	{ name: 'private.messages', url: '/messages', templateUrl: 'pages/messages.html', requireLogin: true},
+    { name: 'admin.index', url: '/beCareful', templateUrl: 'pages/beCareful.html', requireLogin: true},
+	{ name: 'admin.home', url: '/admin', templateUrl: 'pages/admin.html', requireLogin: true}
+]
+									
+goods_exchange.config(['$routeProvider', '$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', 'localStorageServiceProvider', 
+  function($routeProvider, $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, localStorageServiceProvider) {
+	localStorageServiceProvider.setStorageType('sessionStorage');
+	$httpProvider.defaults.useXDomain = true;
+	$httpProvider.defaults.headers.common.xsrfHeaderName = 'X-XSRF-TOKEN';
+		
+	delete $httpProvider.defaults.headers.common['X-Requested-With'];
     
     $urlRouterProvider.otherwise("/index");
     
@@ -60,15 +48,24 @@ goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvide
         .state('public', {
             url: "",
             abstract: true,
-            template: "<div ui-view></div>"
+            template: "<div ui-view></div>",
+			/*resolve: {
+				app: function() {
+					var username;
+					if(!$rootScope.loggedUser) {
+						username = "anonymus";
+					} else {
+						username = $rootScope.loggedUser.username;
+					}
+					
+				}
+			}*/
         })
-
         .state('private', {
             url: "",
             abstract: true,
             template: "<div ui-view></div>"
         })
-    
         .state('admin', {
             url: "",
             abstract: true,
@@ -78,11 +75,16 @@ goods_exchange.config(['$stateProvider', '$urlRouterProvider', '$locationProvide
       angular.forEach(states, function (state) {
             $stateProvider.state(state.name, state);
       });
+	 
 }]);
 
-goods_exchange.run(function ($rootScope, localStorageService, cityServices, categoryServices, $location) {
-    $rootScope.header = 'pages/header.html';
+goods_exchange.run(function ($rootScope, localStorageService, cityServices, categoryServices, userServices, $location, $http) {
+	//$http.defaults.headers.post['X-XSRF-TOKEN'] = $cookies.csrftoken;
+    //console.log($cookies.XSRF_TOKEN);
+	$rootScope.header = 'pages/header.html';
+	$rootScope.loginModal = 'pages/loginModal.html';
     $rootScope.regModal = 'pages/regModal.html';
+	$rootScope.newMessageModal = 'pages/newMessageModal.html';
     $rootScope.footer = 'pages/footer.html';
 	$rootScope.userMenu = 'pages/user_menu.html';
 	$rootScope.productListing = 'pages/product_listing.html';
@@ -93,6 +95,12 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
 	$rootScope.emptyCategory = 'pages/empty_category.html';
     $rootScope.preventURL='';
     
+	/*$rootScope.roles = [
+		{ id: 1, role: 'admin'},
+		{ id: 2, role: 'user'},
+		{ id: 3, role: 'public'}
+	];*/
+	
     $rootScope.$on("$locationChangeSuccess", function() {
         if ($rootScope.preventURL != $location.path()){
             for (var i=0; i<states.length; i++){
@@ -107,20 +115,39 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
             }
         }
     });
-    
-    cityServices.getCities().success(function(cities){
+	
+	
+    cityServices.getCities().success(function(cities) {
     	$rootScope.cities = [];
-    	
         for(var i=0; i<cities.length; i++){
             var city = {};
             city.name = cities[i].city;
             city.id = cities[i].id;
+			city.countyId = cities[i].countyId;
             $rootScope.cities.push(city);
         }
         $rootScope.$broadcast('productListingCtrl');
     });
 	
+	cityServices.getCounties().success(function(counties) {
+    	$rootScope.counties = [];
+        for(var i=0; i<counties.length; i++){
+            var county = {};
+            county.name = counties[i].county;
+            county.id = counties[i].id;
+            $rootScope.counties.push(county);
+        }
+    });
 	
+	userServices.getAllUsers().success(function(users) {
+		$rootScope.users = [];
+		for(var i=0; i<users.length; i++){
+			var user = {};
+			user.id = users[i].id;
+			user.fullName = users[i].fullName;
+			$rootScope.users.push(user);
+		}
+	});
 	
 	createCategoryHierarchy = function(categories, parentId) {
 		var outResult = [];
@@ -134,14 +161,13 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
 			}
 		}
 		return outResult;
-	}
-	
-    //$rootScope.$on('productListingCtrl', function(e) {
+	};
 	
 	$rootScope.getCategories = function() {
         categoryServices.getCategories().success(function(categories){
+			$rootScope.categoriesList = categories;
 			$rootScope.subCategories = [];
-			$rootScope.categories = createCategoryHierarchy(categories, 0);
+			$rootScope.categories = createCategoryHierarchy(categories, null);
 			for(var i in $rootScope.categories) {
 				for(var j in $rootScope.categories[i].children) {
 					$rootScope.subCategories.push($rootScope.categories[i].children[j]);
@@ -153,7 +179,7 @@ goods_exchange.run(function ($rootScope, localStorageService, cityServices, cate
 	$rootScope.getCategories();
 
         if (localStorageService.get("loggedUser") != null && localStorageService.get("loggedUser") != '') {
-            $rootScope.loggedUser = localStorageService.get("loggedUser");
+            $rootScope.loggedUser = localStorageService.get("loggedUser");	
         }
-    //});
+	
 });

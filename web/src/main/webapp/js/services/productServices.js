@@ -54,21 +54,13 @@ services.factory('productServices', function($http/*, localStorageService*/) {
 		});
 	};
     
-    product.loadProducts = function(datas) {
+	product.getAllProducts = function(ownerId, categoryId) {
 		return $http({
 			url : 'api/productList',
 			data : {
-                "sort": datas.sort,
-                "limit": datas.limit,
-                "currentPage": datas.currentPage,
-                "pageCount": datas.pageCount,
-                "productsCount": datas.productsCount,
-                "offset": datas.offset,
-                "tab": datas.tab,
-				"categoryId": datas.categoryId,
-				"ownerId": datas.ownerId
-                
-            },
+				"categoryId": categoryId,
+				"ownerId": ownerId	
+			},
 			method : "POST",
 			contentType : "application/json"
 		});

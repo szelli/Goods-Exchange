@@ -1,18 +1,22 @@
 var loginCtrl = angular.module('loginCtrl', []);
 
-loginCtrl.controller('loginCtrl', ['$scope', '$http', 'userServices', 'localStorageService', '$rootScope', '$location', 'sharedDatas',
-function($scope, $http, userServices, localStorageService, $rootScope, $location, sharedDatas) {
+loginCtrl.controller('loginCtrl', ['$scope', '$http', 'userServices', 'localStorageService', '$rootScope', '$location', 'sharedDatas', 'md5',
+function($scope, $http, userServices, localStorageService, $rootScope, $location, sharedDatas, md5) {
     $scope.username = null;
     $scope.password = null;
     $scope.error_offpristine = false;
     $scope.login_error = false;
     $scope.login_error_message = "";
-    
+
     $scope.logout = function(){
-        $rootScope.loggedUser = null;
-        localStorageService.add("loggedUser", null);
-		sharedDatas.setOwnerId(0);
-		$location.path("/index");
+    	userServices.logout().success(function(response){
+    		if(response == "ok") {
+	    		$rootScope.loggedUser = null;
+	            localStorageService.add("loggedUser", null);
+	    		sharedDatas.setOwnerId(0);
+	    		$location.path("/index");
+    		}
+    	});
     };
     
     $scope.login = function(form){
@@ -21,7 +25,8 @@ function($scope, $http, userServices, localStorageService, $rootScope, $location
         if(!$rootScope.loggedUser){
             if(form.$valid){
                 $scope.error_offpristine = false;
-                userServices.getUser($scope.username, $scope.password).success(function(result){
+                $scope.password = md5.createHash($scope.password || '');
+                userServices.login($scope.username, $scope.password).success(function(result){
                     if(result){
                         $scope.loggedUser = {};
                         $scope.loggedUser.username = result.userName;

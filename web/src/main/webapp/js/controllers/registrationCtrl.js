@@ -2,9 +2,9 @@ var regCtrl = angular.module('registrationCtrl', []);
 
 regCtrl.controller('registrationCtrl', ['$scope', '$http', 'userServices',
 function($scope, $http, userServices) {
-    $scope.newUser = {};
-    $scope.newUser.address = "";
-    $scope.password2 = null;
+    $scope.userDatas = {};
+    $scope.userDatas.address = "";
+    $scope.newPassword2 = null;
     $scope.error_offpristine = false;
     $scope.reg_error = false;
     $scope.reg_error_message = "";
@@ -15,9 +15,9 @@ function($scope, $http, userServices) {
         
         if(form.$valid){
             $scope.error_offpristine = false;
-            $scope.newUser.address = $scope.newUser.street+" "+$scope.newUser.houseNumber+" "+$scope.newUser.floorAndDoor;
+            $scope.userDatas.address = $scope.userDatas.street+" "+$scope.userDatas.houseNumber+" "+$scope.userDatas.floorAndDoor;
             
-            userServices.saveUser($scope.newUser).success(function(status_message){
+            userServices.saveUser($scope.userDatas).success(function(status_message){
                 if(status_message == "ok"){
                     alert("A regisztrációd mentettük.");
                     $("#registrationModal").modal("hide");
