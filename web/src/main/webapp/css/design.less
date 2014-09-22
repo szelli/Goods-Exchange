@@ -19,15 +19,40 @@ body{
 .body_container .container_box{
 	background: #fff;
 	margin-top: 35px;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding: 20px 10px 20px 10px;
 	box-shadow: 2px 2px 22px;
-	padding-top: 20px;
 	border-radius: 3px;
 }
 
+.min_height {
+	min-height: 500px;
+}
+
 /* buttons */
-button:active, .btn:active, .btn.active{
+.btn-primary {
+	outline: none !important;
+    background-color : @base_color !important;
+    border-color: @base_color !important;
+	color: #fff !important;
+	&:hover, &:active {
+		background-color: @highlight_color !important;
+		border-color: @highlight_color !important;
+		color: #fff !important;
+	}
+}
+
+.btn-default{
+	outline: none !important;
+	background-color : #fff !important;
+    border-color: #ddd !important;
+	color: #111 !important;
+	&:hover, &:active {
+		background-color : #ddd !important;
+		border-color: #ccc !important;
+	}
+}
+
+/*button:active, .btn:active, .btn.active{
     outline: none !important;
 	background-color: @highlight_color !important;
 	border-color: @highlight_color !important;
@@ -60,7 +85,7 @@ button:active, .btn:active, .btn.active{
 	background-color : #ddd !important;
     border-color: #ccc !important;
 	color: #111 !important;
-}
+}*/
 /* buttons - end */
 
 /* input fields */
@@ -88,8 +113,8 @@ input{
 textarea {
 	min-height: 100px;
 	max-height: 100px;
-	min-width: 100%;
 	width: 100%;
+	min-width: 100%;
 	max-width: 100%;
 	color: @base_color;
 	overflow-x: auto;
@@ -104,12 +129,16 @@ textarea {
 /* input fields - end */
 
 #is_empty {
-	width: 60%;
+	width: @width;
+	width: @width;
 	color: @base_color;
 	font-weight: bold;
-	margin: auto;
-	margin-top: 20px;
+	margin: 20px auto;
 	text-align: center;
+}
+
+#bold_link {
+	font-weight: bold;
 }
 
 .remove-icon{
@@ -127,9 +156,7 @@ textarea {
 	.caption {
 		display: inline-block;
 		width: 100%;
-		padding-bottom: 0px;
-		padding-left: 0px;
-		padding-right: 0px;
+		padding: 0px;
 		:first-child{
 		  float: left;
 		}
@@ -149,6 +176,7 @@ textarea {
 	&:hover{
 		transform: scale(1.05, 1.05);
 		box-shadow: 2px 2px 8px;
+		cursor: pointer;
 	}
 }
 
@@ -185,8 +213,7 @@ header{
 		width:85%;
     }
     button{
-    	margin-top: 10px;
-		margin-left: 36px;
+		margin: 10px 0px 0px 36px;
     }
 }
 
@@ -209,14 +236,14 @@ header{
 	}
 	a{	
 		line-height: 22px;
-		font-size: 16px;
+		font-size: 17px;
 		text-align: center;
 		background-color: @base_color;
 		color: #fff;
 		width: 100%;
 		float: left;
 		border-radius: 4px;
-		padding: 10px;
+		padding: 10px 6px 10px 6px;
 		margin-bottom: 2px;
 		&:hover{
 			text-decoration: none;
@@ -265,19 +292,97 @@ header{
 	
 }
 
-
 .tab-content{
-	padding:30px 0px 30px 0px;
+	padding: 30px 0px 30px 0px;
 }
 
-.pagination{
-    .active{
-        background-color: #87b580;
+/* tabs and paging */
+.pagination {
+	background-color: #fff;
+	position: relative;
+    .active {
+		color: @base_color;
+        background-color: @base_color;
         color: #ffffff;
+		a {
+			background-color: #87b580;
+			color: #ffffff;
+			border-color: @base_color;
+			&:hover {
+				color: @highlight_color;
+				background-color: #eee;
+				border-color: #ddd;
+			}
+		}
+		li>a {
+			color: @highlight_color;
+		}
     }
+	li>a {
+		color: @base_color;
+		cursor: pointer;
+		&:hover {
+			color: @highlight_color;
+		}
+	}
 	margin: 0 auto; 
 	width: 30%; 
 	display: block;
+}
+
+.nav-tabs>li>a {
+	font-size: 17px;
+}
+
+.nav-tabs>li.active>a {
+	color: @highlight_color;
+	&:hover {
+		color: @highlight_color;
+	}
+}
+
+/* tabs and paging - end */
+
+/* links */
+a {
+	position: relative;
+	color: @base_color;
+	cursor: pointer;
+}
+a:hover {
+	position: relative;
+	color: @highlight_color;
+}
+a:active {
+	position: relative;
+	color: @highlight_color;
+}
+/* links - end */
+
+.product-details {
+	margin-top: 50px;
+	span {
+		color: @base_color;
+		font-size: 15px;
+		font-weight: bold;
+	}
+	label {
+		color: @highlight_color;
+		font-size: 15px;
+		font-weight: bold;
+	}
+}
+
+.left-side {
+	float: left;
+}
+
+.right-side {
+	float: right;
+}
+
+#descriptions {
+	min-height: 60px;
 }
 
 footer{
@@ -336,17 +441,20 @@ footer{
 	button.btn-primary{
 		float: right;
 		width: 54%;
-		margin: 40px;
-		margin-top: 29px;
-		margin-bottom: 26px;
+		margin: 30px 40px 25px 40px;
+		//margin: 40px;
+		//margin-top: 29px;
+		//margin-bottom: 26px;
 	}
 	>button.btn-info{
 		float: right;
-		margin: 40px;
-		margin-top: 30px;
-		margin-bottom: 25px;
+		margin: 30px 40px 25px 40px;
+		//margin: 40px;
+		//margin-top: 30px;
+		//margin-bottom: 25px;
 	}
 }
+
 #product_slide{
     height: 350px;
     .carousel, .carousel-inner, .carousel-inner>div{
@@ -373,13 +481,14 @@ footer{
 h2.product_name, .lessor_name{
 	text-align: center;
 }
-
+/*
 .product_price, .product_place{
 	font-size: 18px;
 	font-weight: bold;
 	color: @base_color;
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin: 20px 0px;
+	//margin-top: 20px;
+	//margin-bottom: 20px;
 }
 
 .product_place{
@@ -389,7 +498,7 @@ h2.product_name, .lessor_name{
 .product_price{
 	float: right;
 }
-
+*/
 .product_attr{
 	width: 100%;
 	float: left;
@@ -604,7 +713,7 @@ h2.product_name, .lessor_name{
 }
 
 /***********************************************************************/
-//Login - modal
+/* Login modal */
 
 #loginModal{
 	.modal-body{
@@ -613,38 +722,22 @@ h2.product_name, .lessor_name{
 	input{
 		margin-bottom: 10px;
 	}
-
 	.modal-footer{
-		>button:first-child, button:first-child:focus{
+		>button:first-child {
 			float: left;
-            background-color : @base_color;
-            border: none;
-            box-shadow: none;
-            outline: none;
 		}
-        >button:first-child:active, button:first-child:hover{
-            background-color: @highlight_color;
-            border: none;
-            box-shadow: none;
-            outline: none;
-        }
-        >button:active{
-            outline: none;
-        }
 	}
 }
+/* Login modal - end */
 
-//Reg - modal
-
+/* Registration modal */
 #registrationModal {
 	.modal-dialog{
 		width: 300px;
 	}
-
 	.modal-content{
 		width: 370px;
 	}
-
 	.modal-body{
 		.css-form>div>input{
 			margin-top: 6px;
@@ -661,26 +754,12 @@ h2.product_name, .lessor_name{
 			
 		}
 	}
-
 	.modal-footer{
         margin-top: 0px;
         clear: both;
-		>button:first-child, button:first-child:focus{
+		>button:first-child {
 			float: left;
-            background-color : @base_color;
-            border: none;
-            box-shadow: none;
-            outline: none;
 		}
-        >button:first-child:active, button:first-child:hover{
-            background-color: @highlight_color;
-            border: none;
-            box-shadow: none;
-            outline: none;
-        }
-        >button:active{
-            outline: none;
-        }
 	}
 }
 
@@ -705,13 +784,12 @@ h2.product_name, .lessor_name{
 	}
 }
 
-
 #registrationModal .modal-body .css-form>div.modalBodyDiff2{
     margin-top: 6px;
+	margin-bottom: 10px;
     box-sizing: border-box;
     padding: 0px 10%;
     width: 100%;
-    margin-bottom: 10px;
     float:left;
 	>div{
 		width: 45%;
@@ -728,10 +806,55 @@ h2.product_name, .lessor_name{
         margin-left: 3%;
     }
 }
+/* Registration modal - end */
 
-//Reg modal - end
+/* New message modal */
+#newMessageModal {
+	.modal-dialog {
+		width: 500px;
+	}
+	.modal-content{
+		width: 570px;
+	}
+	.modal-header {
+		height: 56px;
+		button {
+			width: 25px;
+			float: right;
+			margin-bottom: 0px;
+			color: red;
+		}
+		
+	}
+	.modal-body{
+		min-height: 200px;
+		padding: 20px 20px 0px 20px;
+	}
+	input {
+		margin: 10px 0px;
+	}
+	span, h4 {
+		float: left;
+		color: @base_color;
+	}
+	textarea {
+		min-height: 150px;
+		max-height: 150px; 
+	}
+	.modal-footer {
+		button:first-child {
+			width: 20%;
+			float: left;
+		}
+		button:last-child {
+			width: 20%;
+			float: right;
+		}
+	}
+}
+/* New message modal - end */
 
-//Adv. search
+/* Advanced search */
 .searchForm-body{
 	margin-top: 20px;
 	#productName{
@@ -799,13 +922,14 @@ h2.product_name, .lessor_name{
 		margin-right: 60px; 
 	}
 }
-//Adv. search - end
+/* Advanced search - end */
 
 /***********************************************************************************************/
 
 /* Profile */
 
 .profile {
+	margin-top: 20px;
 	button {
 		width: 100%;
 		margin: 10px 0px 10px 0px;
@@ -818,22 +942,24 @@ h2.product_name, .lessor_name{
 }
 
 .data label{
-   float: left;
-   width: 100%;
-   color: @base_color;
-   font-size: 18px;
+	float: left;
+	width: 100%;
+	color: @base_color;
+	font-size: 18px;
+	text-align: center;
 }
 .data .user label{
-   line-height: 1;
-   font-size: 38px;
+	line-height: 1;
+	font-size: 38px;
+	
 }
 
 .data .date label{
-   margin-top: 20px;   
+	margin-top: 20px;   
 }
 .data .place label{
-   margin-top: 20px; 
-   width: 50%;
+	margin-top: 20px; 
+	width: 50%;
 }
 
 .data .lessor_rate{
@@ -842,25 +968,25 @@ h2.product_name, .lessor_name{
 }
 
 .container .rating{
-   float: right;
+	float: right;
 }
 
 .rating .table-hover{
-   margin-top: 25px;  
+	margin-top: 25px;  
 }
 .rating .table-hover #positive{
-   color: green;
+	color: green;
 }
 .rating .table-hover #negative{
-   color: red;
+	color: red;
 }
 
 #rating{
-   width: 100%;
-   padding: 10px;
-   display: block;
-   font-size: 20px;    
-   background-color: @base_color;
+	width: 100%;
+	padding: 10px;
+	display: block;
+	font-size: 20px;    
+	background-color: @base_color;
 }
 
 .mini-products{
@@ -870,13 +996,11 @@ h2.product_name, .lessor_name{
 		width:40%;
 	}
 }
-
 /* Profile - end */
 
 /* Private profile */
-
-
 .left-box{
+	margin-top: 60px;
 	float: left;
 	position: relative;
 	color: @base_color;
@@ -962,19 +1086,88 @@ h2.product_name, .lessor_name{
 }
 
 .right-box {
+	margin-top: 60px;
+	padding: 0px;
 	float: left;
-	margin: none;
-	padding: none;
 	.lessor_rate {
 		margin-top: 5px;
 		width: 100%;
 	}
 }
-
 /* Private profile - end */
 
-/* Admin Users */
+/* Messages */
+.message {
+	color: @base_color;
+	table {
+		margin-top: 30px;
+	}
+	.close {
+		color: red;
+	}
+}
+.message-details {
+	width: 100%;
+	min-height: 270px;
+	background-color: #ddd;
+	padding-top: 5px;
+	margin-top: 30px;
+	border-radius: 5px;
+	.field{
+		margin: 10px;
+		background-color: #eee;
+		border-radius: 10px;
+		padding: 10px;
+		color: @base_color;
+	}
+	.message-field {
+		min-height: 100px;
+	}
+	button:first-child {
+		margin-left: 10px;
+	}
+}
 
+.clickable	{
+	&:hover {
+		cursor: pointer;
+		background-color: @highlight_color;
+		color: #fff;
+	}
+}
+.not-read {
+	color: #fff;
+	background-color: @base_color;
+}
+
+#bold {
+	font-weight: bold;
+}
+
+.remove {
+	color: #C90606;
+	&:hover {
+		color: #920505;
+	}
+}
+
+#head_line {
+	>td {
+		line-height: 30px;
+		border: none;
+	}
+}
+
+.btn-icon {
+	padding: 2px 20px 2px 20px;
+	margin: 0px;
+}
+
+
+/* Messages - end */
+
+
+/* Admin Users */
 .admin {
 	label {
 		display: table-row;
@@ -988,7 +1181,92 @@ h2.product_name, .lessor_name{
 		font-size: 14px;
 		color: @base_color;
 	}
+	table>tbody>tr{
+		line-height: 45px;
+		>td {
+			padding: 2px;
+		}
+	}
+	
 }
+
+.admin-container {
+	position: relative;
+	min-height: 610px;
+}
+
+.admin .table {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.admin .table>tbody>tr {
+	position: relative;
+	text-align: left;
+	button {
+		float: right;
+		margin: 2px;
+	}
+}
+
+#heading {
+	font-size: 17px;
+	label{
+		line-height: 35px
+	}
+}
+
+.admin .table-details {
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+	>tbody>tr>td {
+		padding: 8px;
+	}
+}
+
+.admin .table-details>tbody>tr {
+	text-align: right;
+	span {
+		margin-right: 20px;
+	}
+	label {
+		margin-left: 20px;
+	}
+}
+
+#user-details {
+	width: 50%;
+}
+#edit_datas {
+	width: 60%;
+	margin: auto;
+}
+#td-4 {
+	width: 4%;
+}
+#td-7 {
+	width: 7%;
+}
+#td-10 {
+	width: 10%;
+}
+#td-12 {
+	width: 12%;
+}
+#td-15 {
+	width: 15%;
+}
+#td-20 {
+	width: 20%;
+}
+#td-25 {
+	width: 25%;
+}
+#td-40 {
+	width: 40%;
+}
+
 #radio {
 	width: auto;
 	float: left;
@@ -1002,7 +1280,7 @@ h2.product_name, .lessor_name{
 	padding: 0px 0px 0px 0px;
 }
 
-.admin .left-side {	
+.admin .left-side {
 }
 .admin .right-side {
 	input {
@@ -1014,100 +1292,41 @@ h2.product_name, .lessor_name{
 	position: relative;
 	z-index: 500;
 	margin-bottom: 4px;
-    .select-dropdown{
-		position: relative;
-        margin: 0px;
-        width: 100%;
-        span{
-            padding: 3px 5px;
-            font-size: 14px;
-			line-height: 25px;
-			color:  @base_color;
-			font-weight: bold;
-        }
-        .uldropdown{
-            position: absolute;
-            width: 100%;
-            top: 100%;
-			height: 200px;
-			&:after {
-				position: absolute;
-			}
-        }
-    }
-	.select-dropdown.active .uldropdown {
-		position: absolute;
-		z-index: 5000;	
-		opacity: 1;
-		pointer-events: auto;
-		display: block;
-		height: auto;
-		overflow-x: auto;
-	}
 }
-
-.admin .table {
-	margin-top: 30px;
-}
-
-.admin .table>tbody>tr {
+#dropdown-admin2{
 	position: relative;
-	text-align: left;
+	z-index: 1000;
+	margin-bottom: 4px;
 }
 
-.admin .table-details {
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
-	button {
-		float: left;
+.admin .select-dropdown{
+	span{
+		padding: 3px 5px;
+		line-height: 25px;
+	}
+	.uldropdown{
+		position: absolute;
+		width: 100%;
+		top: 100%;
+		&:after {
+			position: absolute;
+		}
 	}
 }
 
-.admin .table-head {
-	margin-bottom: 0px;
+.beCareful {
+	height: 200px;
 	width: 100%;
-	>tbody>tr>td {
-		padding-right: 0px;
+	div {
+		width: 26%;
+		margin: auto;
+		margin-top: 90px;
+		font-size: 18px;
+		font-weight: bold;
 	}
-}
-#width-table-head {
-	margin-top: 0px;
-}
-.admin .table-details>tbody>tr {
-	text-align: right;
-	span {
-		margin-right: 20px;
-	}
-	label {
-		margin-left: 20px;
-	}
-}
-
-#pagination-admin {
-	margin-bottom: 35px;
-	padding-bottom: 30px;
 }
 
 /* Admin Users - end */
-
-/* tabs and paging */
-a, .pagination>li>a {
-	position: relative;
-	color: @base_color;
-	cursor: pointer;
-}
-
-a:hover, .pagination>li>a:hover {
-	position: relative;
-	color: @highlight_color;
-}
-
-a:active, .pagination>li>a:active {
-	position: relative;
-	color: @highlight_color;
-}
-/* tabs and paging */
 
 /* input fields validation */
 .has-error input{
