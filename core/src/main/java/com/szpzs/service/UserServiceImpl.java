@@ -80,10 +80,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public User getUser(String userName, String password) {
 		//password = convertPasswordToMd5(password);
 		User user = userDAO.getUser(userName, password);
-		if(user != null){
-			 
-		}
-
 		return user;
 	}
 	

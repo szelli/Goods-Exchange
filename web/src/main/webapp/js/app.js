@@ -18,7 +18,7 @@ var goods_exchange = angular.module('goods_exchange', [
     'generalFilters',
 	'sharedDatas',
 	'location',
-    'services',
+    'services'
 	//'ngCookies'
 ]);
 

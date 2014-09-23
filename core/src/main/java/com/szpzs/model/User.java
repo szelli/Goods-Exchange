@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.math.BigInteger;
 
 /**

@@ -56,11 +56,6 @@
 	
 	<bean id="persistenceExceptionTranslationPostProcessor" 
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-	<!-- 
-	 <bean id="userServiceBean" class="com.szpsz.service.UserService" autowire="byName">
-	 	<property name="userServiceB" value="userServiceBean" />
-	 </bean> 
-	 -->
 	<!-- <tx:annotation-driven /> -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
     
